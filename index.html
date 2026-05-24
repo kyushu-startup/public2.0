@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ismarke / P.R. 2.0</title>
+  <meta name="description" content="AI時代の意味ズレを観測し、経営の思想を現場で動く道具へ翻訳する匿名実務家チーム。" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #111111;
+      --body: #333333;
+      --muted: #777777;
+      --line: #e8e8e8;
+      --soft: #f8f8f7;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "IBM Plex Sans JP", sans-serif;
+      color: var(--ink);
+      background: #fff;
+      letter-spacing: 0.01em;
+    }
+
+    .serif {
+      font-family: "Noto Serif JP", "Yu Mincho", serif;
+    }
+
+    .section {
+      padding-top: clamp(96px, 14vw, 180px);
+      padding-bottom: clamp(96px, 14vw, 180px);
+    }
+
+    .container {
+      width: min(100% - 40px, 1120px);
+      margin-inline: auto;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+    }
+  </style>
+</head>
+
+<body class="antialiased selection:bg-black selection:text-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-[var(--line)]">
+    <div class="container h-16 md:h-20 flex items-center justify-between">
+      <a href="#" class="text-sm md:text-base tracking-wide font-medium">
+        ismarke / P.R. 2.0
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm text-[var(--muted)]">
+        <a href="#thought" class="hover:text-black transition">考え方</a>
+        <a href="#logs" class="hover:text-black transition">実務ログ</a>
+        <a href="#contact" class="border border-black px-4 py-2 text-black hover:bg-black hover:text-white transition">
+          30分だけ話してみる
+        </a>
+      </nav>
+
+      <a href="#contact" class="md:hidden text-xs border border-black px-3 py-2">
+        話す
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="min-h-[calc(100vh-64px)] md:min-h-[calc(100vh-80px)] flex items-center">
+      <div class="container grid lg:grid-cols-[1.1fr_0.9fr] gap-16 lg:gap-24 items-center py-20 md:py-28">
+        <div>
+          <p class="text-[11px] md:text-xs tracking-[0.24em] text-[var(--muted)] mb-8 md:mb-12">
+            MEANING OPS / PUBLIC RELATIONS 2.0
+          </p>
+
+          <h1 class="serif text-[32px] sm:text-4xl md:text-5xl lg:text-[56px] leading-[1.65] md:leading-[1.72] tracking-[-0.02em]">
+            最近、<br>
+            「ちゃんと発信しているのに、<br class="hidden sm:block">
+            なぜか組織が噛み合わない」<br class="hidden sm:block">
+            会社が増えている気がする。
+          </h1>
+
+          <p class="mt-9 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
+            AI時代の「意味のズレ」を観測し、<br class="hidden sm:block">
+            経営の思想を、現場で動く“道具”へ翻訳する<br class="hidden sm:block">
+            匿名実務家チーム。
+          </p>
+
+          <a href="#logs" class="inline-block mt-9 md:mt-12 text-sm border-b border-black pb-1">
+            → 実務ログを読む
+          </a>
+        </div>
+
+        <!-- Concept Diagram -->
+        <div class="mt-4 lg:mt-0">
+          <svg viewBox="0 0 520 420" class="w-full max-w-[420px] lg:max-w-none mx-auto opacity-90" aria-label="同じ言葉が部署ごとに違う意味へ分岐する図">
+            <rect x="170" y="32" width="180" height="70" fill="none" stroke="#111" stroke-width="1"/>
+            <text x="260" y="74" text-anchor="middle" font-size="15" fill="#111">経営の言葉</text>
+
+            <line x1="260" y1="102" x2="260" y2="156" stroke="#999"/>
+            <circle cx="260" cy="202" r="52" fill="none" stroke="#111"/>
+            <text x="260" y="208" text-anchor="middle" font-size="14" fill="#111">顧客価値</text>
+
+            <line x1="222" y1="238" x2="92" y2="326" stroke="#aaa"/>
+            <line x1="260" y1="254" x2="260" y2="338" stroke="#aaa"/>
+            <line x1="298" y1="238" x2="428" y2="326" stroke="#aaa"/>
+
+            <rect x="42" y="326" width="100" height="44" fill="none" stroke="#111"/>
+            <text x="92" y="353" text-anchor="middle" font-size="13" fill="#111">営業</text>
+
+            <rect x="210" y="338" width="100" height="44" fill="none" stroke="#111"/>
+            <text x="260" y="365" text-anchor="middle" font-size="13" fill="#111">開発</text>
+
+            <rect x="378" y="326" width="100" height="44" fill="none" stroke="#111"/>
+            <text x="428" y="353" text-anchor="middle" font-size="13" fill="#111">広報</text>
+
+            <text x="34" y="306" font-size="11" fill="#777">要望を受ける？</text>
+            <text x="214" y="318" font-size="11" fill="#777">安定稼働？</text>
+            <text x="366" y="306" font-size="11" fill="#777">綺麗な言葉？</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem -->
+    <section id="thought" class="section border-t border-[var(--line)]">
+      <div class="container">
+        <div class="max-w-3xl">
+          <p class="text-[11px] md:text-xs tracking-[0.24em] text-[var(--muted)] mb-8">
+            OBSERVATION
+          </p>
+
+          <h2 class="serif text-3xl sm:text-4xl md:text-5xl leading-[1.65] tracking-[-0.02em]">
+            組織の中で、<br>
+            言葉が壊れる瞬間。
+          </h2>
+
+          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
+            同じ日本語を使っているのに、部署ごとに見ている景色や優先順位がバラバラになり、
+            伝言ゲームのように解釈が変質していく。発信を頑張るほど、
+            経営陣と現場の距離が縮まらない。
+          </p>
+        </div>
+
+        <div class="mt-16 md:mt-24 grid md:grid-cols-2 border-t border-[var(--line)]">
+          <div class="py-10 md:py-12 md:pr-12 border-b md:border-r border-[var(--line)]">
+            <h3 class="text-lg md:text-xl mb-5">会議のたびに意味が変わる</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">
+              定義が曖昧なまま議論が進む。前提が揃わず、また最初から。
+            </p>
+          </div>
+
+          <div class="py-10 md:py-12 md:pl-12 border-b border-[var(--line)]">
+            <h3 class="text-lg md:text-xl mb-5">綺麗な理念を読んでも現場は変わらない</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">
+              文章は理解できる。でも、明日から何を変えればいいのか分からない。
+            </p>
+          </div>
+
+          <div class="py-10 md:py-12 md:pr-12 border-b md:border-r border-[var(--line)]">
+            <h3 class="text-lg md:text-xl mb-5">営業と開発で優先順位が真逆になる</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">
+              それぞれが「顧客のため」を主張する。プロジェクトが止まる。
+            </p>
+          </div>
+
+          <div class="py-10 md:py-12 md:pl-12 border-b border-[var(--line)]">
+            <h3 class="text-lg md:text-xl mb-5">発信の裏側で広報がひとりで疲弊する</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">
+              言葉を整えることが目的化。孤独と無力感を感じやすい。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Approach -->
+    <section class="section">
+      <div class="container">
+        <div class="max-w-4xl">
+          <p class="text-[11px] md:text-xs tracking-[0.24em] text-[var(--muted)] mb-8">
+            APPROACH
+          </p>
+
+          <h2 class="serif text-3xl sm:text-4xl md:text-5xl leading-[1.65] tracking-[-0.02em]">
+            私たちがやっているのは、<br>
+            「発信」ではなく、<br>
+            “意味の整流”に近い。
+          </h2>
+
+          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)] max-w-3xl">
+            従来の取り組みの多くは、経営者の思いを「綺麗な文章」にまとめることで、
+            このズレを解決しようとします。しかし、文章を読むことと、
+            現場の動きが変わることの間には、想像以上に深い距離があります。
+          </p>
+        </div>
+
+        <div class="mt-16 md:mt-24 grid md:grid-cols-3 gap-12 md:gap-16">
+          <div class="border-t border-[var(--line)] pt-8">
+            <p class="text-sm text-[var(--muted)] mb-8">01</p>
+            <h3 class="text-xl leading-8 mb-5">
+              経営の思想を<br class="hidden md:block">
+              共通言語マップに変える
+            </h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">
+              経営のとりとめもない言葉を抽出し、全員の目線が揃う地図にする。
+            </p>
+          </div>
+
+          <div class="border-t border-[var(--line)] pt-8">
+            <p class="text-sm text-[var(--muted)] mb-8">02</p>
+            <h3 class="text-xl leading-8 mb-5">
+              止まった施策を<br class="hidden md:block">
+              触れる形に変える
+            </h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">
+              調整だけで止まっていた施策を、実際に動く形にして現場に渡す。
+            </p>
+          </div>
+
+          <div class="border-t border-[var(--line)] pt-8">
+            <p class="text-sm text-[var(--muted)] mb-8">03</p>
+            <h3 class="text-xl leading-8 mb-5">
+              「あの人しか分からない」を<br class="hidden md:block">
+              減らす
+            </h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">
+              属人化していた思考や判断を、AIやデータ運用を使って仕組みにする。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logs -->
+    <section id="logs" class="section border-t border-[var(--line)] bg-[var(--soft)]">
+      <div class="container">
+        <div class="max-w-3xl">
+          <p class="text-[11px] md:text-xs tracking-[0.24em] text-[var(--muted)] mb-8">
+            FIELD NOTES
+          </p>
+
+          <h2 class="serif text-3xl sm:text-4xl md:text-5xl leading-[1.65] tracking-[-0.02em]">
+            実務の観測ログを、<br>
+            noteに記録しています。
+          </h2>
+
+          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
+            AI時代に、組織の中で何が壊れ始めているのか。
+            現場で起きていたことを、ゆるく、正直に、続けています。
+          </p>
+        </div>
+
+        <div class="mt-16 md:mt-24 divide-y divide-[var(--line)] border-y border-[var(--line)]">
+          <article class="py-10 md:py-12 grid md:grid-cols-[180px_1fr_120px] gap-6 md:gap-10 items-start">
+            <p class="text-sm text-[var(--muted)]">実務ログ #03</p>
+            <div>
+              <h3 class="text-lg md:text-xl leading-8">
+                「顧客価値」の意味が、営業と開発で真逆だった。
+              </h3>
+              <p class="mt-4 text-[15px] leading-8 text-[var(--body)]">
+                AIで概念図を作成し、翌週から会議の前提が揃い始めた。
+              </p>
+            </div>
+            <a href="#" class="text-sm border-b border-black pb-1 w-fit">
+              続きを読む
+            </a>
+          </article>
+
+          <article class="py-10 md:py-12 grid md:grid-cols-[180px_1fr_120px] gap-6 md:gap-10 items-start">
+            <p class="text-sm text-[var(--muted)]">実務ログ #06</p>
+            <div>
+              <h3 class="text-lg md:text-xl leading-8">
+                採用候補者ごとに、会社の説明が違っていた。
+              </h3>
+              <p class="mt-4 text-[15px] leading-8 text-[var(--body)]">
+                共通言語マップを整備し、意味のズレが減少。
+              </p>
+            </div>
+            <a href="#" class="text-sm border-b border-black pb-1 w-fit">
+              続きを読む
+            </a>
+          </article>
+
+          <article class="py-10 md:py-12 grid md:grid-cols-[180px_1fr_120px] gap-6 md:gap-10 items-start">
+            <p class="text-sm text-[var(--muted)]">実務ログ #09</p>
+            <div>
+              <h3 class="text-lg md:text-xl leading-8">
+                綺麗な理念はあるのに、現場の行動が変わらなかった。
+              </h3>
+              <p class="mt-4 text-[15px] leading-8 text-[var(--body)]">
+                理念を「行動の道具」に翻訳し、小さな行動変化が連鎖し始めた。
+              </p>
+            </div>
+            <a href="#" class="text-sm border-b border-black pb-1 w-fit">
+              続きを読む
+            </a>
+          </article>
+        </div>
+
+        <a href="#" class="inline-block mt-12 text-sm border-b border-black pb-1">
+          → noteを読む
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact" class="section bg-[#f4f4f4]">
+      <div class="container max-w-4xl">
+        <h2 class="serif text-3xl sm:text-4xl md:text-5xl leading-[1.65] tracking-[-0.02em]">
+          「これ、<br>
+          うちでも起きているかもしれない」<br>
+          と感じた方がいたら。
+        </h2>
+
+        <p class="mt-9 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
+          一度、現場で起きている“意味ズレ”について、
+          フラットにお話できたら嬉しいです。<br><br>
+          何かを売り込むためではなく、
+          これからの面白い組織のあり方について、
+          同じ視座で30分だけ意見交換をさせてください。
+        </p>
+
+        <a href="#" class="inline-block mt-10 md:mt-12 bg-black text-white px-7 py-4 text-sm">
+          → 30分だけ話してみる
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="py-10 text-center text-xs text-[var(--muted)]">
+    © ismarke / P.R. 2.0
+  </footer>
+
+</body>
+</html>
