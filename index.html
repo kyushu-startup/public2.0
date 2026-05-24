@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Public Relations 5.5 / Meaning Sync Operating System</title>
-  <meta name="description" content="AI時代に組織で起きる意味ズレを観測し、経営・現場・市場の認識を同期させる Meaning Sync Operating System。" />
+  <title>広報5.5 / Meaning Sync Architect</title>
+  <meta name="description" content="AI時代の広報・採用・営業・社内コミュニケーションを、意味同期の観点から再設計する Meaning Sync Architect。" />
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -150,12 +150,12 @@
     }
 
     .hero::after {
-      content: "OS";
+      content: "SYNC";
       position: absolute;
-      right: -2vw;
+      right: -4vw;
       bottom: -6vw;
       font-family: var(--mono);
-      font-size: clamp(170px, 30vw, 460px);
+      font-size: clamp(140px, 25vw, 420px);
       font-weight: 700;
       letter-spacing: -.14em;
       line-height: .72;
@@ -168,7 +168,7 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: 330px minmax(0, 1fr);
+      grid-template-columns: 350px minmax(0, 1fr);
       gap: clamp(54px, 8vw, 118px);
       align-items: end;
     }
@@ -231,9 +231,9 @@
       margin: 0;
       font-family: var(--serif);
       font-weight: 900;
-      font-size: clamp(58px, 8.8vw, 148px);
-      line-height: .95;
-      letter-spacing: -.095em;
+      font-size: clamp(52px, 7.6vw, 128px);
+      line-height: .98;
+      letter-spacing: -.085em;
       text-align: right;
       text-wrap: balance;
     }
@@ -253,10 +253,25 @@
     .hero-title .pale { color: rgba(245,249,255,.30); }
     .hero-title .signal { color: var(--cyan); text-shadow: 0 0 38px rgba(0,216,255,.28); }
 
+    .value-line {
+      margin-top: 34px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line-2);
+      background: rgba(0,216,255,.08);
+      padding: 10px 13px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--body);
+      letter-spacing: .08em;
+    }
+    .value-line::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 18px rgba(0,216,255,.5); }
+
     .hero-under {
-      margin-top: 42px;
+      margin-top: 34px;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 390px;
+      grid-template-columns: minmax(0, 1fr) 410px;
       gap: 48px;
       border-top: 1px solid var(--line-2);
       padding-top: 28px;
@@ -352,6 +367,52 @@
     .section-title .muted { color: rgba(245,249,255,.30); }
     .section-title .signal { color: var(--cyan); text-shadow: 0 0 34px rgba(0,216,255,.22); }
 
+    .fit-grid, .service-grid, .outcome-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .fit-card, .service-card, .outcome-card {
+      background: var(--panel);
+      padding: 30px;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .fit-card { grid-column: span 4; }
+    .service-card { grid-column: span 4; }
+    .outcome-card { grid-column: span 3; min-height: 220px; }
+
+    .fit-card:nth-child(2), .service-card:nth-child(2), .outcome-card:nth-child(2) { background: rgba(0,216,255,.07); }
+    .fit-card:nth-child(3), .service-card:nth-child(3), .outcome-card:nth-child(3) { background: rgba(58,120,255,.08); }
+
+    .card-kicker {
+      font-family: var(--mono);
+      color: var(--cyan);
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .fit-card h3, .service-card h3, .outcome-card h3 {
+      margin: 28px 0 0;
+      font-family: var(--serif);
+      font-size: clamp(25px, 2.5vw, 36px);
+      line-height: 1.25;
+      letter-spacing: -.06em;
+      font-weight: 800;
+    }
+    .fit-card p, .service-card p, .outcome-card p {
+      margin: 24px 0 0;
+      color: var(--body);
+      font-size: 14px;
+      line-height: 2;
+    }
+
     .problem-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -428,12 +489,12 @@
     }
 
     .lab-band::before {
-      content: "SEMANTIC DRIFT";
+      content: "VALUE PROPOSITION";
       position: absolute;
       right: -5vw;
       bottom: -1vw;
       font-family: var(--mono);
-      font-size: clamp(72px, 11vw, 190px);
+      font-size: clamp(60px, 9vw, 160px);
       line-height: .86;
       letter-spacing: -.08em;
       color: rgba(0,216,255,.052);
@@ -649,6 +710,8 @@
       .hero-title { text-align: left; }
       .lab-band .lead { margin-left: 0; }
       .ops-card { grid-column: span 6; }
+      .fit-card, .service-card { grid-column: span 6; }
+      .outcome-card { grid-column: span 6; }
       .rail { display: none; }
       .status-strip { grid-template-columns: repeat(2, 1fr); }
       .status-item:nth-child(2) { border-right: 0; }
@@ -662,7 +725,7 @@
       .brand { font-size: 13px; }
       .nav-cta { padding: 10px 12px; font-size: 11px; }
       .hero { padding-top: 100px; }
-      .hero-title { font-size: clamp(48px, 15vw, 82px); }
+      .hero-title { font-size: clamp(42px, 13vw, 72px); }
       .hero-code { display: none; }
       .hero-under { gap: 24px; }
       .btn { width: 100%; }
@@ -672,9 +735,9 @@
       .section { padding-block: 88px; }
       .section-title { font-size: clamp(40px, 13vw, 66px); }
       .problem-card:nth-child(n) { grid-column: 1 / 13; margin-top: 0; }
+      .fit-card, .service-card, .outcome-card, .ops-card { grid-column: span 12; min-height: 250px; }
       .figure-caption { grid-template-columns: 1fr; gap: 8px; }
       .matrix-wrap { margin-inline: -14px; }
-      .ops-card { grid-column: span 12; min-height: 260px; }
       .field-item { grid-template-columns: 1fr; gap: 14px; }
       .cta { padding-bottom: 96px; }
       .cta-panel { padding: 34px 24px; }
@@ -683,18 +746,18 @@
 </head>
 
 <body>
-  <div class="rail left">Meaning Sync Operating System / Public Relations 5.5</div>
-  <div class="rail right">Semantic Drift — Multi AI Ops — Research Session</div>
+  <div class="rail left">Meaning Sync Architect / Public Relations 5.5</div>
+  <div class="rail right">Diagnosis — Design — Operation — Research Session</div>
 
   <header class="topbar">
     <a class="brand" href="#">広報5.5研究ノート</a>
-    <div class="top-meta">Meaning Sync Operating System</div>
+    <div class="top-meta">Meaning Sync Architect</div>
     <nav class="nav" aria-label="Primary">
+      <a href="#fit">For whom</a>
+      <a href="#service">Service</a>
       <a href="#problem">Problem</a>
-      <a href="#hypothesis">Hypothesis</a>
       <a href="#diagram-position">Diagram</a>
-      <a href="#workflow">Workflow</a>
-      <a class="nav-cta" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">Research Session</a>
+      <a class="nav-cta" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断</a>
     </nav>
   </header>
 
@@ -702,44 +765,77 @@
     <section class="hero">
       <div class="container hero-grid">
         <aside class="index-panel">
-          <p class="kicker">AI Operation Lab</p>
-          <p class="index-copy">発信量ではなく、意味のズレを扱う。広報を外向きの拡声器から、組織の認識同期インフラへ再定義する研究アーカイブ。</p>
+          <p class="kicker">Value Proposition</p>
+          <p class="index-copy">経営・広報・営業・採用の言葉がズレている組織へ。発信ではなく、認識整合を設計するための広報5.5実装支援。</p>
           <ol class="index-list">
-            <li><span>00</span>Manifest</li>
-            <li><span>01</span>Semantic Drift</li>
-            <li><span>02</span>Meaning Sync</li>
-            <li><span>03</span>Position Shift</li>
-            <li><span>04</span>Evolution Matrix</li>
-            <li><span>05</span>Multi AI Ops</li>
+            <li><span>01</span>意味同期診断</li>
+            <li><span>02</span>広報5.5設計</li>
+            <li><span>03</span>AI広報Ops構築</li>
+            <li><span>04</span>note / LP / 社内報</li>
+            <li><span>05</span>採用・営業資料再設計</li>
+            <li><span>06</span>Research Session</li>
           </ol>
         </aside>
 
         <div class="hero-main">
-          <p class="hero-code">Public Relations 5.5 / Human + AI Alignment Research</p>
+          <p class="hero-code">Meaning Sync Architect / PR, Hiring, Sales, Internal Communication</p>
           <h1 class="hero-title">
-            <small>Meaning Sync Operating System</small>
-            組織は、<br>
-            <span class="pale">情報不足</span>ではなく、<br>
-            <span class="signal">意味のズレ</span>で止まる。
+            <small>Public Relations 5.5 Implementation</small>
+            会社の言葉を、<br>
+            <span class="pale">発信する前に</span><br>
+            <span class="signal">揃える。</span>
           </h1>
 
+          <div class="value-line">経営・現場・市場の認識ズレを、広報とAI Opsで整流する。</div>
+
           <div class="hero-under">
-            <p class="lead">生成AIによって発信量は増えた。しかし、経営・現場・市場の前提が揃わなければ、組織は動かない。広報5.5は、マルチAIと人間の判断で一次情報を構造化し、社内外の意味を同期させるためのオペレーティングシステムです。</p>
+            <p class="lead">生成AIで記事や資料は速く作れるようになりました。しかし、会社説明・採用広報・営業資料・社内報の前提がバラバラなままでは、発信するほど組織のズレは広がります。このサイトは、広報5.5という仮説をもとに、組織の言葉を診断し、意味を揃え、実務アセットへ落とし込む支援の入口です。</p>
             <div>
-              <p class="research-note">A working archive for observing semantic drift and designing AI-assisted communication operations.</p>
+              <p class="research-note">Not just PR production. This is semantic alignment design for management, teams, hiring and market communication.</p>
               <div class="btn-row">
-                <a class="btn btn-dark" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断を行う →</a>
-                <a class="btn" href="#diagram-position">図解を見る</a>
+                <a class="btn btn-dark" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断を相談する →</a>
+                <a class="btn" href="#service">できることを見る</a>
               </div>
             </div>
           </div>
 
           <div class="status-strip">
-            <div class="status-item"><b>Status</b><span>Hypothesis / Working Model</span></div>
-            <div class="status-item"><b>Domain</b><span>PR, AI Ops, Organizational Alignment</span></div>
-            <div class="status-item"><b>Method</b><span>Field Notes + Multi LLM Workflow</span></div>
-            <div class="status-item"><b>Goal</b><span>経営・現場・市場の認識整合</span></div>
+            <div class="status-item"><b>For</b><span>経営者 / 広報 / 採用 / 営業企画</span></div>
+            <div class="status-item"><b>Issue</b><span>会社説明・採用広報・営業資料のズレ</span></div>
+            <div class="status-item"><b>Method</b><span>Field Notes + Multi AI Workflow</span></div>
+            <div class="status-item"><b>Output</b><span>note / LP / 社内報 / 営業資料 / FAQ</span></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fit" class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-no">01 / For whom</p>
+          <h2 class="section-title">こんな組織のための、<br><span class="signal">意味同期</span>です。</h2>
+        </div>
+
+        <div class="fit-grid">
+          <article class="fit-card"><div><p class="card-kicker">Management</p><h3>経営の意図が、現場の言葉に変換されていない。</h3></div><p>会議では伝えたはずなのに、現場の動きや優先順位が揃わない。</p></article>
+          <article class="fit-card"><div><p class="card-kicker">Hiring / PR</p><h3>採用候補者ごとに、会社説明が変わっている。</h3></div><p>求人票、note、面談、営業資料で会社の見え方が微妙に違う。</p></article>
+          <article class="fit-card"><div><p class="card-kicker">AI Ops</p><h3>AI活用が、文章生成で止まっている。</h3></div><p>ChatGPTやClaudeは使っているが、組織の情報構造や運用には接続できていない。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="service" class="section lab-band">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-no">02 / What I do</p>
+          <h2 class="section-title">思想を、実務に変える。<br>広報5.5の実装支援。</h2>
+        </div>
+        <p class="lead">きれいなコピーを作るだけではなく、経営・現場・市場の情報を集め、ズレを見つけ、共通言語に変換し、note・LP・営業資料・社内報・FAQへ落とし込みます。</p>
+
+        <div class="service-grid mt-16">
+          <article class="service-card"><div><p class="card-kicker">01 / Diagnosis</p><h3>意味同期診断</h3></div><p>会社説明、採用広報、営業資料、社内発信を確認し、言葉のズレ・重複・抜け漏れを可視化します。</p></article>
+          <article class="service-card"><div><p class="card-kicker">02 / Design</p><h3>広報5.5設計</h3></div><p>経営・現場・市場をつなぐ情報導線を設計し、何を拾い、どう翻訳し、どこに出すかを決めます。</p></article>
+          <article class="service-card"><div><p class="card-kicker">03 / Operation</p><h3>AI広報Ops構築</h3></div><p>tl;dv、NotebookLM、ChatGPT、Claudeなどを前提に、一次情報から実務アセットを生む運用を作ります。</p></article>
         </div>
       </div>
     </section>
@@ -747,45 +843,25 @@
     <section id="problem" class="section">
       <div class="container">
         <div class="section-head">
-          <p class="section-no">01 / Semantic Drift</p>
+          <p class="section-no">03 / Semantic Drift</p>
           <h2 class="section-title">発信量は増えた。<br><span class="muted">前提は、</span>揃わない。</h2>
         </div>
 
         <div class="problem-grid">
-          <article class="problem-card" data-id="01">
-            <p class="card-meta">same words / different meaning</p>
-            <h3>同じ言葉なのに、意味が違う。</h3>
-            <p>「顧客ファースト」「価値提供」「らしさ」が、営業・開発・人事で別々の行動を指している。</p>
-          </article>
-
-          <article class="problem-card" data-id="02">
-            <p class="card-meta">external message / internal gap</p>
-            <h3>外向きの言葉だけが、先に美しくなる。</h3>
-            <p>AIで綺麗な記事やリリースは量産できる。しかし、内側の認識が同期されていなければ、発信するほど乖離が広がる。</p>
-          </article>
-
-          <article class="problem-card" data-id="03">
-            <p class="card-meta">inner communication</p>
-            <h3>社外向けの発信が、社内に一番深く届く。</h3>
-            <p>noteや社内報を通じて、現場が初めて経営の意思や自分の仕事の意味を再発見することがある。</p>
-          </article>
-
-          <article class="problem-card" data-id="04">
-            <p class="card-meta">pr as infrastructure</p>
-            <h3>広報は、拡声器ではなく経営インフラになる。</h3>
-            <p>社内外の言葉を整流し、経営・現場・市場が同じ前提で動ける状態をつくる。</p>
-          </article>
+          <article class="problem-card" data-id="01"><p class="card-meta">same words / different meaning</p><h3>同じ言葉なのに、意味が違う。</h3><p>「顧客ファースト」「価値提供」「らしさ」が、営業・開発・人事で別々の行動を指している。</p></article>
+          <article class="problem-card" data-id="02"><p class="card-meta">external message / internal gap</p><h3>外向きの言葉だけが、先に美しくなる。</h3><p>AIで綺麗な記事やリリースは量産できる。しかし、内側の認識が同期されていなければ、発信するほど乖離が広がる。</p></article>
+          <article class="problem-card" data-id="03"><p class="card-meta">inner communication</p><h3>社外向けの発信が、社内に一番深く届く。</h3><p>noteや社内報を通じて、現場が初めて経営の意思や自分の仕事の意味を再発見することがある。</p></article>
+          <article class="problem-card" data-id="04"><p class="card-meta">pr as infrastructure</p><h3>広報は、拡声器ではなく経営インフラになる。</h3><p>社内外の言葉を整流し、経営・現場・市場が同じ前提で動ける状態をつくる。</p></article>
         </div>
       </div>
     </section>
 
-    <section id="hypothesis" class="section lab-band">
+    <section id="hypothesis" class="section">
       <div class="container">
         <div class="section-head">
-          <p class="section-no">02 / Meaning Sync Hypothesis</p>
+          <p class="section-no">04 / Core thesis</p>
           <h2 class="section-title">広報は、外へ届ける仕事から、意味を同期する仕事へ。</h2>
         </div>
-        <p class="lead">広報5.5の役割は、きれいな言葉を作ることではありません。経営の意図、現場の実感、市場の期待を行き来しながら、組織が同じ前提で動ける状態をつくることです。</p>
         <div class="quote-panel">
           <p>問題は、発信量や文章力の不足ではない。組織の中で、同じ言葉の意味が、構造的に分岐し、滑り落ちている状態である。</p>
           <span>Core thesis / Public Relations 5.5</span>
@@ -796,10 +872,9 @@
     <section class="section" id="diagram-position">
       <div class="container">
         <div class="section-head">
-          <p class="section-no">03 / Position Shift</p>
+          <p class="section-no">05 / Position Shift</p>
           <h2 class="section-title">広報の立ち位置は、<br><span class="signal">接続点</span>へ変わる。</h2>
         </div>
-
         <figure class="figure-block">
           <span class="figure-label">Figure 01 / Position Shift</span>
           <img src="./diagram-1.png" alt="広報の立ち位置の変化" loading="lazy">
@@ -811,10 +886,9 @@
     <section class="section" id="diagram-evolution">
       <div class="container">
         <div class="section-head">
-          <p class="section-no">04 / Evolution Matrix</p>
+          <p class="section-no">06 / Evolution Matrix</p>
           <h2 class="section-title">広報は、<br>どこへ進化するのか。</h2>
         </div>
-
         <figure class="figure-block">
           <span class="figure-label">Figure 02 / Evolution Matrix</span>
           <img src="./diagram-2.png" alt="広報進化の歴史マトリクス" loading="lazy">
@@ -826,10 +900,9 @@
     <section class="section" id="workflow">
       <div class="container">
         <div class="section-head">
-          <p class="section-no">05 / Multi AI Operating Flow</p>
+          <p class="section-no">07 / Multi AI Operating Flow</p>
           <h2 class="section-title">情報を、<br><span class="signal">意味ある構造</span>へ。</h2>
         </div>
-
         <figure class="figure-block">
           <span class="figure-label">Figure 03 / Multi AI Workflow</span>
           <img src="./diagram-3.png" alt="マルチAIを使った実務フロー" loading="lazy">
@@ -845,25 +918,17 @@
       </div>
     </section>
 
-    <section class="section" id="matrix">
+    <section class="section" id="outcome">
       <div class="container">
         <div class="section-head">
-          <p class="section-no">06 / Four Information Waves</p>
-          <h2 class="section-title">カオスを整流する、<br>4つの情報の波。</h2>
+          <p class="section-no">08 / Outcomes</p>
+          <h2 class="section-title">導入後に、<br>何が変わるのか。</h2>
         </div>
-
-        <div class="matrix-wrap">
-          <table>
-            <thead>
-              <tr><th>情報属性</th><th>インプット元</th><th>5.5の翻訳</th><th>主な出力先</th></tr>
-            </thead>
-            <tbody>
-              <tr><td class="hot">経営の意思</td><td>経営陣の雑談、会議録音</td><td>抽象構想を「なぜ今やるのか」「現場がどう動くべきか」へ変換</td><td>理念記事 / 社内報 / 全社資料</td></tr>
-              <tr><td class="hot">現場の実践ファクト</td><td>Slack、日報、現場メモ</td><td>他部署の課題突破や実践知を横串で言語化</td><td>バリュー記事 / 業務マニュアル</td></tr>
-              <tr><td class="hot">クライアントの声</td><td>商談、CS、インタビュー</td><td>単なる実績ではなく、市場の信頼獲得ストーリーへ変換</td><td>顧客事例 / 営業資料</td></tr>
-              <tr><td class="hot">組織の足元</td><td>社内アンケート、業界ニュース</td><td>自社の現在地を構造データとして提示</td><td>調査記事 / LP / 採用広報</td></tr>
-            </tbody>
-          </table>
+        <div class="outcome-grid">
+          <article class="outcome-card"><div><p class="card-kicker">Sales</p><h3>営業説明が揃う。</h3></div><p>会社の価値・事例・強みの説明が人によってブレにくくなる。</p></article>
+          <article class="outcome-card"><div><p class="card-kicker">Hiring</p><h3>採用候補者の理解が深まる。</h3></div><p>求人票や面談だけでは伝わらない、会社の思想と現場感が届く。</p></article>
+          <article class="outcome-card"><div><p class="card-kicker">Internal</p><h3>現場が自分の仕事の意味を掴む。</h3></div><p>他部署の動きや経営の意図が横串で見えるようになる。</p></article>
+          <article class="outcome-card"><div><p class="card-kicker">AI Ops</p><h3>AI活用が仕組みになる。</h3></div><p>単発の文章生成ではなく、一次情報からアセット化する運用に変わる。</p></article>
         </div>
       </div>
     </section>
@@ -871,7 +936,7 @@
     <section id="field" class="section">
       <div class="container">
         <div class="section-head">
-          <p class="section-no">07 / Field Notes</p>
+          <p class="section-no">09 / Field Notes</p>
           <h2 class="section-title">現場で観測された、<br>意味のズレ。</h2>
         </div>
         <div class="field-list">
@@ -885,14 +950,14 @@
       <div class="container">
         <div class="cta-panel">
           <div class="cta-grid">
-            <div><p class="kicker mb-8">Research Session</p><h2 class="section-title">これ、うちでも起きているかもしれない。</h2><p class="lead">売り込みではなく、現場で起きている“意味ズレ”を一度フラットに整理する時間です。経営・広報・営業・採用の言葉が噛み合わない感覚があれば、30分だけ壁打ちしましょう。</p></div>
-            <div class="cta-box"><p>社内外で会社の説明がズレる。採用広報の言葉が定まらない。AI活用が文章生成で止まっている。そんな違和感を、意味同期の観点から整理します。</p><a class="btn" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断を行う →</a></div>
+            <div><p class="kicker mb-8">Research Session</p><h2 class="section-title">まずは、会社の言葉のズレを一緒に見る。</h2><p class="lead">売り込みではなく、会社説明・採用広報・営業資料・社内発信のどこで意味がズレているかを30分で整理します。</p></div>
+            <div class="cta-box"><p>社内外で会社の説明がズレる。採用広報の言葉が定まらない。AI活用が文章生成で止まっている。そんな違和感を、意味同期の観点から診断します。</p><a class="btn" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断を相談する →</a></div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>© ismarke / Public Relations 5.5 Meaning Sync Operating System</footer>
+  <footer>© ismarke / Meaning Sync Architect / Public Relations 5.5</footer>
 </body>
 </html>
