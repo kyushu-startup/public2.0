@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>P.R. 2.0</title>
-  <meta name="description" content="AI時代の意味ズレを観測し、経営の思想を現場で動く道具へ翻訳する匿名実務家チーム。" />
+  <title>広報5.0研究ノート / Meaning Sync Framework</title>
+  <meta name="description" content="発信の先にある、意味同期型広報。AI時代に組織の意味ズレを観測し、経営・現場・市場の認識を整える実務研究ノート。" />
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -31,13 +31,16 @@
       font-family: "IBM Plex Sans JP", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.75), transparent 32%),
+        radial-gradient(circle at top left, rgba(255,255,255,0.72), transparent 34%),
         var(--paper);
       letter-spacing: 0.01em;
     }
 
-    .serif {
-      font-family: "Noto Serif JP", "Yu Mincho", serif;
+    .serif { font-family: "Noto Serif JP", "Yu Mincho", serif; }
+
+    .container {
+      width: min(100% - 40px, 1120px);
+      margin-inline: auto;
     }
 
     .section {
@@ -45,19 +48,25 @@
       padding-bottom: clamp(88px, 12vw, 160px);
     }
 
-    .container {
-      width: min(100% - 40px, 1120px);
-      margin-inline: auto;
+    .label {
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: var(--accent);
+    }
+
+    .link-line {
+      border-bottom: 1px solid var(--accent);
+      color: var(--ink);
     }
 
     .paper-panel {
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45)),
+        linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.42)),
         var(--paper-2);
       border: 1px solid var(--line);
       box-shadow:
         0 1px 0 rgba(0,0,0,0.02),
-        0 20px 60px rgba(0,0,0,0.035);
+        0 24px 70px rgba(0,0,0,0.04);
       position: relative;
     }
 
@@ -69,15 +78,8 @@
       pointer-events: none;
     }
 
-    .link-line {
-      border-bottom: 1px solid var(--accent);
-      color: var(--ink);
-    }
-
     @media (max-width: 640px) {
-      .container {
-        width: min(100% - 28px, 1120px);
-      }
+      .container { width: min(100% - 28px, 1120px); }
     }
   </style>
 </head>
@@ -86,12 +88,13 @@
 
   <header class="sticky top-0 z-50 bg-[rgba(247,243,234,0.92)] backdrop-blur border-b border-[var(--line)]">
     <div class="container h-16 md:h-20 flex items-center justify-between">
-      <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="text-sm md:text-base tracking-wide font-medium">
-        ismarke / P.R. 2.0
+      <a href="#" class="text-sm md:text-base tracking-wide font-medium">
+        広報5.0研究ノート
       </a>
 
       <nav class="hidden md:flex items-center gap-8 text-sm text-[var(--muted)]">
-        <a href="#thought" class="hover:text-[var(--ink)] transition">考え方</a>
+        <a href="#framework" class="hover:text-[var(--ink)] transition">考え方</a>
+        <a href="#diagram" class="hover:text-[var(--ink)] transition">図解</a>
         <a href="#logs" class="hover:text-[var(--ink)] transition">実務ログ</a>
         <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="border border-[var(--ink)] px-4 py-2 text-[var(--ink)] hover:bg-[var(--ink)] hover:text-white transition">
           30分だけ話してみる
@@ -106,152 +109,299 @@
 
   <main>
 
+    <!-- HERO -->
     <section class="min-h-[calc(100vh-64px)] md:min-h-[calc(100vh-80px)] flex items-center">
       <div class="container grid lg:grid-cols-[1.05fr_0.95fr] gap-16 lg:gap-24 items-center py-20 md:py-28">
         <div>
-          <p class="text-[11px] md:text-xs tracking-[0.28em] text-[var(--accent)] mb-8 md:mb-12">
-            MEANING OPS / PUBLIC RELATIONS 2.0
-          </p>
+          <p class="label mb-8 md:mb-12">PUBLIC RELATIONS 5.0 / MEANING SYNC</p>
 
           <h1 class="serif text-[30px] sm:text-[38px] md:text-[44px] lg:text-[48px] leading-[1.78] md:leading-[1.82] tracking-[-0.025em]">
-            最近、<br>
-            「ちゃんと発信しているのに、<br class="hidden sm:block">
-            なぜか組織が噛み合わない」<br class="hidden sm:block">
-            会社が増えている気がする。
+            発信の先に、<br>
+            広報の新しい役割が<br class="hidden sm:block">
+            生まれ始めている。
           </h1>
 
-          <p class="mt-9 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
-            AI時代の「意味のズレ」を観測し、<br class="hidden sm:block">
-            経営の思想を、現場で動く“道具”へ翻訳する<br class="hidden sm:block">
-            匿名実務家チーム。
+          <p class="mt-9 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)] max-w-2xl">
+            AI時代に増えていくのは、情報量ではなく、意味のズレかもしれない。<br class="hidden sm:block">
+            経営・現場・市場の認識を同期させる「意味同期型広報」という仮説。
           </p>
 
-          <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="inline-block mt-9 md:mt-12 text-sm link-line pb-1">
-            → 実務ログを読む
-          </a>
+          <div class="mt-9 md:mt-12 flex flex-col sm:flex-row gap-5 text-sm">
+            <a href="#framework" class="link-line pb-1 w-fit">→ 広報5.0とは</a>
+            <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="link-line pb-1 w-fit">→ noteを読む</a>
+          </div>
         </div>
 
         <div class="paper-panel p-8 md:p-12">
-          <svg viewBox="0 0 520 420" class="w-full max-w-[420px] lg:max-w-none mx-auto opacity-95" aria-label="同じ言葉が部署ごとに違う意味へ分岐する図">
-            <rect x="170" y="32" width="180" height="70" fill="none" stroke="#6f665d" stroke-width="1"/>
-            <text x="260" y="74" text-anchor="middle" font-size="15" fill="#3f3a34">経営の言葉</text>
+          <p class="text-xs tracking-[0.2em] text-[var(--accent)] mb-8">MEANING SYNC HUB</p>
 
-            <line x1="260" y1="102" x2="260" y2="156" stroke="#9d9488"/>
-            <circle cx="260" cy="202" r="52" fill="none" stroke="#6f665d"/>
-            <text x="260" y="208" text-anchor="middle" font-size="14" fill="#3f3a34">顧客価値</text>
+          <svg viewBox="0 0 520 430" class="w-full mx-auto opacity-95" aria-label="意味同期ハブ型広報の図">
+            <circle cx="260" cy="215" r="72" fill="none" stroke="#6f665d"/>
+            <text x="260" y="205" text-anchor="middle" font-size="15" fill="#3f3a34">広報5.0</text>
+            <text x="260" y="228" text-anchor="middle" font-size="12" fill="#8b8175">Meaning Sync Hub</text>
 
-            <line x1="222" y1="238" x2="92" y2="326" stroke="#b4aa9d"/>
-            <line x1="260" y1="254" x2="260" y2="338" stroke="#b4aa9d"/>
-            <line x1="298" y1="238" x2="428" y2="326" stroke="#b4aa9d"/>
+            <rect x="210" y="30" width="100" height="46" fill="none" stroke="#6f665d"/>
+            <text x="260" y="59" text-anchor="middle" font-size="13" fill="#3f3a34">経営</text>
 
-            <rect x="42" y="326" width="100" height="44" fill="none" stroke="#6f665d"/>
-            <text x="92" y="353" text-anchor="middle" font-size="13" fill="#3f3a34">営業</text>
+            <rect x="50" y="190" width="100" height="46" fill="none" stroke="#6f665d"/>
+            <text x="100" y="219" text-anchor="middle" font-size="13" fill="#3f3a34">営業</text>
 
-            <rect x="210" y="338" width="100" height="44" fill="none" stroke="#6f665d"/>
-            <text x="260" y="365" text-anchor="middle" font-size="13" fill="#3f3a34">開発</text>
+            <rect x="370" y="190" width="100" height="46" fill="none" stroke="#6f665d"/>
+            <text x="420" y="219" text-anchor="middle" font-size="13" fill="#3f3a34">開発</text>
 
-            <rect x="378" y="326" width="100" height="44" fill="none" stroke="#6f665d"/>
-            <text x="428" y="353" text-anchor="middle" font-size="13" fill="#3f3a34">広報</text>
+            <rect x="210" y="350" width="100" height="46" fill="none" stroke="#6f665d"/>
+            <text x="260" y="379" text-anchor="middle" font-size="13" fill="#3f3a34">顧客・市場</text>
 
-            <text x="34" y="306" font-size="11" fill="#8b8175">要望を受ける？</text>
-            <text x="214" y="318" font-size="11" fill="#8b8175">安定稼働？</text>
-            <text x="366" y="306" font-size="11" fill="#8b8175">綺麗な言葉？</text>
+            <line x1="260" y1="76" x2="260" y2="143" stroke="#b4aa9d"/>
+            <line x1="188" y1="215" x2="150" y2="215" stroke="#b4aa9d"/>
+            <line x1="332" y1="215" x2="370" y2="215" stroke="#b4aa9d"/>
+            <line x1="260" y1="287" x2="260" y2="350" stroke="#b4aa9d"/>
+
+            <text x="175" y="125" font-size="11" fill="#8b8175">翻訳</text>
+            <text x="340" y="170" font-size="11" fill="#8b8175">文脈編集</text>
+            <text x="92" y="170" font-size="11" fill="#8b8175">認識同期</text>
+            <text x="306" y="322" font-size="11" fill="#8b8175">ナラティブ</text>
           </svg>
         </div>
       </div>
     </section>
 
-    <section id="thought" class="section border-t border-[var(--line)] bg-[var(--white)]">
+    <!-- FRAMEWORK -->
+    <section id="framework" class="section border-t border-[var(--line)] bg-[var(--white)]">
       <div class="container">
-        <div class="max-w-3xl">
-          <p class="text-[11px] md:text-xs tracking-[0.28em] text-[var(--accent)] mb-8">
-            OBSERVATION
-          </p>
+        <div class="max-w-4xl">
+          <p class="label mb-8">HYPOTHESIS</p>
 
           <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
-            組織の中で、<br>
-            言葉が壊れる瞬間。
+            広報は、<br>
+            “外向きの発信”から、<br>
+            “意味同期”へ広がり始めている。
+          </h2>
+
+          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)] max-w-3xl">
+            従来の広報は、メディア、SNS、採用候補者、市場へ向けた発信機能として重要な役割を担ってきました。
+            ただ、生成AIによって“それらしい文章”が誰でも作れるようになった今、価値は少しずつ
+            「何を書くか」から「何を同期するか」へ移り始めているように感じています。
+          </p>
+        </div>
+
+        <div id="diagram" class="mt-16 md:mt-24 grid lg:grid-cols-2 gap-8">
+          <div class="paper-panel p-8 md:p-10">
+            <p class="label mb-8">PUBLIC RELATIONS 1.0 - 4.0</p>
+            <h3 class="serif text-2xl leading-[1.7] mb-8">外向きメガホン型</h3>
+
+            <svg viewBox="0 0 500 300" class="w-full">
+              <rect x="190" y="20" width="120" height="44" fill="none" stroke="#6f665d"/>
+              <text x="250" y="48" text-anchor="middle" font-size="13" fill="#3f3a34">経営</text>
+
+              <rect x="190" y="112" width="120" height="44" fill="none" stroke="#6f665d"/>
+              <text x="250" y="140" text-anchor="middle" font-size="13" fill="#3f3a34">広報</text>
+
+              <rect x="340" y="112" width="120" height="44" fill="none" stroke="#6f665d"/>
+              <text x="400" y="140" text-anchor="middle" font-size="13" fill="#3f3a34">市場・メディア</text>
+
+              <line x1="250" y1="64" x2="250" y2="112" stroke="#b4aa9d"/>
+              <line x1="310" y1="134" x2="340" y2="134" stroke="#b4aa9d"/>
+
+              <text x="70" y="238" font-size="12" fill="#8b8175">営業</text>
+              <text x="210" y="238" font-size="12" fill="#8b8175">開発</text>
+              <text x="350" y="238" font-size="12" fill="#8b8175">人事</text>
+              <line x1="58" y1="248" x2="95" y2="248" stroke="#d8d0c4"/>
+              <line x1="198" y1="248" x2="235" y2="248" stroke="#d8d0c4"/>
+              <line x1="338" y1="248" x2="375" y2="248" stroke="#d8d0c4"/>
+            </svg>
+
+            <p class="mt-8 text-[15px] leading-8 text-[var(--body)]">
+              経営メッセージを整え、外へ届ける。PR、SNS、プレスリリース、メディア露出が中心。
+            </p>
+          </div>
+
+          <div class="paper-panel p-8 md:p-10">
+            <p class="label mb-8">PUBLIC RELATIONS 5.0</p>
+            <h3 class="serif text-2xl leading-[1.7] mb-8">意味同期ハブ型</h3>
+
+            <svg viewBox="0 0 500 300" class="w-full">
+              <circle cx="250" cy="150" r="58" fill="none" stroke="#9a5a3c"/>
+              <text x="250" y="145" text-anchor="middle" font-size="13" fill="#3f3a34">広報5.0</text>
+              <text x="250" y="165" text-anchor="middle" font-size="11" fill="#8b8175">Meaning Sync</text>
+
+              <rect x="205" y="18" width="90" height="38" fill="none" stroke="#6f665d"/>
+              <text x="250" y="42" text-anchor="middle" font-size="12" fill="#3f3a34">経営</text>
+
+              <rect x="42" y="132" width="90" height="38" fill="none" stroke="#6f665d"/>
+              <text x="87" y="156" text-anchor="middle" font-size="12" fill="#3f3a34">営業</text>
+
+              <rect x="368" y="132" width="90" height="38" fill="none" stroke="#6f665d"/>
+              <text x="413" y="156" text-anchor="middle" font-size="12" fill="#3f3a34">開発</text>
+
+              <rect x="205" y="244" width="90" height="38" fill="none" stroke="#6f665d"/>
+              <text x="250" y="268" text-anchor="middle" font-size="12" fill="#3f3a34">市場</text>
+
+              <line x1="250" y1="56" x2="250" y2="92" stroke="#b4aa9d"/>
+              <line x1="132" y1="151" x2="192" y2="151" stroke="#b4aa9d"/>
+              <line x1="308" y1="151" x2="368" y2="151" stroke="#b4aa9d"/>
+              <line x1="250" y1="208" x2="250" y2="244" stroke="#b4aa9d"/>
+            </svg>
+
+            <p class="mt-8 text-[15px] leading-8 text-[var(--body)]">
+              発信の前に、経営・現場・市場の意味を揃える。翻訳、接続、構造化、Opsが中心。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYMPTOMS -->
+    <section class="section bg-[var(--paper)]">
+      <div class="container">
+        <div class="max-w-3xl">
+          <p class="label mb-8">OBSERVATION</p>
+
+          <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
+            発信しているのに、<br>
+            組織が噛み合わなくなる。
           </h2>
 
           <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
-            同じ日本語を使っているのに、部署ごとに見ている景色や優先順位がバラバラになり、
-            伝言ゲームのように解釈が変質していく。発信を頑張るほど、
-            経営陣と現場の距離が縮まらない。
+            同じ言葉を使っているはずなのに、部署ごとに見ている景色が少しずつ違う。
+            そのズレは、悪意ではなく、善意から生まれることが多い。
           </p>
         </div>
 
         <div class="mt-16 md:mt-24 grid md:grid-cols-2 border-t border-[var(--line)]">
           <div class="py-10 md:py-12 md:pr-12 border-b md:border-r border-[var(--line)]">
             <h3 class="text-lg md:text-xl mb-5">会議のたびに意味が変わる</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">定義が曖昧なまま議論が進む。前提が揃わず、また最初から。</p>
+            <p class="text-[15px] leading-8 text-[var(--body)]">「顧客ファースト」の意味が、営業・開発・人事で少しずつ違う。</p>
           </div>
 
           <div class="py-10 md:py-12 md:pl-12 border-b border-[var(--line)]">
-            <h3 class="text-lg md:text-xl mb-5">綺麗な理念を読んでも現場は変わらない</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">文章は理解できる。でも、明日から何を変えればいいのか分からない。</p>
+            <h3 class="text-lg md:text-xl mb-5">理念はあるのに、行動が変わらない</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">読めば分かる。でも、明日から何を変えるべきかが見えない。</p>
           </div>
 
           <div class="py-10 md:py-12 md:pr-12 border-b md:border-r border-[var(--line)]">
-            <h3 class="text-lg md:text-xl mb-5">営業と開発で優先順位が真逆になる</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">それぞれが「顧客のため」を主張する。プロジェクトが止まる。</p>
+            <h3 class="text-lg md:text-xl mb-5">社外の期待と社内の実態がズレる</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">採用・営業・広報の言葉が、それぞれ違う会社像をつくってしまう。</p>
           </div>
 
           <div class="py-10 md:py-12 md:pl-12 border-b border-[var(--line)]">
-            <h3 class="text-lg md:text-xl mb-5">発信の裏側で広報がひとりで疲弊する</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">言葉を整えることが目的化。孤独と無力感を感じやすい。</p>
+            <h3 class="text-lg md:text-xl mb-5">広報が“綺麗に整える人”で止まる</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">発信の前に必要な、認識合わせや構造化まで手が届かない。</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section bg-[var(--paper)]">
+    <!-- EVOLUTION TABLE -->
+    <section class="section border-t border-[var(--line)] bg-[var(--white)]">
       <div class="container">
-        <div class="max-w-4xl">
-          <p class="text-[11px] md:text-xs tracking-[0.28em] text-[var(--accent)] mb-8">
-            APPROACH
-          </p>
+        <p class="label mb-8">EVOLUTION MATRIX</p>
+
+        <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
+          マーケティング進化論から見る、<br>
+          広報の役割変化。
+        </h2>
+
+        <div class="mt-14 md:mt-20 overflow-x-auto border-y border-[var(--line)]">
+          <table class="min-w-[880px] w-full text-left text-sm">
+            <thead class="border-b border-[var(--line)] text-[var(--muted)]">
+              <tr>
+                <th class="py-5 pr-6 font-normal">項目</th>
+                <th class="py-5 pr-6 font-normal">1.0</th>
+                <th class="py-5 pr-6 font-normal">2.0</th>
+                <th class="py-5 pr-6 font-normal">3.0</th>
+                <th class="py-5 pr-6 font-normal">4.0</th>
+                <th class="py-5 pr-6 font-normal text-[var(--accent)]">5.0</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--line)]">
+              <tr>
+                <td class="py-5 pr-6 text-[var(--muted)]">中心</td>
+                <td>製品</td><td>顧客</td><td>理念</td><td>データ / Ops</td><td class="text-[var(--accent)]">意味同期</td>
+              </tr>
+              <tr>
+                <td class="py-5 pr-6 text-[var(--muted)]">広報役割</td>
+                <td>宣伝</td><td>SNS対話</td><td>共感形成</td><td>構造化</td><td class="text-[var(--accent)]">接続・同期</td>
+              </tr>
+              <tr>
+                <td class="py-5 pr-6 text-[var(--muted)]">主戦場</td>
+                <td>マスメディア</td><td>SNS</td><td>ナラティブ</td><td>組織横断</td><td class="text-[var(--accent)]">経営⇄現場⇄市場</td>
+              </tr>
+              <tr>
+                <td class="py-5 pr-6 text-[var(--muted)]">KPI</td>
+                <td>露出</td><td>反応</td><td>共感</td><td>運用効率</td><td class="text-[var(--accent)]">認識整合</td>
+              </tr>
+              <tr>
+                <td class="py-5 pr-6 text-[var(--muted)]">AI活用</td>
+                <td>なし</td><td>補助</td><td>コンテンツ</td><td>自動化</td><td class="text-[var(--accent)]">意味編集</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI OPS -->
+    <section class="section bg-[var(--paper-2)] border-t border-[var(--line)]">
+      <div class="container grid lg:grid-cols-[0.9fr_1.1fr] gap-16 lg:gap-24 items-start">
+        <div>
+          <p class="label mb-8">AI OPS LAYER</p>
 
           <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
-            私たちがやっているのは、<br>
-            「発信」ではなく、<br>
-            “意味の整流”に近い。
+            AIは主役ではなく、<br>
+            意味同期を支える<br>
+            実務レイヤー。
           </h2>
 
-          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)] max-w-3xl">
-            従来の取り組みの多くは、経営者の思いを「綺麗な文章」にまとめることで、
-            このズレを解決しようとします。しかし、文章を読むことと、
-            現場の動きが変わることの間には、想像以上に深い距離があります。
+          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
+            ChatGPTやClaudeは、単なる文章生成ツールではなく、思考整理・文脈編集・情報接続を支援するチームとして扱う。
+            経営の雑談、現場メモ、Slack、顧客の声を、現場が動ける形へ変換していく。
           </p>
         </div>
 
-        <div class="mt-16 md:mt-24 grid md:grid-cols-3 gap-12 md:gap-16">
-          <div class="border-t border-[var(--line)] pt-8">
-            <p class="text-sm text-[var(--accent)] mb-8">01</p>
-            <h3 class="text-xl leading-8 mb-5">経営の思想を<br class="hidden md:block">共通言語マップに変える</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">経営のとりとめもない言葉を抽出し、全員の目線が揃う地図にする。</p>
-          </div>
+        <div class="paper-panel p-8 md:p-10">
+          <div class="grid md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <p class="text-[var(--accent)] mb-4">INPUT</p>
+              <ul class="space-y-3 text-[var(--body)]">
+                <li>経営会議</li>
+                <li>顧客の声</li>
+                <li>営業ヒアリング</li>
+                <li>Slack</li>
+                <li>採用面談</li>
+              </ul>
+            </div>
 
-          <div class="border-t border-[var(--line)] pt-8">
-            <p class="text-sm text-[var(--accent)] mb-8">02</p>
-            <h3 class="text-xl leading-8 mb-5">止まった施策を<br class="hidden md:block">触れる形に変える</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">調整だけで止まっていた施策を、実際に動く形にして現場に渡す。</p>
-          </div>
+            <div>
+              <p class="text-[var(--accent)] mb-4">STRUCTURE</p>
+              <ul class="space-y-3 text-[var(--body)]">
+                <li>ChatGPT：思考整理</li>
+                <li>Claude：文脈編集</li>
+                <li>NotebookLM：情報同期</li>
+                <li>Notion AI：ナレッジ接続</li>
+              </ul>
+            </div>
 
-          <div class="border-t border-[var(--line)] pt-8">
-            <p class="text-sm text-[var(--accent)] mb-8">03</p>
-            <h3 class="text-xl leading-8 mb-5">「あの人しか分からない」を<br class="hidden md:block">減らす</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">属人化していた思考や判断を、AIやデータ運用を使って仕組みにする。</p>
+            <div>
+              <p class="text-[var(--accent)] mb-4">OUTPUT</p>
+              <ul class="space-y-3 text-[var(--body)]">
+                <li>採用記事</li>
+                <li>LP</li>
+                <li>営業資料</li>
+                <li>FAQ</li>
+                <li>業務マニュアル</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="logs" class="section border-t border-[var(--line)] bg-[var(--paper-2)]">
+    <!-- LOGS -->
+    <section id="logs" class="section border-t border-[var(--line)] bg-[var(--white)]">
       <div class="container">
         <div class="max-w-3xl">
-          <p class="text-[11px] md:text-xs tracking-[0.28em] text-[var(--accent)] mb-8">
-            FIELD NOTES
-          </p>
+          <p class="label mb-8">FIELD NOTES</p>
 
           <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
             実務の観測ログを、<br>
@@ -282,15 +432,6 @@
             </div>
             <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="text-sm link-line pb-1 w-fit">続きを読む</a>
           </article>
-
-          <article class="py-10 md:py-12 grid md:grid-cols-[180px_1fr_120px] gap-6 md:gap-10 items-start">
-            <p class="text-sm text-[var(--muted)]">実務ログ #09</p>
-            <div>
-              <h3 class="text-lg md:text-xl leading-8">綺麗な理念はあるのに、現場の行動が変わらなかった。</h3>
-              <p class="mt-4 text-[15px] leading-8 text-[var(--body)]">理念を「行動の道具」に翻訳し、小さな行動変化が連鎖し始めた。</p>
-            </div>
-            <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="text-sm link-line pb-1 w-fit">続きを読む</a>
-          </article>
         </div>
 
         <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="inline-block mt-12 text-sm link-line pb-1">
@@ -299,11 +440,10 @@
       </div>
     </section>
 
-    <section id="contact" class="section bg-[var(--white)]">
+    <!-- CTA -->
+    <section id="contact" class="section bg-[var(--paper)] border-t border-[var(--line)]">
       <div class="container max-w-4xl">
-        <p class="text-[11px] md:text-xs tracking-[0.28em] text-[var(--accent)] mb-8">
-          CONTACT
-        </p>
+        <p class="label mb-8">CONTACT</p>
 
         <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
           「これ、<br>
@@ -312,10 +452,8 @@
         </h2>
 
         <p class="mt-9 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
-          一度、現場で起きている“意味ズレ”について、
-          フラットにお話できたら嬉しいです。<br><br>
-          何かを売り込むためではなく、
-          これからの面白い組織のあり方について、
+          一度、現場で起きている“意味ズレ”について、フラットにお話できたら嬉しいです。<br><br>
+          何かを売り込むためではなく、これからの面白い組織のあり方について、
           同じ視座で30分だけ意見交換をさせてください。
         </p>
 
@@ -328,7 +466,7 @@
   </main>
 
   <footer class="py-10 text-center text-xs text-[var(--muted)] border-t border-[var(--line)]">
-    © ismarke / P.R. 2.0
+    © ismarke / Public Relations 5.0
   </footer>
 
 </body>
