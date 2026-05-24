@@ -4,366 +4,518 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>広報5.0研究ノート / Meaning Sync Framework</title>
-  <meta name="description" content="発信の先にある、意味同期型広報。AI時代に組織の意味ズレを観測し、経営・現場・市場の認識を整える実務研究ノート。" />
+  <meta name="description" content="AI時代に組織で起きる意味ズレを観測し、経営・現場・市場の認識を同期させる、意味同期型広報の実務研究ノート。" />
 
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --ink: #1c1a17;
-      --body: #3f3a34;
-      --muted: #8b8175;
-      --paper: #f7f3ea;
-      --paper-2: #f2ede3;
-      --paper-3: #ebe4d8;
-      --line: #d8d0c4;
-      --accent: #9a5a3c;
-      --white: #fffdfa;
+      --ink: #1a1714;
+      --body: #443d36;
+      --muted: #897d70;
+      --subtle: #aaa095;
+      --paper: #f6f0e6;
+      --paper-2: #efe7db;
+      --paper-3: #e6dccd;
+      --paper-4: #d9cbb8;
+      --white: #fffdf8;
+      --line: #d5c8b8;
+      --line-dark: #b9aa99;
+      --accent: #8f4f35;
+      --accent-2: #b77952;
+      --accent-soft: #efe0d5;
+      --forest: #39433a;
+      --shadow: 0 30px 90px rgba(35, 28, 20, 0.08);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
+      margin: 0;
       font-family: "IBM Plex Sans JP", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.72), transparent 34%),
-        var(--paper);
-      letter-spacing: 0.01em;
+        radial-gradient(circle at 8% 0%, rgba(255,255,255,0.92), transparent 28%),
+        radial-gradient(circle at 92% 10%, rgba(183,121,82,0.10), transparent 34%),
+        linear-gradient(180deg, var(--paper), #f3eadf 52%, var(--paper));
+      letter-spacing: 0.012em;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
+
+    ::selection { background: var(--ink); color: #fff; }
 
     .serif { font-family: "Noto Serif JP", "Yu Mincho", serif; }
 
     .container {
-      width: min(100% - 40px, 1120px);
+      width: min(100% - 40px, 1160px);
       margin-inline: auto;
     }
 
     .section {
-      padding-top: clamp(88px, 12vw, 160px);
-      padding-bottom: clamp(88px, 12vw, 160px);
+      padding-block: clamp(92px, 11vw, 156px);
     }
 
-    .label {
+    .eyebrow {
       font-size: 11px;
+      line-height: 1;
       letter-spacing: 0.28em;
       color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
     }
 
-    .link-line {
-      border-bottom: 1px solid var(--accent);
-      color: var(--ink);
+    .lead {
+      font-size: clamp(15px, 1.35vw, 17px);
+      line-height: 2.15;
+      color: var(--body);
+    }
+
+    .hairline { border-color: var(--line); }
+
+    .marker {
+      background: linear-gradient(transparent 62%, rgba(183,121,82,0.22) 0);
+      padding-inline: 0.08em;
     }
 
     .paper-panel {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.42)),
-        var(--paper-2);
-      border: 1px solid var(--line);
-      box-shadow:
-        0 1px 0 rgba(0,0,0,0.02),
-        0 24px 70px rgba(0,0,0,0.04);
       position: relative;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.70), rgba(255,255,255,0.38)),
+        var(--paper-2);
+      box-shadow: var(--shadow);
     }
 
     .paper-panel::before {
       content: "";
       position: absolute;
       inset: 12px;
-      border: 1px solid rgba(28,26,23,0.05);
+      border: 1px solid rgba(26,23,20,0.055);
       pointer-events: none;
     }
 
-    @media (max-width: 640px) {
-      .container { width: min(100% - 28px, 1120px); }
+    .soft-card {
+      border: 1px solid var(--line);
+      background: rgba(255,253,248,0.62);
+      box-shadow: 0 18px 54px rgba(35, 28, 20, 0.045);
+    }
+
+    .nav-link {
+      color: var(--muted);
+      transition: color .25s ease;
+    }
+
+    .nav-link:hover { color: var(--ink); }
+
+    .text-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: .5em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .text-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -5px;
+      height: 1px;
+      background: var(--accent);
+      transform-origin: left;
+      transform: scaleX(1);
+      transition: transform .25s ease;
+    }
+
+    .text-link:hover::after { transform: scaleX(.62); }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7em;
+      min-height: 54px;
+      padding: 0 24px;
+      background: var(--ink);
+      color: #fff;
+      border: 1px solid var(--ink);
+      font-size: 14px;
+      letter-spacing: .04em;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+      box-shadow: 0 14px 38px rgba(26,23,20,.14);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #2a251f;
+      box-shadow: 0 20px 50px rgba(26,23,20,.20);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 22px;
+      border: 1px solid var(--line-dark);
+      color: var(--ink);
+      background: rgba(255,253,248,.45);
+      font-size: 14px;
+      transition: background .25s ease, border-color .25s ease, transform .25s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,253,248,.86);
+      border-color: var(--ink);
+      transform: translateY(-2px);
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    }
+
+    .section-title {
+      font-size: clamp(30px, 4.1vw, 48px);
+      line-height: 1.62;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 5.1vw, 62px);
+      line-height: 1.48;
+      letter-spacing: -0.045em;
+      font-weight: 500;
+    }
+
+    .kicker-box {
+      border-left: 2px solid var(--accent);
+      padding-left: 18px;
+      color: var(--body);
+    }
+
+    .number {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .18em;
+      font-weight: 600;
+    }
+
+    .table-wrap {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+    }
+
+    table { border-collapse: collapse; }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td { border-bottom: 0; }
+
+    .mobile-only { display: none; }
+
+    @media (max-width: 768px) {
+      .container { width: min(100% - 28px, 1160px); }
+      .desktop-only { display: none !important; }
+      .mobile-only { display: inline-flex; }
+      .section { padding-block: 84px; }
+      .hero-title { line-height: 1.58; }
+      .paper-panel::before { inset: 9px; }
     }
   </style>
 </head>
 
-<body class="antialiased selection:bg-[#1c1a17] selection:text-white">
+<body>
+  <div class="noise" aria-hidden="true"></div>
 
-  <header class="sticky top-0 z-50 bg-[rgba(247,243,234,0.92)] backdrop-blur border-b border-[var(--line)]">
-    <div class="container h-16 md:h-20 flex items-center justify-between">
-      <a href="#" class="text-sm md:text-base tracking-wide font-medium">
+  <header class="sticky top-0 z-50 border-b hairline bg-[rgba(246,240,230,0.86)] backdrop-blur-xl">
+    <div class="container h-[68px] md:h-[78px] flex items-center justify-between">
+      <a href="#" class="font-semibold tracking-wide text-[15px] md:text-base">
         広報5.0研究ノート
       </a>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm text-[var(--muted)]">
-        <a href="#framework" class="hover:text-[var(--ink)] transition">考え方</a>
-        <a href="#diagram" class="hover:text-[var(--ink)] transition">図解</a>
-        <a href="#logs" class="hover:text-[var(--ink)] transition">実務ログ</a>
-        <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="border border-[var(--ink)] px-4 py-2 text-[var(--ink)] hover:bg-[var(--ink)] hover:text-white transition">
-          30分だけ話してみる
-        </a>
+      <nav class="desktop-only flex items-center gap-8 text-sm">
+        <a href="#problem" class="nav-link">課題</a>
+        <a href="#framework" class="nav-link">考え方</a>
+        <a href="#field" class="nav-link">実務ログ</a>
+        <a href="#contact" class="btn-secondary !min-h-[42px] !px-4">30分だけ壁打ちする</a>
       </nav>
 
-      <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="md:hidden text-xs border border-[var(--ink)] px-3 py-2">
-        話す
+      <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="mobile-only btn-secondary !min-h-[40px] !px-3 !text-xs">
+        壁打ち
       </a>
     </div>
   </header>
 
   <main>
-
     <!-- HERO -->
-    <section class="min-h-[calc(100vh-64px)] md:min-h-[calc(100vh-80px)] flex items-center">
-      <div class="container grid lg:grid-cols-[1.05fr_0.95fr] gap-16 lg:gap-24 items-center py-20 md:py-28">
+    <section class="min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-78px)] flex items-center">
+      <div class="container grid lg:grid-cols-[1.04fr_0.96fr] gap-14 lg:gap-24 items-center py-20 md:py-28">
         <div>
-          <p class="label mb-8 md:mb-12">PUBLIC RELATIONS 5.0 / MEANING SYNC</p>
+          <p class="eyebrow mb-8 md:mb-10">PUBLIC RELATIONS 5.0 / MEANING SYNC</p>
 
-          <h1 class="serif text-[30px] sm:text-[38px] md:text-[44px] lg:text-[48px] leading-[1.78] md:leading-[1.82] tracking-[-0.025em]">
-            発信の先に、<br>
-            広報の新しい役割が<br class="hidden sm:block">
-            生まれ始めている。
+          <h1 class="serif hero-title">
+            AI時代、<br>
+            “発信”だけでは<br>
+            組織が噛み合わない。
           </h1>
 
-          <p class="mt-9 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)] max-w-2xl">
-            AI時代に増えていくのは、情報量ではなく、意味のズレかもしれない。<br class="hidden sm:block">
-            経営・現場・市場の認識を同期させる「意味同期型広報」という仮説。
+          <p class="mt-8 md:mt-10 lead max-w-2xl">
+            経営・現場・市場が同じ言葉を使っていても、見ている意味がズレている。
+            広報5.0は、そのズレを観測し、翻訳し、動ける共通認識へ整えるための
+            <span class="marker">意味同期型広報</span>という実務仮説です。
           </p>
 
-          <div class="mt-9 md:mt-12 flex flex-col sm:flex-row gap-5 text-sm">
-            <a href="#framework" class="link-line pb-1 w-fit">→ 広報5.0とは</a>
-            <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="link-line pb-1 w-fit">→ noteを読む</a>
+          <div class="mt-9 md:mt-11 flex flex-col sm:flex-row gap-4">
+            <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="btn-primary">
+              30分だけ壁打ちする <span aria-hidden="true">→</span>
+            </a>
+            <a href="#framework" class="btn-secondary">
+              広報5.0を読む
+            </a>
+          </div>
+
+          <div class="mt-8 md:mt-10 kicker-box max-w-xl text-[13px] md:text-sm leading-7">
+            売り込みではなく、組織内で起きている「言葉は同じなのに動きが違う」状態を一緒に整理する時間です。
           </div>
         </div>
 
-        <div class="paper-panel p-8 md:p-12">
-          <p class="text-xs tracking-[0.2em] text-[var(--accent)] mb-8">MEANING SYNC HUB</p>
+        <aside class="paper-panel p-6 sm:p-8 md:p-10">
+          <div class="relative z-10">
+            <div class="flex items-start justify-between gap-6 mb-8">
+              <div>
+                <p class="eyebrow mb-3">MEANING SYNC MAP</p>
+                <p class="text-sm text-[var(--muted)] leading-7">ズレを見つけ、意味を翻訳し、行動へ接続する。</p>
+              </div>
+              <span class="text-[11px] text-[var(--subtle)] tracking-[.18em]">v5.0</span>
+            </div>
 
-          <svg viewBox="0 0 520 430" class="w-full mx-auto opacity-95" aria-label="意味同期ハブ型広報の図">
-            <circle cx="260" cy="215" r="72" fill="none" stroke="#6f665d"/>
-            <text x="260" y="205" text-anchor="middle" font-size="15" fill="#3f3a34">広報5.0</text>
-            <text x="260" y="228" text-anchor="middle" font-size="12" fill="#8b8175">Meaning Sync Hub</text>
+            <svg viewBox="0 0 560 430" class="w-full" role="img" aria-label="意味同期型広報の図解">
+              <defs>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#231c14" flood-opacity="0.10"/>
+                </filter>
+                <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#9a5a3c" />
+                </marker>
+              </defs>
 
-            <rect x="210" y="30" width="100" height="46" fill="none" stroke="#6f665d"/>
-            <text x="260" y="59" text-anchor="middle" font-size="13" fill="#3f3a34">経営</text>
+              <rect x="195" y="160" width="170" height="88" rx="44" fill="#fffdf8" stroke="#8f4f35" filter="url(#softShadow)"/>
+              <text x="280" y="195" text-anchor="middle" font-size="16" fill="#1a1714" font-weight="600">広報5.0</text>
+              <text x="280" y="220" text-anchor="middle" font-size="12" fill="#897d70">Meaning Sync Hub</text>
 
-            <rect x="50" y="190" width="100" height="46" fill="none" stroke="#6f665d"/>
-            <text x="100" y="219" text-anchor="middle" font-size="13" fill="#3f3a34">営業</text>
+              <rect x="220" y="28" width="120" height="52" rx="2" fill="none" stroke="#6f665d"/>
+              <text x="280" y="59" text-anchor="middle" font-size="14" fill="#3f3a34">経営</text>
 
-            <rect x="370" y="190" width="100" height="46" fill="none" stroke="#6f665d"/>
-            <text x="420" y="219" text-anchor="middle" font-size="13" fill="#3f3a34">開発</text>
+              <rect x="42" y="178" width="120" height="52" rx="2" fill="none" stroke="#6f665d"/>
+              <text x="102" y="209" text-anchor="middle" font-size="14" fill="#3f3a34">営業・CS</text>
 
-            <rect x="210" y="350" width="100" height="46" fill="none" stroke="#6f665d"/>
-            <text x="260" y="379" text-anchor="middle" font-size="13" fill="#3f3a34">顧客・市場</text>
+              <rect x="398" y="178" width="120" height="52" rx="2" fill="none" stroke="#6f665d"/>
+              <text x="458" y="209" text-anchor="middle" font-size="14" fill="#3f3a34">開発・人事</text>
 
-            <line x1="260" y1="76" x2="260" y2="143" stroke="#b4aa9d"/>
-            <line x1="188" y1="215" x2="150" y2="215" stroke="#b4aa9d"/>
-            <line x1="332" y1="215" x2="370" y2="215" stroke="#b4aa9d"/>
-            <line x1="260" y1="287" x2="260" y2="350" stroke="#b4aa9d"/>
+              <rect x="220" y="340" width="120" height="52" rx="2" fill="none" stroke="#6f665d"/>
+              <text x="280" y="371" text-anchor="middle" font-size="14" fill="#3f3a34">市場・顧客</text>
 
-            <text x="175" y="125" font-size="11" fill="#8b8175">翻訳</text>
-            <text x="340" y="170" font-size="11" fill="#8b8175">文脈編集</text>
-            <text x="92" y="170" font-size="11" fill="#8b8175">認識同期</text>
-            <text x="306" y="322" font-size="11" fill="#8b8175">ナラティブ</text>
-          </svg>
+              <path d="M280 80 C280 112 280 126 280 154" fill="none" stroke="#9a5a3c" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <path d="M162 204 C184 204 176 204 190 204" fill="none" stroke="#9a5a3c" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <path d="M365 204 C378 204 374 204 392 204" fill="none" stroke="#9a5a3c" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <path d="M280 248 C280 288 280 302 280 334" fill="none" stroke="#9a5a3c" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+              <circle cx="197" cy="116" r="4" fill="#8f4f35"/>
+              <text x="108" y="119" font-size="12" fill="#897d70">経営語を現場語へ翻訳</text>
+
+              <circle cx="380" cy="132" r="4" fill="#8f4f35"/>
+              <text x="396" y="136" font-size="12" fill="#897d70">文脈を編集</text>
+
+              <circle cx="155" cy="275" r="4" fill="#8f4f35"/>
+              <text x="70" y="279" font-size="12" fill="#897d70">ズレを観測</text>
+
+              <circle cx="360" cy="292" r="4" fill="#8f4f35"/>
+              <text x="376" y="296" font-size="12" fill="#897d70">行動へ接続</text>
+            </svg>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section id="problem" class="section bg-[var(--white)] border-y hairline">
+      <div class="container grid lg:grid-cols-[0.92fr_1.08fr] gap-14 lg:gap-24 items-start">
+        <div class="lg:sticky lg:top-28">
+          <p class="eyebrow mb-8">PROBLEM</p>
+          <h2 class="serif section-title">
+            発信量は増えた。<br>
+            でも、組織の認識は<br>
+            むしろズレ始める。
+          </h2>
+          <p class="mt-8 lead">
+            生成AIで文章は早く作れるようになった一方で、組織内の暗黙知、顧客理解、事業の前提は同期されにくくなっています。
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-px bg-[var(--line)] border hairline">
+          <article class="bg-[var(--white)] p-7 md:p-8">
+            <p class="number mb-5">01</p>
+            <h3 class="text-xl leading-8 mb-4">言葉は同じ、意味が違う</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">「顧客ファースト」「価値提供」「らしさ」が部署ごとに別の行動を指している。</p>
+          </article>
+          <article class="bg-[var(--white)] p-7 md:p-8">
+            <p class="number mb-5">02</p>
+            <h3 class="text-xl leading-8 mb-4">理念が行動に落ちない</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">読めば分かる。でも、明日から何を変えるべきかが見えない。</p>
+          </article>
+          <article class="bg-[var(--white)] p-7 md:p-8">
+            <p class="number mb-5">03</p>
+            <h3 class="text-xl leading-8 mb-4">社外像と社内実態が離れる</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">採用、営業、広報の言葉が、それぞれ違う会社像をつくってしまう。</p>
+          </article>
+          <article class="bg-[var(--white)] p-7 md:p-8">
+            <p class="number mb-5">04</p>
+            <h3 class="text-xl leading-8 mb-4">広報が整える人で止まる</h3>
+            <p class="text-[15px] leading-8 text-[var(--body)]">発信前に必要な、認識合わせ・構造化・翻訳まで届かない。</p>
+          </article>
         </div>
       </div>
     </section>
 
     <!-- FRAMEWORK -->
-    <section id="framework" class="section border-t border-[var(--line)] bg-[var(--white)]">
+    <section id="framework" class="section">
       <div class="container">
         <div class="max-w-4xl">
-          <p class="label mb-8">HYPOTHESIS</p>
-
-          <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
+          <p class="eyebrow mb-8">FRAMEWORK</p>
+          <h2 class="serif section-title">
             広報は、<br>
-            “外向きの発信”から、<br>
-            “意味同期”へ広がり始めている。
+            “外向きの発信”から<br>
+            <span class="marker">“意味同期のハブ”</span>へ広がる。
           </h2>
-
-          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)] max-w-3xl">
-            従来の広報は、メディア、SNS、採用候補者、市場へ向けた発信機能として重要な役割を担ってきました。
-            ただ、生成AIによって“それらしい文章”が誰でも作れるようになった今、価値は少しずつ
-            「何を書くか」から「何を同期するか」へ移り始めているように感じています。
+          <p class="mt-8 lead max-w-3xl">
+            広報5.0の役割は、きれいな言葉を作ることではありません。
+            経営の意図、現場の実感、市場の期待を行き来しながら、組織が同じ前提で動ける状態をつくることです。
           </p>
         </div>
 
-        <div id="diagram" class="mt-16 md:mt-24 grid lg:grid-cols-2 gap-8">
-          <div class="paper-panel p-8 md:p-10">
-            <p class="label mb-8">PUBLIC RELATIONS 1.0 - 4.0</p>
-            <h3 class="serif text-2xl leading-[1.7] mb-8">外向きメガホン型</h3>
+        <div class="mt-16 md:mt-22 grid lg:grid-cols-2 gap-6 md:gap-8">
+          <article class="paper-panel p-7 md:p-10">
+            <div class="relative z-10">
+              <p class="eyebrow mb-8">BEFORE / PR 1.0 - 4.0</p>
+              <h3 class="serif text-2xl md:text-3xl leading-[1.55] mb-8">外向きメガホン型</h3>
+              <svg viewBox="0 0 500 290" class="w-full" aria-hidden="true">
+                <rect x="190" y="24" width="120" height="46" fill="none" stroke="#6f665d"/>
+                <text x="250" y="53" text-anchor="middle" font-size="13" fill="#3f3a34">経営</text>
+                <rect x="190" y="118" width="120" height="46" fill="none" stroke="#6f665d"/>
+                <text x="250" y="147" text-anchor="middle" font-size="13" fill="#3f3a34">広報</text>
+                <rect x="342" y="118" width="120" height="46" fill="none" stroke="#6f665d"/>
+                <text x="402" y="147" text-anchor="middle" font-size="13" fill="#3f3a34">市場</text>
+                <line x1="250" y1="70" x2="250" y2="118" stroke="#b9aa99"/>
+                <line x1="310" y1="141" x2="342" y2="141" stroke="#b9aa99"/>
+                <text x="70" y="238" font-size="12" fill="#aaa095">営業</text>
+                <text x="220" y="238" font-size="12" fill="#aaa095">開発</text>
+                <text x="370" y="238" font-size="12" fill="#aaa095">人事</text>
+                <line x1="58" y1="250" x2="103" y2="250" stroke="#d5c8b8"/>
+                <line x1="208" y1="250" x2="253" y2="250" stroke="#d5c8b8"/>
+                <line x1="358" y1="250" x2="403" y2="250" stroke="#d5c8b8"/>
+              </svg>
+              <p class="mt-8 text-[15px] leading-8 text-[var(--body)]">経営メッセージを整え、外へ届ける。PR、SNS、プレスリリース、メディア露出が中心。</p>
+            </div>
+          </article>
 
-            <svg viewBox="0 0 500 300" class="w-full">
-              <rect x="190" y="20" width="120" height="44" fill="none" stroke="#6f665d"/>
-              <text x="250" y="48" text-anchor="middle" font-size="13" fill="#3f3a34">経営</text>
-
-              <rect x="190" y="112" width="120" height="44" fill="none" stroke="#6f665d"/>
-              <text x="250" y="140" text-anchor="middle" font-size="13" fill="#3f3a34">広報</text>
-
-              <rect x="340" y="112" width="120" height="44" fill="none" stroke="#6f665d"/>
-              <text x="400" y="140" text-anchor="middle" font-size="13" fill="#3f3a34">市場・メディア</text>
-
-              <line x1="250" y1="64" x2="250" y2="112" stroke="#b4aa9d"/>
-              <line x1="310" y1="134" x2="340" y2="134" stroke="#b4aa9d"/>
-
-              <text x="70" y="238" font-size="12" fill="#8b8175">営業</text>
-              <text x="210" y="238" font-size="12" fill="#8b8175">開発</text>
-              <text x="350" y="238" font-size="12" fill="#8b8175">人事</text>
-              <line x1="58" y1="248" x2="95" y2="248" stroke="#d8d0c4"/>
-              <line x1="198" y1="248" x2="235" y2="248" stroke="#d8d0c4"/>
-              <line x1="338" y1="248" x2="375" y2="248" stroke="#d8d0c4"/>
-            </svg>
-
-            <p class="mt-8 text-[15px] leading-8 text-[var(--body)]">
-              経営メッセージを整え、外へ届ける。PR、SNS、プレスリリース、メディア露出が中心。
-            </p>
-          </div>
-
-          <div class="paper-panel p-8 md:p-10">
-            <p class="label mb-8">PUBLIC RELATIONS 5.0</p>
-            <h3 class="serif text-2xl leading-[1.7] mb-8">意味同期ハブ型</h3>
-
-            <svg viewBox="0 0 500 300" class="w-full">
-              <circle cx="250" cy="150" r="58" fill="none" stroke="#9a5a3c"/>
-              <text x="250" y="145" text-anchor="middle" font-size="13" fill="#3f3a34">広報5.0</text>
-              <text x="250" y="165" text-anchor="middle" font-size="11" fill="#8b8175">Meaning Sync</text>
-
-              <rect x="205" y="18" width="90" height="38" fill="none" stroke="#6f665d"/>
-              <text x="250" y="42" text-anchor="middle" font-size="12" fill="#3f3a34">経営</text>
-
-              <rect x="42" y="132" width="90" height="38" fill="none" stroke="#6f665d"/>
-              <text x="87" y="156" text-anchor="middle" font-size="12" fill="#3f3a34">営業</text>
-
-              <rect x="368" y="132" width="90" height="38" fill="none" stroke="#6f665d"/>
-              <text x="413" y="156" text-anchor="middle" font-size="12" fill="#3f3a34">開発</text>
-
-              <rect x="205" y="244" width="90" height="38" fill="none" stroke="#6f665d"/>
-              <text x="250" y="268" text-anchor="middle" font-size="12" fill="#3f3a34">市場</text>
-
-              <line x1="250" y1="56" x2="250" y2="92" stroke="#b4aa9d"/>
-              <line x1="132" y1="151" x2="192" y2="151" stroke="#b4aa9d"/>
-              <line x1="308" y1="151" x2="368" y2="151" stroke="#b4aa9d"/>
-              <line x1="250" y1="208" x2="250" y2="244" stroke="#b4aa9d"/>
-            </svg>
-
-            <p class="mt-8 text-[15px] leading-8 text-[var(--body)]">
-              発信の前に、経営・現場・市場の意味を揃える。翻訳、接続、構造化、Opsが中心。
-            </p>
-          </div>
+          <article class="paper-panel p-7 md:p-10 border-[var(--accent)]">
+            <div class="relative z-10">
+              <p class="eyebrow mb-8">AFTER / PR 5.0</p>
+              <h3 class="serif text-2xl md:text-3xl leading-[1.55] mb-8">意味同期ハブ型</h3>
+              <svg viewBox="0 0 500 290" class="w-full" aria-hidden="true">
+                <circle cx="250" cy="145" r="60" fill="#fffdf8" stroke="#8f4f35"/>
+                <text x="250" y="140" text-anchor="middle" font-size="14" fill="#1a1714" font-weight="600">広報5.0</text>
+                <text x="250" y="162" text-anchor="middle" font-size="11" fill="#897d70">Meaning Sync</text>
+                <rect x="205" y="18" width="90" height="38" fill="none" stroke="#6f665d"/>
+                <text x="250" y="42" text-anchor="middle" font-size="12" fill="#3f3a34">経営</text>
+                <rect x="42" y="126" width="90" height="38" fill="none" stroke="#6f665d"/>
+                <text x="87" y="150" text-anchor="middle" font-size="12" fill="#3f3a34">営業</text>
+                <rect x="368" y="126" width="90" height="38" fill="none" stroke="#6f665d"/>
+                <text x="413" y="150" text-anchor="middle" font-size="12" fill="#3f3a34">開発</text>
+                <rect x="205" y="232" width="90" height="38" fill="none" stroke="#6f665d"/>
+                <text x="250" y="256" text-anchor="middle" font-size="12" fill="#3f3a34">市場</text>
+                <path d="M250 56 C250 86 250 94 250 84" stroke="#9a5a3c"/>
+                <line x1="250" y1="56" x2="250" y2="84" stroke="#9a5a3c"/>
+                <line x1="132" y1="145" x2="190" y2="145" stroke="#9a5a3c"/>
+                <line x1="310" y1="145" x2="368" y2="145" stroke="#9a5a3c"/>
+                <line x1="250" y1="205" x2="250" y2="232" stroke="#9a5a3c"/>
+              </svg>
+              <p class="mt-8 text-[15px] leading-8 text-[var(--body)]">発信の前に、経営・現場・市場の意味を揃える。翻訳、接続、構造化、Opsが中心。</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- SYMPTOMS -->
-    <section class="section bg-[var(--paper)]">
+    <!-- MATRIX -->
+    <section class="section bg-[var(--white)] border-y hairline">
       <div class="container">
-        <div class="max-w-3xl">
-          <p class="label mb-8">OBSERVATION</p>
-
-          <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
-            発信しているのに、<br>
-            組織が噛み合わなくなる。
-          </h2>
-
-          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
-            同じ言葉を使っているはずなのに、部署ごとに見ている景色が少しずつ違う。
-            そのズレは、悪意ではなく、善意から生まれることが多い。
-          </p>
-        </div>
-
-        <div class="mt-16 md:mt-24 grid md:grid-cols-2 border-t border-[var(--line)]">
-          <div class="py-10 md:py-12 md:pr-12 border-b md:border-r border-[var(--line)]">
-            <h3 class="text-lg md:text-xl mb-5">会議のたびに意味が変わる</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">「顧客ファースト」の意味が、営業・開発・人事で少しずつ違う。</p>
-          </div>
-
-          <div class="py-10 md:py-12 md:pl-12 border-b border-[var(--line)]">
-            <h3 class="text-lg md:text-xl mb-5">理念はあるのに、行動が変わらない</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">読めば分かる。でも、明日から何を変えるべきかが見えない。</p>
-          </div>
-
-          <div class="py-10 md:py-12 md:pr-12 border-b md:border-r border-[var(--line)]">
-            <h3 class="text-lg md:text-xl mb-5">社外の期待と社内の実態がズレる</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">採用・営業・広報の言葉が、それぞれ違う会社像をつくってしまう。</p>
-          </div>
-
-          <div class="py-10 md:py-12 md:pl-12 border-b border-[var(--line)]">
-            <h3 class="text-lg md:text-xl mb-5">広報が“綺麗に整える人”で止まる</h3>
-            <p class="text-[15px] leading-8 text-[var(--body)]">発信の前に必要な、認識合わせや構造化まで手が届かない。</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EVOLUTION TABLE -->
-    <section class="section border-t border-[var(--line)] bg-[var(--white)]">
-      <div class="container">
-        <p class="label mb-8">EVOLUTION MATRIX</p>
-
-        <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
+        <p class="eyebrow mb-8">EVOLUTION MATRIX</p>
+        <h2 class="serif section-title">
           マーケティング進化論から見る、<br>
           広報の役割変化。
         </h2>
 
-        <div class="mt-14 md:mt-20 overflow-x-auto border-y border-[var(--line)]">
-          <table class="min-w-[880px] w-full text-left text-sm">
-            <thead class="border-b border-[var(--line)] text-[var(--muted)]">
+        <div class="table-wrap mt-14 md:mt-18">
+          <table class="min-w-[920px] w-full text-left text-sm">
+            <thead class="text-[var(--muted)]">
               <tr>
-                <th class="py-5 pr-6 font-normal">項目</th>
-                <th class="py-5 pr-6 font-normal">1.0</th>
-                <th class="py-5 pr-6 font-normal">2.0</th>
-                <th class="py-5 pr-6 font-normal">3.0</th>
-                <th class="py-5 pr-6 font-normal">4.0</th>
-                <th class="py-5 pr-6 font-normal text-[var(--accent)]">5.0</th>
+                <th class="py-5 pr-6 font-medium">項目</th>
+                <th class="py-5 pr-6 font-medium">1.0</th>
+                <th class="py-5 pr-6 font-medium">2.0</th>
+                <th class="py-5 pr-6 font-medium">3.0</th>
+                <th class="py-5 pr-6 font-medium">4.0</th>
+                <th class="py-5 pr-6 font-semibold text-[var(--accent)]">5.0</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-[var(--line)]">
-              <tr>
-                <td class="py-5 pr-6 text-[var(--muted)]">中心</td>
-                <td>製品</td><td>顧客</td><td>理念</td><td>データ / Ops</td><td class="text-[var(--accent)]">意味同期</td>
-              </tr>
-              <tr>
-                <td class="py-5 pr-6 text-[var(--muted)]">広報役割</td>
-                <td>宣伝</td><td>SNS対話</td><td>共感形成</td><td>構造化</td><td class="text-[var(--accent)]">接続・同期</td>
-              </tr>
-              <tr>
-                <td class="py-5 pr-6 text-[var(--muted)]">主戦場</td>
-                <td>マスメディア</td><td>SNS</td><td>ナラティブ</td><td>組織横断</td><td class="text-[var(--accent)]">経営⇄現場⇄市場</td>
-              </tr>
-              <tr>
-                <td class="py-5 pr-6 text-[var(--muted)]">KPI</td>
-                <td>露出</td><td>反応</td><td>共感</td><td>運用効率</td><td class="text-[var(--accent)]">認識整合</td>
-              </tr>
-              <tr>
-                <td class="py-5 pr-6 text-[var(--muted)]">AI活用</td>
-                <td>なし</td><td>補助</td><td>コンテンツ</td><td>自動化</td><td class="text-[var(--accent)]">意味編集</td>
-              </tr>
+            <tbody>
+              <tr><td class="py-5 pr-6 text-[var(--muted)]">中心</td><td>製品</td><td>顧客</td><td>理念</td><td>データ / Ops</td><td class="text-[var(--accent)] font-semibold">意味同期</td></tr>
+              <tr><td class="py-5 pr-6 text-[var(--muted)]">広報役割</td><td>宣伝</td><td>SNS対話</td><td>共感形成</td><td>構造化</td><td class="text-[var(--accent)] font-semibold">接続・同期</td></tr>
+              <tr><td class="py-5 pr-6 text-[var(--muted)]">主戦場</td><td>マスメディア</td><td>SNS</td><td>ナラティブ</td><td>組織横断</td><td class="text-[var(--accent)] font-semibold">経営 ⇄ 現場 ⇄ 市場</td></tr>
+              <tr><td class="py-5 pr-6 text-[var(--muted)]">KPI</td><td>露出</td><td>反応</td><td>共感</td><td>運用効率</td><td class="text-[var(--accent)] font-semibold">認識整合</td></tr>
+              <tr><td class="py-5 pr-6 text-[var(--muted)]">AI活用</td><td>なし</td><td>補助</td><td>コンテンツ</td><td>自動化</td><td class="text-[var(--accent)] font-semibold">意味編集</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- AI OPS -->
-    <section class="section bg-[var(--paper-2)] border-t border-[var(--line)]">
-      <div class="container grid lg:grid-cols-[0.9fr_1.1fr] gap-16 lg:gap-24 items-start">
+    <!-- OPS -->
+    <section class="section bg-[var(--paper-2)]">
+      <div class="container grid lg:grid-cols-[0.9fr_1.1fr] gap-14 lg:gap-24 items-start">
         <div>
-          <p class="label mb-8">AI OPS LAYER</p>
-
-          <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
+          <p class="eyebrow mb-8">AI OPS LAYER</p>
+          <h2 class="serif section-title">
             AIは主役ではなく、<br>
             意味同期を支える<br>
             実務レイヤー。
           </h2>
-
-          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
-            ChatGPTやClaudeは、単なる文章生成ツールではなく、思考整理・文脈編集・情報接続を支援するチームとして扱う。
-            経営の雑談、現場メモ、Slack、顧客の声を、現場が動ける形へ変換していく。
+          <p class="mt-8 lead">
+            ChatGPTやClaudeを、文章生成ツールではなく、思考整理・文脈編集・情報接続の補助線として扱う。散らばった現場知を、動ける共通言語へ変換していきます。
           </p>
         </div>
 
-        <div class="paper-panel p-8 md:p-10">
-          <div class="grid md:grid-cols-3 gap-6 text-sm">
+        <div class="paper-panel p-7 md:p-10">
+          <div class="relative z-10 grid md:grid-cols-3 gap-8 md:gap-6 text-sm">
             <div>
-              <p class="text-[var(--accent)] mb-4">INPUT</p>
-              <ul class="space-y-3 text-[var(--body)]">
+              <p class="eyebrow mb-5">INPUT</p>
+              <ul class="space-y-3.5 text-[var(--body)] leading-7">
                 <li>経営会議</li>
                 <li>顧客の声</li>
                 <li>営業ヒアリング</li>
@@ -371,20 +523,19 @@
                 <li>採用面談</li>
               </ul>
             </div>
-
             <div>
-              <p class="text-[var(--accent)] mb-4">STRUCTURE</p>
-              <ul class="space-y-3 text-[var(--body)]">
-                <li>ChatGPT：思考整理</li>
-                <li>Claude：文脈編集</li>
-                <li>NotebookLM：情報同期</li>
-                <li>Notion AI：ナレッジ接続</li>
+              <p class="eyebrow mb-5">STRUCTURE</p>
+              <ul class="space-y-3.5 text-[var(--body)] leading-7">
+                <li>思考整理</li>
+                <li>文脈編集</li>
+                <li>暗黙知の翻訳</li>
+                <li>情報の接続</li>
+                <li>差分の抽出</li>
               </ul>
             </div>
-
             <div>
-              <p class="text-[var(--accent)] mb-4">OUTPUT</p>
-              <ul class="space-y-3 text-[var(--body)]">
+              <p class="eyebrow mb-5">OUTPUT</p>
+              <ul class="space-y-3.5 text-[var(--body)] leading-7">
                 <li>採用記事</li>
                 <li>LP</li>
                 <li>営業資料</li>
@@ -397,77 +548,81 @@
       </div>
     </section>
 
-    <!-- LOGS -->
-    <section id="logs" class="section border-t border-[var(--line)] bg-[var(--white)]">
+    <!-- FIELD NOTES -->
+    <section id="field" class="section bg-[var(--white)] border-y hairline">
       <div class="container">
         <div class="max-w-3xl">
-          <p class="label mb-8">FIELD NOTES</p>
-
-          <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
+          <p class="eyebrow mb-8">FIELD NOTES</p>
+          <h2 class="serif section-title">
             実務の観測ログを、<br>
             noteに記録しています。
           </h2>
-
-          <p class="mt-8 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
-            AI時代に、組織の中で何が壊れ始めているのか。
-            現場で起きていたことを、ゆるく、正直に、続けています。
+          <p class="mt-8 lead">
+            AI時代に、組織の中で何が壊れ始めているのか。現場で起きていたことを、ゆるく、正直に、続けています。
           </p>
         </div>
 
-        <div class="mt-16 md:mt-24 divide-y divide-[var(--line)] border-y border-[var(--line)]">
-          <article class="py-10 md:py-12 grid md:grid-cols-[180px_1fr_120px] gap-6 md:gap-10 items-start">
+        <div class="mt-14 md:mt-20 divide-y divide-[var(--line)] border-y hairline">
+          <article class="py-9 md:py-11 grid md:grid-cols-[160px_1fr_120px] gap-5 md:gap-10 items-start group">
             <p class="text-sm text-[var(--muted)]">実務ログ #03</p>
             <div>
-              <h3 class="text-lg md:text-xl leading-8">「顧客価値」の意味が、営業と開発で真逆だった。</h3>
+              <h3 class="text-lg md:text-xl leading-8 group-hover:text-[var(--accent)] transition">「顧客価値」の意味が、営業と開発で真逆だった。</h3>
               <p class="mt-4 text-[15px] leading-8 text-[var(--body)]">AIで概念図を作成し、翌週から会議の前提が揃い始めた。</p>
             </div>
-            <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="text-sm link-line pb-1 w-fit">続きを読む</a>
+            <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="text-link text-sm w-fit">続きを読む</a>
           </article>
 
-          <article class="py-10 md:py-12 grid md:grid-cols-[180px_1fr_120px] gap-6 md:gap-10 items-start">
+          <article class="py-9 md:py-11 grid md:grid-cols-[160px_1fr_120px] gap-5 md:gap-10 items-start group">
             <p class="text-sm text-[var(--muted)]">実務ログ #06</p>
             <div>
-              <h3 class="text-lg md:text-xl leading-8">採用候補者ごとに、会社の説明が違っていた。</h3>
+              <h3 class="text-lg md:text-xl leading-8 group-hover:text-[var(--accent)] transition">採用候補者ごとに、会社の説明が違っていた。</h3>
               <p class="mt-4 text-[15px] leading-8 text-[var(--body)]">共通言語マップを整備し、意味のズレが減少。</p>
             </div>
-            <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="text-sm link-line pb-1 w-fit">続きを読む</a>
+            <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="text-link text-sm w-fit">続きを読む</a>
           </article>
         </div>
 
-        <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="inline-block mt-12 text-sm link-line pb-1">
-          → noteを読む
-        </a>
+        <a href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer" class="inline-flex mt-12 text-link text-sm">noteを読む</a>
       </div>
     </section>
 
     <!-- CTA -->
-    <section id="contact" class="section bg-[var(--paper)] border-t border-[var(--line)]">
-      <div class="container max-w-4xl">
-        <p class="label mb-8">CONTACT</p>
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="paper-panel p-8 md:p-14 lg:p-16 overflow-hidden">
+          <div class="relative z-10 grid lg:grid-cols-[1fr_360px] gap-10 lg:gap-16 items-end">
+            <div>
+              <p class="eyebrow mb-8">CONTACT</p>
+              <h2 class="serif section-title">
+                「これ、うちでも<br>
+                起きているかもしれない」<br>
+                と感じた方へ。
+              </h2>
+              <p class="mt-8 lead max-w-3xl">
+                何かを売り込むためではなく、現場で起きている“意味ズレ”を一度フラットに整理する時間です。
+                経営、広報、営業、採用の言葉が噛み合わない感覚があれば、30分だけ壁打ちしましょう。
+              </p>
+            </div>
 
-        <h2 class="serif text-3xl sm:text-4xl md:text-[44px] leading-[1.7] tracking-[-0.02em]">
-          「これ、<br>
-          うちでも起きているかもしれない」<br>
-          と感じた方がいたら。
-        </h2>
-
-        <p class="mt-9 md:mt-12 text-[15px] md:text-base leading-9 text-[var(--body)]">
-          一度、現場で起きている“意味ズレ”について、フラットにお話できたら嬉しいです。<br><br>
-          何かを売り込むためではなく、これからの面白い組織のあり方について、
-          同じ視座で30分だけ意見交換をさせてください。
-        </p>
-
-        <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="inline-block mt-10 md:mt-12 bg-[#1c1a17] hover:bg-[#2d2925] text-white px-7 py-4 text-sm transition">
-          → 30分だけ話してみる
-        </a>
+            <div class="soft-card p-6 md:p-7 bg-[rgba(255,253,248,.76)]">
+              <p class="text-sm leading-7 text-[var(--body)] mb-6">
+                相談テーマ例<br>
+                ・社内外で会社の説明がズレる<br>
+                ・採用広報の言葉が定まらない<br>
+                ・AI活用が文章生成で止まっている
+              </p>
+              <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="btn-primary w-full">
+                30分だけ壁打ちする <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-
   </main>
 
-  <footer class="py-10 text-center text-xs text-[var(--muted)] border-t border-[var(--line)]">
+  <footer class="py-10 text-center text-xs text-[var(--muted)] border-t hairline">
     © ismarke / Public Relations 5.0
   </footer>
-
 </body>
 </html>
