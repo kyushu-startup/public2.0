@@ -3,1192 +3,272 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>広報5.0研究ノート / Meaning Sync Framework</title>
-  <meta name="description" content="AI時代に組織で起きる意味ズレを観測し、経営・現場・市場の認識を同期させる、意味同期型広報の実務研究ノート。" />
+  <title>広報5.0研究ノート / Meaning Sync Institute</title>
+  <meta name="description" content="AI時代に組織で起きる意味ズレを観測し、経営・現場・市場の認識を同期させる、意味同期型広報の研究アーカイブ。" />
 
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@500;600;700;900&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --ink: #17130f;
-      --ink-2: #2b241f;
-      --body: #50463e;
-      --muted: #918477;
-      --faint: #b9ada0;
-      --paper: #f3ede3;
-      --paper-2: #e9ded1;
-      --paper-3: #d8c8b7;
-      --bone: #fffaf2;
-      --line: rgba(23,19,15,.16);
-      --line-2: rgba(23,19,15,.28);
-      --rust: #8d4b32;
-      --rust-2: #b46f4d;
-      --clay: #d8b59d;
-      --olive: #31382f;
-      --shadow: 0 44px 120px rgba(35,27,19,.12);
+    :root{
+      --ink:#11100e;
+      --soft-ink:#39352f;
+      --body:#565047;
+      --muted:#8b8174;
+      --faint:#b8afa4;
+      --paper:#f5efe4;
+      --paper2:#ebe0d1;
+      --paper3:#ddd0bd;
+      --white:#fffaf1;
+      --line:rgba(17,16,14,.17);
+      --line2:rgba(17,16,14,.32);
+      --accent:#9a4f31;
+      --accent2:#c58b66;
+      --blue:#273f4a;
+      --green:#38443b;
+      --mono:"IBM Plex Mono", monospace;
+      --sans:"IBM Plex Sans JP", sans-serif;
+      --serif:"Noto Serif JP", serif;
     }
 
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: "IBM Plex Sans JP", sans-serif;
-      color: var(--ink);
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:var(--sans);
       background:
-        radial-gradient(circle at 18% 6%, rgba(255,255,255,.92), transparent 30%),
-        radial-gradient(circle at 86% 22%, rgba(180,111,77,.16), transparent 28%),
-        linear-gradient(135deg, #f8f3eb 0%, var(--paper) 46%, #e8dccf 100%);
-      letter-spacing: .012em;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background-image:
-        linear-gradient(rgba(23,19,15,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(23,19,15,.035) 1px, transparent 1px);
-      background-size: 72px 72px;
-      mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      opacity: .055;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E");
-    }
-
-    ::selection { background: var(--ink); color: #fff; }
-
-    .serif { font-family: "Noto Serif JP", "Yu Mincho", serif; }
-
-    .container {
-      width: min(100% - 48px, 1240px);
-      margin-inline: auto;
-    }
-
-    .nav {
-      position: fixed;
-      inset: 22px 22px auto 22px;
-      height: 68px;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid rgba(23,19,15,.18);
-      background: rgba(248,243,235,.72);
-      backdrop-filter: blur(22px);
-      padding-inline: 26px;
-      box-shadow: 0 18px 60px rgba(35,27,19,.06);
-    }
-
-    .brand {
-      font-weight: 700;
-      letter-spacing: .02em;
-      font-size: 15px;
-    }
-
-    .nav a { text-decoration: none; }
-
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .nav-menu a:not(.nav-cta) {
-      color: var(--muted);
-      transition: color .25s ease;
-    }
-
-    .nav-menu a:not(.nav-cta):hover { color: var(--ink); }
-
-    .nav-cta {
-      color: var(--bone);
-      background: var(--ink);
-      padding: 14px 20px;
-      border: 1px solid var(--ink);
-      transition: transform .25s ease, box-shadow .25s ease;
-      box-shadow: 0 14px 34px rgba(23,19,15,.16);
-    }
-
-    .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 46px rgba(23,19,15,.22);
-    }
-
-    .side-index {
-      position: fixed;
-      left: 28px;
-      bottom: 30px;
-      z-index: 40;
-      writing-mode: vertical-rl;
-      font-size: 10px;
-      letter-spacing: .22em;
-      color: rgba(23,19,15,.38);
-      text-transform: uppercase;
-    }
-
-    .section {
-      position: relative;
-      padding-block: clamp(110px, 13vw, 190px);
-    }
-
-    .hero {
-      min-height: 100svh;
-      padding-top: 124px;
-      display: grid;
-      align-items: center;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(420px, .92fr);
-      gap: clamp(48px, 7vw, 116px);
-      align-items: center;
-    }
-
-    .eyebrow {
-      font-size: 10px;
-      line-height: 1;
-      color: var(--rust);
-      letter-spacing: .42em;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .hero-title {
-      margin: 0;
-      font-size: clamp(52px, 7.2vw, 118px);
-      line-height: 1.04;
-      letter-spacing: -.075em;
-      font-weight: 900;
-      text-wrap: balance;
-    }
-
-    .hero-title .indent { display: inline-block; padding-left: .66em; }
-    .hero-title .thin { font-weight: 500; letter-spacing: -.09em; }
-
-    .hero-copy {
-      margin-top: 44px;
-      display: grid;
-      grid-template-columns: 92px minmax(0, 1fr);
-      gap: 26px;
-      max-width: 760px;
-    }
-
-    .hero-copy .cap {
-      font-size: 11px;
-      letter-spacing: .24em;
-      color: var(--rust);
-      text-transform: uppercase;
-      padding-top: 10px;
-      border-top: 2px solid var(--rust);
-    }
-
-    .lead {
-      color: var(--body);
-      font-size: clamp(15px, 1.25vw, 17px);
-      line-height: 2.25;
-      margin: 0;
-    }
-
-    .actions {
-      margin-top: 44px;
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .btn {
-      min-height: 58px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 25px;
-      text-decoration: none;
-      font-size: 14px;
-      letter-spacing: .04em;
-      transition: transform .25s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
-    }
-
-    .btn-dark {
-      color: var(--bone);
-      background: var(--ink);
-      border: 1px solid var(--ink);
-      box-shadow: 0 24px 62px rgba(23,19,15,.18);
-    }
-
-    .btn-dark:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 32px 78px rgba(23,19,15,.26);
-    }
-
-    .btn-ghost {
-      color: var(--ink);
-      border: 1px solid var(--line-2);
-      background: rgba(255,250,242,.35);
-    }
-
-    .btn-ghost:hover {
-      transform: translateY(-3px);
-      background: rgba(255,250,242,.78);
-      border-color: var(--ink);
-    }
-
-    .visual-stage {
-      position: relative;
-      min-height: 660px;
-    }
-
-    .visual-stage::before {
-      content: "";
-      position: absolute;
-      width: 420px;
-      height: 420px;
-      border-radius: 999px;
-      right: -70px;
-      top: 22px;
-      background: radial-gradient(circle, rgba(180,111,77,.18), transparent 68%);
-      filter: blur(10px);
-    }
-
-    .sync-object {
-      position: absolute;
-      inset: 34px 0 auto auto;
-      width: min(100%, 590px);
-      aspect-ratio: 1 / 1.05;
-      border: 1px solid rgba(23,19,15,.18);
-      background:
-        linear-gradient(135deg, rgba(255,250,242,.88), rgba(242,232,219,.62)),
-        var(--paper);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .sync-object::before {
-      content: "";
-      position: absolute;
-      inset: 18px;
-      border: 1px solid rgba(23,19,15,.08);
-    }
-
-    .sync-object::after {
-      content: "Meaning Sync";
-      position: absolute;
-      right: 28px;
-      bottom: 20px;
-      font-family: "Noto Serif JP", serif;
-      font-size: 72px;
-      line-height: .85;
-      letter-spacing: -.08em;
-      color: rgba(23,19,15,.045);
-      pointer-events: none;
-    }
-
-    .sync-inner {
-      position: absolute;
-      inset: 44px;
-      z-index: 2;
-    }
-
-    .sync-label-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 38px;
-    }
-
-    .small-muted {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.9;
-    }
-
-    .orb-map {
-      position: relative;
-      height: 420px;
-    }
-
-    .orb {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 188px;
-      height: 188px;
-      transform: translate(-50%, -50%);
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      background:
-        radial-gradient(circle at 34% 30%, rgba(255,255,255,.95), transparent 34%),
-        linear-gradient(135deg, #fffaf2, #eadccb);
-      border: 1px solid rgba(141,75,50,.78);
-      box-shadow: 0 28px 80px rgba(141,75,50,.18);
-    }
-
-    .orb strong {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-
-    .orb span {
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: .06em;
-    }
-
-    .node {
-      position: absolute;
-      width: 126px;
-      height: 50px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(23,19,15,.34);
-      background: rgba(255,250,242,.58);
-      font-size: 14px;
-      color: var(--body);
-    }
-
-    .node.top { left: 50%; top: 0; transform: translateX(-50%); }
-    .node.left { left: 0; top: 50%; transform: translateY(-50%); }
-    .node.right { right: 0; top: 50%; transform: translateY(-50%); }
-    .node.bottom { left: 50%; bottom: 0; transform: translateX(-50%); }
-
-    .line {
-      position: absolute;
-      background: rgba(141,75,50,.62);
-      transform-origin: center;
-    }
-
-    .line.v-top { width: 1px; height: 88px; left: 50%; top: 50px; }
-    .line.v-bottom { width: 1px; height: 88px; left: 50%; bottom: 50px; }
-    .line.h-left { height: 1px; width: 102px; left: 126px; top: 50%; }
-    .line.h-right { height: 1px; width: 102px; right: 126px; top: 50%; }
-
-    .signal {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .signal::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--rust);
-    }
-
-    .signal.s1 { left: 16px; top: 96px; }
-    .signal.s2 { right: 14px; top: 132px; }
-    .signal.s3 { left: 42px; bottom: 88px; }
-    .signal.s4 { right: 28px; bottom: 74px; }
-
-    .floating-note {
-      position: absolute;
-      left: -34px;
-      bottom: 24px;
-      width: 300px;
-      padding: 22px 24px;
-      background: var(--ink);
-      color: var(--bone);
-      box-shadow: 0 28px 80px rgba(23,19,15,.22);
-      font-size: 13px;
-      line-height: 1.9;
-      z-index: 4;
-    }
-
-    .floating-note span {
-      display: block;
-      color: rgba(255,250,242,.56);
-      font-size: 10px;
-      letter-spacing: .24em;
-      margin-bottom: 9px;
-      text-transform: uppercase;
-    }
-
-    .giant-word {
-      position: absolute;
-      left: -3vw;
-      bottom: -62px;
-      font-family: "Noto Serif JP", serif;
-      font-size: clamp(120px, 18vw, 260px);
-      line-height: 1;
-      color: rgba(23,19,15,.045);
-      letter-spacing: -.08em;
-      pointer-events: none;
-      white-space: nowrap;
-    }
-
-    .split {
-      display: grid;
-      grid-template-columns: .82fr 1.18fr;
-      gap: clamp(48px, 8vw, 118px);
-      align-items: start;
-    }
-
-    .sticky-copy {
-      position: sticky;
-      top: 132px;
-    }
-
-    .section-title {
-      margin: 0;
-      font-size: clamp(42px, 5.4vw, 86px);
-      line-height: 1.12;
-      letter-spacing: -.07em;
-      font-weight: 900;
-    }
-
-    .section-title .soft {
-      color: rgba(23,19,15,.42);
-    }
-
-    .problem-list {
-      border-top: 1px solid var(--line-2);
-    }
-
-    .problem-item {
-      position: relative;
-      display: grid;
-      grid-template-columns: 86px minmax(0, 1fr);
-      gap: 28px;
-      padding: 36px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .problem-item::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -1px;
-      width: 0;
-      height: 1px;
-      background: var(--rust);
-      transition: width .35s ease;
-    }
-
-    .problem-item:hover::before { width: 100%; }
-
-    .num {
-      font-size: 11px;
-      letter-spacing: .24em;
-      color: var(--rust);
-      font-weight: 700;
-      padding-top: 9px;
-    }
-
-    .problem-item h3 {
-      margin: 0;
-      font-family: "Noto Serif JP", serif;
-      font-size: clamp(25px, 2.6vw, 38px);
-      line-height: 1.42;
-      letter-spacing: -.045em;
-      font-weight: 700;
-    }
-
-    .problem-item p {
-      margin: 16px 0 0;
-      color: var(--body);
-      line-height: 2;
-      font-size: 15px;
-      max-width: 620px;
-    }
-
-    .statement {
-      padding-block: clamp(120px, 14vw, 210px);
-      background: var(--ink);
-      color: var(--bone);
-      overflow: hidden;
-    }
-
-    .statement .container { position: relative; }
-
-    .statement-title {
-      margin: 0;
-      font-family: "Noto Serif JP", serif;
-      font-size: clamp(42px, 7vw, 112px);
-      line-height: 1.12;
-      letter-spacing: -.07em;
-      font-weight: 900;
-      max-width: 1080px;
-    }
-
-    .statement-title em {
-      font-style: normal;
-      color: var(--clay);
-    }
-
-    .statement p {
-      margin-top: 44px;
-      max-width: 720px;
-      color: rgba(255,250,242,.72);
-      line-height: 2.25;
-      font-size: 16px;
-    }
-
-    .statement-code {
-      position: absolute;
-      right: -20px;
-      top: -58px;
-      writing-mode: vertical-rl;
-      font-size: 11px;
-      color: rgba(255,250,242,.22);
-      letter-spacing: .32em;
-      text-transform: uppercase;
-    }
-
-    .framework-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-top: 76px;
-    }
-
-    .framework-card {
-      position: relative;
-      min-height: 540px;
-      border: 1px solid var(--line);
-      background: rgba(255,250,242,.42);
-      padding: 38px;
-      overflow: hidden;
-      box-shadow: 0 30px 90px rgba(35,27,19,.055);
-    }
-
-    .framework-card.is-after {
-      background:
-        radial-gradient(circle at 80% 28%, rgba(180,111,77,.18), transparent 34%),
-        rgba(255,250,242,.62);
-      border-color: rgba(141,75,50,.54);
-    }
-
-    .framework-card h3 {
-      margin: 32px 0 0;
-      font-family: "Noto Serif JP", serif;
-      font-size: clamp(34px, 3.8vw, 58px);
-      line-height: 1.1;
-      letter-spacing: -.06em;
-      font-weight: 800;
-    }
-
-    .mini-diagram {
-      position: absolute;
-      inset: auto 38px 38px 38px;
-      height: 250px;
-      border-top: 1px solid var(--line);
-      padding-top: 36px;
-    }
-
-    .diagram-box {
-      position: absolute;
-      min-width: 92px;
-      height: 44px;
-      border: 1px solid rgba(23,19,15,.34);
-      display: grid;
-      place-items: center;
-      font-size: 13px;
-      color: var(--body);
-      background: rgba(255,250,242,.52);
-    }
-
-    .diagram-line {
-      position: absolute;
-      background: rgba(141,75,50,.48);
-    }
-
-    .before .b1 { left: 42%; top: 42px; }
-    .before .b2 { left: 42%; top: 126px; }
-    .before .b3 { right: 8%; top: 126px; }
-    .before .l1 { width: 1px; height: 40px; left: calc(42% + 46px); top: 86px; }
-    .before .l2 { height: 1px; width: 72px; left: calc(42% + 92px); top: 148px; }
-    .before .ghost { position: absolute; bottom: 0; color: rgba(23,19,15,.25); font-size: 12px; letter-spacing: .12em; }
-    .before .g1 { left: 0; } .before .g2 { left: 34%; } .before .g3 { right: 0; }
-
-    .after .center {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 142px;
-      height: 142px;
-      border-radius: 999px;
-      border: 1px solid var(--rust);
-      display: grid;
-      place-items: center;
-      text-align: center;
-      background: rgba(255,250,242,.8);
-      box-shadow: 0 22px 64px rgba(141,75,50,.14);
-      font-weight: 700;
-    }
-
-    .after .a1 { left: 50%; top: 0; transform: translateX(-50%); }
-    .after .a2 { left: 2%; top: 50%; transform: translateY(-50%); }
-    .after .a3 { right: 2%; top: 50%; transform: translateY(-50%); }
-    .after .a4 { left: 50%; bottom: 0; transform: translateX(-50%); }
-    .after .l1 { width: 1px; height: 44px; left: 50%; top: 44px; }
-    .after .l2 { width: 1px; height: 44px; left: 50%; bottom: 44px; }
-    .after .l3 { height: 1px; width: 74px; left: calc(2% + 92px); top: 50%; }
-    .after .l4 { height: 1px; width: 74px; right: calc(2% + 92px); top: 50%; }
-
-    .matrix {
-      background: rgba(255,250,242,.5);
-      border-top: 1px solid var(--line-2);
-      border-bottom: 1px solid var(--line-2);
-    }
-
-    .matrix-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 920px;
-      font-size: 14px;
-    }
-
-    .matrix-table th,
-    .matrix-table td {
-      padding: 24px 22px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    .matrix-table th {
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 12px;
-      letter-spacing: .14em;
-    }
-
-    .matrix-table tr:last-child td { border-bottom: 0; }
-    .matrix-table .hot { color: var(--rust); font-weight: 700; }
-
-    .ops-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--line);
-      margin-top: 72px;
-      border: 1px solid var(--line);
-    }
-
-    .ops-col {
-      background: rgba(255,250,242,.54);
-      padding: 34px;
-      min-height: 330px;
-    }
-
-    .ops-col h3 {
-      margin: 0 0 32px;
-      color: var(--rust);
-      font-size: 11px;
-      letter-spacing: .34em;
-      text-transform: uppercase;
-    }
-
-    .ops-col ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      display: grid;
-      gap: 18px;
-      color: var(--body);
-      font-size: 15px;
-    }
-
-    .field-list {
-      margin-top: 72px;
-      border-top: 1px solid var(--line-2);
-    }
-
-    .field-item {
-      display: grid;
-      grid-template-columns: 170px minmax(0, 1fr) 120px;
-      gap: 36px;
-      align-items: start;
-      padding: 38px 0;
-      border-bottom: 1px solid var(--line);
-      text-decoration: none;
-      color: var(--ink);
-    }
-
-    .field-item time {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .field-item h3 {
-      margin: 0;
-      font-family: "Noto Serif JP", serif;
-      font-size: clamp(23px, 2.4vw, 36px);
-      line-height: 1.42;
-      letter-spacing: -.045em;
-    }
-
-    .field-item p {
-      margin: 14px 0 0;
-      color: var(--body);
-      line-height: 2;
-      font-size: 15px;
-    }
-
-    .field-item .read {
-      color: var(--rust);
-      font-size: 13px;
-      padding-top: 8px;
-    }
-
-    .cta-panel {
-      position: relative;
-      overflow: hidden;
-      padding: clamp(48px, 7vw, 92px);
-      background: var(--ink);
-      color: var(--bone);
-      box-shadow: var(--shadow);
-    }
-
-    .cta-panel::before {
-      content: "";
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 999px;
-      right: -130px;
-      top: -150px;
-      background: radial-gradient(circle, rgba(216,181,157,.22), transparent 65%);
-    }
-
-    .cta-grid {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 64px;
-      align-items: end;
-    }
-
-    .cta-panel .section-title { color: var(--bone); }
-    .cta-panel .lead { color: rgba(255,250,242,.74); }
-
-    .cta-box {
-      border: 1px solid rgba(255,250,242,.18);
-      background: rgba(255,250,242,.06);
-      padding: 28px;
-    }
-
-    .cta-box ul {
-      margin: 0 0 24px;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 12px;
-      color: rgba(255,250,242,.72);
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .cta-box .btn {
-      width: 100%;
-      background: var(--bone);
-      color: var(--ink);
-      border-color: var(--bone);
-      box-shadow: none;
-    }
-
-    footer {
-      padding: 44px 0 56px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: .12em;
-    }
-
-    @media (max-width: 1024px) {
-      .hero-grid,
-      .split,
-      .framework-grid,
-      .cta-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .visual-stage { min-height: 600px; }
-      .sync-object { left: 0; right: auto; }
-      .sticky-copy { position: static; }
-      .side-index { display: none; }
-      .ops-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 760px) {
-      .container { width: min(100% - 28px, 1240px); }
-      .nav {
-        inset: 12px 12px auto 12px;
-        height: 58px;
-        padding-inline: 16px;
-      }
-      .nav-menu a:not(.nav-cta) { display: none; }
-      .nav-cta { padding: 11px 12px; font-size: 12px; }
-      .brand { font-size: 13px; }
-      .hero { padding-top: 96px; }
-      .hero-title { font-size: clamp(44px, 15vw, 72px); }
-      .hero-copy { grid-template-columns: 1fr; gap: 14px; margin-top: 34px; }
-      .hero-copy .cap { width: fit-content; padding-top: 8px; }
-      .actions { margin-top: 34px; }
-      .btn { width: 100%; }
-      .visual-stage { min-height: 560px; margin-top: 20px; }
-      .sync-object { width: 100%; min-height: 540px; }
-      .sync-inner { inset: 26px; }
-      .orb-map { height: 390px; transform: scale(.88); transform-origin: center; }
-      .floating-note { left: 0; bottom: -10px; width: calc(100% - 26px); }
-      .section { padding-block: 92px; }
-      .section-title { font-size: clamp(38px, 12vw, 58px); }
-      .problem-item { grid-template-columns: 1fr; gap: 10px; }
-      .framework-card { min-height: 520px; padding: 26px; }
-      .mini-diagram { inset-inline: 26px; }
-      .matrix { overflow-x: auto; }
-      .field-item { grid-template-columns: 1fr; gap: 12px; }
-      .field-item .read { padding-top: 0; }
-      .cta-panel { padding: 34px 24px; }
-    }
+        radial-gradient(circle at 15% 5%, rgba(255,255,255,.9), transparent 26%),
+        radial-gradient(circle at 80% 20%, rgba(154,79,49,.10), transparent 34%),
+        linear-gradient(135deg,#faf6ef 0%,var(--paper) 45%,#e7dac9 100%);
+      letter-spacing:.01em;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    body:before{
+      content:"";position:fixed;inset:0;z-index:-3;
+      background-image:linear-gradient(rgba(17,16,14,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(17,16,14,.04) 1px,transparent 1px);
+      background-size:72px 72px;
+      mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+    }
+    body:after{
+      content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.055;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E");
+    }
+    ::selection{background:var(--ink);color:var(--white)}
+    a{color:inherit;text-decoration:none}
+    .serif{font-family:var(--serif)}
+    .mono{font-family:var(--mono)}
+    .container{width:min(100% - 48px,1280px);margin-inline:auto}
+
+    .topbar{
+      position:fixed;z-index:80;top:20px;left:20px;right:20px;height:64px;
+      display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+      border:1px solid var(--line);background:rgba(250,246,239,.74);backdrop-filter:blur(22px);
+      padding:0 22px;box-shadow:0 18px 70px rgba(30,24,18,.06)
+    }
+    .brand{font-weight:700;font-size:14px;letter-spacing:.03em}
+    .top-meta{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;text-align:center}
+    .nav{justify-self:end;display:flex;align-items:center;gap:26px;font-size:12px;color:var(--muted)}
+    .nav a:hover{color:var(--ink)}
+    .nav-cta{color:var(--white)!important;background:var(--ink);padding:13px 17px;border:1px solid var(--ink)}
+
+    .rail-left,.rail-right{position:fixed;z-index:40;top:112px;bottom:28px;width:28px;color:rgba(17,16,14,.38);font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl;pointer-events:none}
+    .rail-left{left:24px}.rail-right{right:24px;text-align:right}
+
+    .hero{min-height:100svh;padding-top:124px;display:grid;align-items:center;position:relative}
+    .hero-grid{display:grid;grid-template-columns:.74fr 1.26fr;gap:72px;align-items:end}
+    .index-block{border-top:1px solid var(--line2);padding-top:22px;max-width:320px}
+    .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:600}
+    .index-title{font-family:var(--mono);font-size:12px;line-height:1.8;color:var(--muted);margin-top:18px}
+    .index-list{margin:40px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+    .index-list li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--body)}
+    .index-list span{color:var(--accent)}
+
+    .hero-title{margin:0;font-family:var(--serif);font-weight:900;font-size:clamp(64px,9.4vw,156px);line-height:.96;letter-spacing:-.095em;text-align:right;text-wrap:balance}
+    .hero-title small{display:block;font-family:var(--mono);font-size:clamp(10px,1vw,13px);letter-spacing:.26em;line-height:1.8;color:var(--accent);font-weight:500;margin-bottom:22px;text-align:left}
+    .hero-title .ghost{color:rgba(17,16,14,.24)}
+    .hero-under{margin-top:44px;display:grid;grid-template-columns:1fr 360px;gap:44px;align-items:start;border-top:1px solid var(--line2);padding-top:28px}
+    .lead{font-size:clamp(15px,1.25vw,17px);line-height:2.25;color:var(--body);margin:0}
+    .note-box{border-left:2px solid var(--accent);padding-left:18px;font-family:var(--mono);font-size:11px;line-height:2;color:var(--muted)}
+    .btn-row{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 22px;border:1px solid var(--line2);font-size:13px;letter-spacing:.04em;background:rgba(255,250,241,.34);transition:.25s ease}
+    .btn:hover{transform:translateY(-2px);border-color:var(--ink);background:rgba(255,250,241,.82)}
+    .btn-dark{background:var(--ink);color:var(--white);border-color:var(--ink);box-shadow:0 24px 64px rgba(17,16,14,.18)}
+    .btn-dark:hover{background:#25211c;color:var(--white);box-shadow:0 30px 80px rgba(17,16,14,.24)}
+
+    .section{position:relative;padding-block:clamp(110px,13vw,190px)}
+    .section-head{display:grid;grid-template-columns:220px 1fr;gap:60px;align-items:start;margin-bottom:72px}
+    .section-no{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.18em;border-top:1px solid var(--line2);padding-top:18px}
+    .section-title{margin:0;font-family:var(--serif);font-weight:900;font-size:clamp(42px,6.4vw,102px);line-height:1.05;letter-spacing:-.08em}
+    .section-title .muted{color:rgba(17,16,14,.32)}
+
+    .observation-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+    .obs-card{position:relative;background:rgba(255,250,241,.46);border:1px solid var(--line);padding:28px;min-height:260px;overflow:hidden}
+    .obs-card:nth-child(1){grid-column:1/7}.obs-card:nth-child(2){grid-column:7/13;margin-top:70px}.obs-card:nth-child(3){grid-column:2/8}.obs-card:nth-child(4){grid-column:8/13;margin-top:-40px}
+    .obs-card:before{content:attr(data-id);position:absolute;right:18px;top:12px;font-family:var(--mono);font-size:58px;letter-spacing:-.08em;color:rgba(17,16,14,.055)}
+    .obs-meta{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+    .obs-card h3{font-family:var(--serif);font-size:clamp(27px,3vw,44px);line-height:1.28;letter-spacing:-.06em;margin:36px 0 0;font-weight:800}
+    .obs-card p{margin:22px 0 0;color:var(--body);font-size:15px;line-height:2;max-width:620px}
+
+    .dark{background:var(--ink);color:var(--white);overflow:hidden}
+    .dark:before{content:"SYNC";position:absolute;right:-4vw;bottom:-3vw;font-family:var(--serif);font-size:24vw;letter-spacing:-.1em;color:rgba(255,250,241,.045);line-height:.8}
+    .dark .section-no,.dark .kicker{color:var(--accent2)}
+    .dark .section-title{color:var(--white);max-width:1050px}
+    .dark .lead{color:rgba(255,250,241,.72);max-width:760px;margin-left:280px;margin-top:48px}
+
+    .map-wrap{position:relative;margin-top:86px;min-height:720px;border:1px solid var(--line);background:rgba(255,250,241,.36);overflow:hidden}
+    .map-wrap:before{content:"Meaning Sync Diagram / 2026";position:absolute;left:28px;top:26px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+    .map-wrap:after{content:"05";position:absolute;right:26px;top:8px;font-family:var(--mono);font-size:132px;letter-spacing:-.1em;color:rgba(17,16,14,.055)}
+    .axis-x,.axis-y{position:absolute;background:rgba(17,16,14,.12)}
+    .axis-x{left:6%;right:6%;top:50%;height:1px}.axis-y{top:8%;bottom:8%;left:50%;width:1px}
+    .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:210px;height:210px;border-radius:50%;border:1px solid var(--accent);background:radial-gradient(circle at 36% 28%,#fff,rgba(255,250,241,.74));display:grid;place-items:center;text-align:center;box-shadow:0 30px 90px rgba(154,79,49,.18)}
+    .hub strong{display:block;font-family:var(--serif);font-size:28px;letter-spacing:-.05em}.hub span{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+    .map-node{position:absolute;border:1px solid rgba(17,16,14,.32);background:rgba(255,250,241,.58);padding:18px 22px;min-width:150px;font-family:var(--serif);font-weight:700;font-size:22px;letter-spacing:-.04em}
+    .n1{left:50%;top:13%;transform:translateX(-50%)}.n2{left:9%;top:44%}.n3{right:9%;top:44%}.n4{left:50%;bottom:12%;transform:translateX(-50%)}
+    .anno{position:absolute;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8;max-width:180px}
+    .a1{left:20%;top:26%}.a2{right:19%;top:28%}.a3{left:18%;bottom:23%}.a4{right:17%;bottom:22%}
+    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px}
+    .plot{position:absolute;width:7px;height:7px;background:var(--ink);border-radius:50%;opacity:.28}
+
+    .matrix{overflow-x:auto;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);background:rgba(255,250,241,.36)}
+    table{width:100%;border-collapse:collapse;min-width:980px;font-size:14px}
+    th,td{text-align:left;padding:24px 22px;border-bottom:1px solid var(--line);vertical-align:top}
+    th{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600}
+    tr:last-child td{border-bottom:0}.hot{color:var(--accent);font-weight:700}
+
+    .archive-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+    .archive-item{background:rgba(255,250,241,.48);padding:30px;min-height:360px;display:flex;flex-direction:column;justify-content:space-between}
+    .archive-item h3{font-family:var(--serif);font-size:32px;line-height:1.25;letter-spacing:-.06em;margin:0}.archive-item p{color:var(--body);line-height:2;font-size:14px}.archive-item .mono{font-size:10px;color:var(--accent);letter-spacing:.18em;text-transform:uppercase}
+    .mini-chart{height:120px;position:relative;border-left:1px solid var(--line2);border-bottom:1px solid var(--line2);margin-top:20px}
+    .mini-chart i{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--accent);opacity:.75}.mini-chart i:nth-child(1){left:18%;bottom:24%}.mini-chart i:nth-child(2){left:38%;bottom:52%}.mini-chart i:nth-child(3){left:58%;bottom:36%}.mini-chart i:nth-child(4){left:78%;bottom:72%}
+
+    .field-list{border-top:1px solid var(--line2)}
+    .field-item{display:grid;grid-template-columns:170px 1fr 110px;gap:40px;padding:38px 0;border-bottom:1px solid var(--line);align-items:start}
+    .field-item time{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase}.field-item h3{font-family:var(--serif);font-weight:800;font-size:clamp(25px,3vw,46px);line-height:1.25;letter-spacing:-.06em;margin:0}.field-item p{color:var(--body);line-height:2;margin:16px 0 0}.read{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+
+    .cta{padding-block:0 150px}.cta-panel{background:var(--ink);color:var(--white);padding:clamp(42px,7vw,92px);position:relative;overflow:hidden}.cta-panel:before{content:"CONVERSATION";position:absolute;right:-30px;top:-12px;font-family:var(--mono);font-size:8vw;letter-spacing:-.08em;color:rgba(255,250,241,.04)}
+    .cta-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 360px;gap:70px;align-items:end}.cta .section-title{color:var(--white)}.cta .lead{color:rgba(255,250,241,.72)}
+    .cta-box{border:1px solid rgba(255,250,241,.18);padding:26px;background:rgba(255,250,241,.055)}.cta-box p{font-size:13px;line-height:2;color:rgba(255,250,241,.72);margin:0 0 22px}.cta-box .btn{width:100%;background:var(--white);color:var(--ink);border-color:var(--white)}
+    footer{padding:42px 0 58px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+    @media(max-width:1000px){.hero-grid,.hero-under,.section-head,.cta-grid{grid-template-columns:1fr}.hero-title{text-align:left}.dark .lead{margin-left:0}.archive-grid{grid-template-columns:1fr}.obs-card:nth-child(n){grid-column:1/13;margin-top:0}.field-item{grid-template-columns:1fr;gap:14px}.rail-left,.rail-right{display:none}.map-wrap{min-height:640px}.cta{padding-bottom:96px}}
+    @media(max-width:720px){.container{width:min(100% - 28px,1280px)}.topbar{top:12px;left:12px;right:12px;height:58px;grid-template-columns:1fr auto;padding:0 14px}.top-meta,.nav a:not(.nav-cta){display:none}.nav-cta{font-size:11px;padding:10px 12px}.brand{font-size:13px}.hero{padding-top:100px}.hero-title{font-size:clamp(54px,18vw,88px)}.hero-under{gap:24px}.btn{width:100%}.section{padding-block:88px}.section-title{font-size:clamp(40px,13vw,66px)}.map-wrap{min-height:560px}.map-node{font-size:16px;min-width:104px;padding:12px}.hub{width:156px;height:156px}.hub strong{font-size:22px}.anno{display:none}.archive-item{min-height:280px}.matrix{margin-inline:-14px}.cta-panel{padding:34px 24px}}
   </style>
 </head>
-
 <body>
-  <div class="side-index">Public Relations 5.0 / Meaning Sync Framework</div>
+  <div class="rail-left">Meaning Sync Institute / PR 5.0</div>
+  <div class="rail-right">Observation — Hypothesis — Archive</div>
 
-  <header class="nav">
-    <a href="#" class="brand">広報5.0研究ノート</a>
-    <nav class="nav-menu" aria-label="主要ナビゲーション">
-      <a href="#problem">課題</a>
-      <a href="#framework">考え方</a>
-      <a href="#field">実務ログ</a>
-      <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="nav-cta">30分だけ壁打ちする</a>
+  <header class="topbar">
+    <a class="brand" href="#">広報5.0研究ノート</a>
+    <div class="top-meta">Meaning Sync Framework</div>
+    <nav class="nav">
+      <a href="#obs">Observation</a>
+      <a href="#hypothesis">Hypothesis</a>
+      <a href="#archive">Archive</a>
+      <a class="nav-cta" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
       <div class="container hero-grid">
+        <aside class="index-block">
+          <p class="kicker">Research Archive</p>
+          <p class="index-title">AI時代の組織に生じる「意味ズレ」を観測し、広報の次の役割を仮説化するための実務研究ノート。</p>
+          <ol class="index-list">
+            <li><span>00</span>Manifest</li><li><span>01</span>Observation</li><li><span>02</span>Hypothesis</li><li><span>03</span>Structure</li><li><span>04</span>Field Notes</li><li><span>05</span>Conversation</li>
+          </ol>
+        </aside>
+
         <div>
-          <p class="eyebrow mb-8">PUBLIC RELATIONS 5.0</p>
-          <h1 class="serif hero-title">
-            意味が<br>
-            <span class="indent">ズレる。</span><br>
-            組織が<br>
-            <span class="indent thin">止まる。</span>
-          </h1>
-
-          <div class="hero-copy">
-            <p class="cap">Hypothesis</p>
-            <p class="lead">
-              AI時代に増えるのは、情報量ではなく、意味のズレかもしれない。
-              広報5.0は、経営・現場・市場の認識差分を観測し、翻訳し、行動できる共通前提へ整えるための実務仮説です。
-            </p>
-          </div>
-
-          <div class="actions">
-            <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="btn btn-dark">30分だけ壁打ちする　→</a>
-            <a href="#framework" class="btn btn-ghost">広報5.0を読む</a>
-          </div>
-        </div>
-
-        <div class="visual-stage" aria-label="意味同期の概念図">
-          <div class="sync-object">
-            <div class="sync-inner">
-              <div class="sync-label-row">
-                <div>
-                  <p class="eyebrow mb-4">MEANING SYNC MAP</p>
-                  <p class="small-muted">言葉の奥にある、認識の差分を扱う。</p>
-                </div>
-                <p class="small-muted">v5.0</p>
-              </div>
-
-              <div class="orb-map">
-                <div class="line v-top"></div>
-                <div class="line v-bottom"></div>
-                <div class="line h-left"></div>
-                <div class="line h-right"></div>
-
-                <div class="node top">経営</div>
-                <div class="node left">営業・CS</div>
-                <div class="node right">開発・人事</div>
-                <div class="node bottom">市場・顧客</div>
-
-                <div class="orb"><div><strong>広報5.0</strong><span>Meaning Sync Hub</span></div></div>
-
-                <div class="signal s1">意図の翻訳</div>
-                <div class="signal s2">文脈の編集</div>
-                <div class="signal s3">ズレの観測</div>
-                <div class="signal s4">行動へ接続</div>
-              </div>
+          <h1 class="hero-title"><small>PUBLIC RELATIONS 5.0</small>意味は<br><span class="ghost">ズレる。</span><br>組織は<br>止まる。</h1>
+          <div class="hero-under">
+            <p class="lead">AI時代に増えるのは、情報量ではなく、意味のズレかもしれない。広報5.0は、経営・現場・市場の認識差分を観測し、翻訳し、行動できる共通前提へ整えるための研究仮説です。</p>
+            <div>
+              <p class="note-box">This page is not a sales landing page. It is a working archive for observing organizational semantic drift.</p>
+              <div class="btn-row"><a class="btn btn-dark" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す →</a><a class="btn" href="#hypothesis">仮説を読む</a></div>
             </div>
           </div>
-
-          <div class="floating-note">
-            <span>Field Note</span>
-            「言葉は同じなのに、部署ごとに動きが違う」状態を、広報の実務領域として扱う。
-          </div>
-        </div>
-      </div>
-      <div class="giant-word">SYNC</div>
-    </section>
-
-    <section id="problem" class="section">
-      <div class="container split">
-        <div class="sticky-copy">
-          <p class="eyebrow mb-8">PROBLEM</p>
-          <h2 class="serif section-title">
-            発信量は<br>
-            増えた。<br>
-            <span class="soft">前提は、</span><br>
-            揃わない。
-          </h2>
-        </div>
-
-        <div class="problem-list">
-          <article class="problem-item">
-            <p class="num">01</p>
-            <div>
-              <h3>同じ言葉なのに、意味が違う。</h3>
-              <p>「顧客ファースト」「価値提供」「らしさ」が、営業・開発・人事で別々の行動を指している。</p>
-            </div>
-          </article>
-
-          <article class="problem-item">
-            <p class="num">02</p>
-            <div>
-              <h3>理念は読まれる。でも、動きは変わらない。</h3>
-              <p>文章としては理解されても、明日から何を変えるべきかが現場に接続されていない。</p>
-            </div>
-          </article>
-
-          <article class="problem-item">
-            <p class="num">03</p>
-            <div>
-              <h3>社外の期待と、社内の実感が離れる。</h3>
-              <p>採用、営業、広報の言葉が、それぞれ微妙に違う会社像をつくってしまう。</p>
-            </div>
-          </article>
-
-          <article class="problem-item">
-            <p class="num">04</p>
-            <div>
-              <h3>広報が、“整える人”で止まる。</h3>
-              <p>発信の前に必要な、認識合わせ・構造化・翻訳までが、広報の仕事として扱われにくい。</p>
-            </div>
-          </article>
         </div>
       </div>
     </section>
 
-    <section class="statement" id="framework">
+    <section id="obs" class="section">
       <div class="container">
-        <p class="statement-code">FROM MESSAGE DELIVERY TO MEANING SYNCHRONIZATION</p>
-        <p class="eyebrow mb-8">FRAMEWORK</p>
-        <h2 class="statement-title">
-          広報は、<br>
-          外へ届ける仕事から、<br>
-          <em>意味を同期する仕事</em>へ。
-        </h2>
-        <p>
-          広報5.0の役割は、きれいな言葉を作ることではありません。
-          経営の意図、現場の実感、市場の期待を行き来しながら、組織が同じ前提で動ける状態をつくることです。
-        </p>
+        <div class="section-head"><p class="section-no">01 / OBSERVATION</p><h2 class="section-title">発信量は増えた。<br><span class="muted">前提は、</span>揃わない。</h2></div>
+        <div class="observation-grid">
+          <article class="obs-card" data-id="01"><p class="obs-meta">semantic drift</p><h3>同じ言葉なのに、意味が違う。</h3><p>「顧客ファースト」「価値提供」「らしさ」が、営業・開発・人事で別々の行動を指している。</p></article>
+          <article class="obs-card" data-id="02"><p class="obs-meta">inactive philosophy</p><h3>理念は読まれる。でも、動きは変わらない。</h3><p>文章としては理解されても、明日から何を変えるべきかが現場に接続されていない。</p></article>
+          <article class="obs-card" data-id="03"><p class="obs-meta">external / internal gap</p><h3>社外の期待と、社内の実感が離れる。</h3><p>採用、営業、広報の言葉が、それぞれ微妙に違う会社像をつくってしまう。</p></article>
+          <article class="obs-card" data-id="04"><p class="obs-meta">role limitation</p><h3>広報が、“整える人”で止まる。</h3><p>発信の前に必要な、認識合わせ・構造化・翻訳までが、広報の仕事として扱われにくい。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="hypothesis" class="section dark">
+      <div class="container">
+        <div class="section-head"><p class="section-no">02 / HYPOTHESIS</p><h2 class="section-title">広報は、外へ届ける仕事から、意味を同期する仕事へ。</h2></div>
+        <p class="lead">広報5.0の役割は、きれいな言葉を作ることではありません。経営の意図、現場の実感、市場の期待を行き来しながら、組織が同じ前提で動ける状態をつくることです。</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container">
-        <p class="eyebrow mb-8">BEFORE / AFTER</p>
-        <h2 class="serif section-title">
-          メガホンから、<br>
-          ハブへ。
-        </h2>
-
-        <div class="framework-grid">
-          <article class="framework-card before">
-            <p class="eyebrow">PR 1.0 - 4.0</p>
-            <h3>外向き<br>メガホン型</h3>
-            <div class="mini-diagram">
-              <div class="diagram-box b1">経営</div>
-              <div class="diagram-box b2">広報</div>
-              <div class="diagram-box b3">市場</div>
-              <div class="diagram-line l1"></div>
-              <div class="diagram-line l2"></div>
-              <p class="ghost g1">営業</p>
-              <p class="ghost g2">開発</p>
-              <p class="ghost g3">人事</p>
-            </div>
-          </article>
-
-          <article class="framework-card is-after after">
-            <p class="eyebrow">PR 5.0</p>
-            <h3>意味同期<br>ハブ型</h3>
-            <div class="mini-diagram">
-              <div class="diagram-box a1">経営</div>
-              <div class="diagram-box a2">営業</div>
-              <div class="diagram-box a3">開発</div>
-              <div class="diagram-box a4">市場</div>
-              <div class="diagram-line l1"></div>
-              <div class="diagram-line l2"></div>
-              <div class="diagram-line l3"></div>
-              <div class="diagram-line l4"></div>
-              <div class="center">広報5.0</div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section matrix">
-      <div class="container">
-        <p class="eyebrow mb-8">EVOLUTION MATRIX</p>
-        <h2 class="serif section-title">
-          広報の役割は、<br>
-          どこへ移るのか。
-        </h2>
-
-        <div class="mt-16 overflow-x-auto">
-          <table class="matrix-table">
-            <thead>
-              <tr>
-                <th>項目</th>
-                <th>1.0</th>
-                <th>2.0</th>
-                <th>3.0</th>
-                <th>4.0</th>
-                <th>5.0</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>中心</td><td>製品</td><td>顧客</td><td>理念</td><td>データ / Ops</td><td class="hot">意味同期</td></tr>
-              <tr><td>広報役割</td><td>宣伝</td><td>SNS対話</td><td>共感形成</td><td>構造化</td><td class="hot">接続・同期</td></tr>
-              <tr><td>主戦場</td><td>マスメディア</td><td>SNS</td><td>ナラティブ</td><td>組織横断</td><td class="hot">経営 ⇄ 現場 ⇄ 市場</td></tr>
-              <tr><td>KPI</td><td>露出</td><td>反応</td><td>共感</td><td>運用効率</td><td class="hot">認識整合</td></tr>
-              <tr><td>AI活用</td><td>なし</td><td>補助</td><td>コンテンツ</td><td>自動化</td><td class="hot">意味編集</td></tr>
-            </tbody>
-          </table>
+        <div class="section-head"><p class="section-no">03 / STRUCTURE</p><h2 class="section-title">Meaning<br>Sync Map</h2></div>
+        <div class="map-wrap">
+          <div class="axis-x"></div><div class="axis-y"></div>
+          <div class="map-node n1">経営</div><div class="map-node n2">営業・CS</div><div class="map-node n3">開発・人事</div><div class="map-node n4">市場・顧客</div>
+          <div class="hub"><div><strong>広報5.0</strong><span>Meaning Sync Hub</span></div></div>
+          <p class="anno a1"><span class="dot"></span>経営語を現場語へ翻訳する。</p><p class="anno a2"><span class="dot"></span>文脈を編集し、伝達可能にする。</p><p class="anno a3"><span class="dot"></span>現場で起きるズレを観測する。</p><p class="anno a4"><span class="dot"></span>市場の期待を行動へ接続する。</p>
+          <i class="plot" style="left:22%;top:34%"></i><i class="plot" style="left:31%;top:62%"></i><i class="plot" style="left:63%;top:29%"></i><i class="plot" style="left:76%;top:57%"></i><i class="plot" style="left:44%;top:76%"></i>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="container split">
-        <div>
-          <p class="eyebrow mb-8">AI OPS LAYER</p>
-          <h2 class="serif section-title">
-            AIは、<br>
-            書く道具ではなく、<br>
-            同期の補助線。
-          </h2>
-        </div>
-        <div>
-          <p class="lead">
-            ChatGPTやClaudeを、文章生成ツールではなく、思考整理・文脈編集・情報接続の補助線として扱う。
-            経営の雑談、現場メモ、顧客の声を、現場が動ける共通言語へ変換していきます。
-          </p>
+      <div class="container">
+        <div class="section-head"><p class="section-no">04 / EVOLUTION</p><h2 class="section-title">広報の役割は、どこへ移るのか。</h2></div>
+        <div class="matrix"><table><thead><tr><th>項目</th><th>1.0</th><th>2.0</th><th>3.0</th><th>4.0</th><th>5.0</th></tr></thead><tbody><tr><td>中心</td><td>製品</td><td>顧客</td><td>理念</td><td>データ / Ops</td><td class="hot">意味同期</td></tr><tr><td>広報役割</td><td>宣伝</td><td>SNS対話</td><td>共感形成</td><td>構造化</td><td class="hot">接続・同期</td></tr><tr><td>主戦場</td><td>マスメディア</td><td>SNS</td><td>ナラティブ</td><td>組織横断</td><td class="hot">経営 ⇄ 現場 ⇄ 市場</td></tr><tr><td>KPI</td><td>露出</td><td>反応</td><td>共感</td><td>運用効率</td><td class="hot">認識整合</td></tr><tr><td>AI活用</td><td>なし</td><td>補助</td><td>コンテンツ</td><td>自動化</td><td class="hot">意味編集</td></tr></tbody></table></div>
+      </div>
+    </section>
 
-          <div class="ops-grid">
-            <div class="ops-col">
-              <h3>Input</h3>
-              <ul><li>経営会議</li><li>顧客の声</li><li>営業ヒアリング</li><li>Slack</li><li>採用面談</li></ul>
-            </div>
-            <div class="ops-col">
-              <h3>Structure</h3>
-              <ul><li>思考整理</li><li>文脈編集</li><li>暗黙知の翻訳</li><li>差分の抽出</li><li>共通言語化</li></ul>
-            </div>
-            <div class="ops-col">
-              <h3>Output</h3>
-              <ul><li>採用記事</li><li>LP</li><li>営業資料</li><li>FAQ</li><li>業務マニュアル</li></ul>
-            </div>
-          </div>
+    <section id="archive" class="section">
+      <div class="container">
+        <div class="section-head"><p class="section-no">05 / ARCHIVE</p><h2 class="section-title">断片、図解、観測ログ。</h2></div>
+        <div class="archive-grid">
+          <article class="archive-item"><div><p class="mono">Input</p><h3>経営会議、顧客の声、Slack、採用面談。</h3></div><p>散らばった断片を、意味の差分として扱う。</p></article>
+          <article class="archive-item"><div><p class="mono">Structure</p><h3>思考整理、文脈編集、暗黙知の翻訳。</h3><div class="mini-chart"><i></i><i></i><i></i><i></i></div></div><p>AIは文章生成ではなく、同期の補助線として使う。</p></article>
+          <article class="archive-item"><div><p class="mono">Output</p><h3>採用記事、LP、営業資料、FAQ。</h3></div><p>アウトプットは目的ではなく、認識整合の副産物。</p></article>
         </div>
       </div>
     </section>
 
     <section id="field" class="section">
       <div class="container">
-        <p class="eyebrow mb-8">FIELD NOTES</p>
-        <h2 class="serif section-title">
-          実務の観測ログを、<br>
-          noteに記録しています。
-        </h2>
-
+        <div class="section-head"><p class="section-no">06 / FIELD NOTES</p><h2 class="section-title">現場で観測された、意味のズレ。</h2></div>
         <div class="field-list">
-          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer">
-            <time>実務ログ #03</time>
-            <div>
-              <h3>「顧客価値」の意味が、営業と開発で真逆だった。</h3>
-              <p>AIで概念図を作成し、翌週から会議の前提が揃い始めた。</p>
-            </div>
-            <span class="read">読む →</span>
-          </a>
-
-          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer">
-            <time>実務ログ #06</time>
-            <div>
-              <h3>採用候補者ごとに、会社の説明が違っていた。</h3>
-              <p>共通言語マップを整備し、意味のズレが減少。</p>
-            </div>
-            <span class="read">読む →</span>
-          </a>
+          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer"><time>Log #03</time><div><h3>「顧客価値」の意味が、営業と開発で真逆だった。</h3><p>AIで概念図を作成し、翌週から会議の前提が揃い始めた。</p></div><span class="read">Read</span></a>
+          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer"><time>Log #06</time><div><h3>採用候補者ごとに、会社の説明が違っていた。</h3><p>共通言語マップを整備し、意味のズレが減少。</p></div><span class="read">Read</span></a>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="section">
+    <section class="cta" id="contact">
       <div class="container">
         <div class="cta-panel">
           <div class="cta-grid">
-            <div>
-              <p class="eyebrow mb-8">CONTACT</p>
-              <h2 class="serif section-title">
-                これ、うちでも<br>
-                起きているかも。<br>
-                そう感じたら。
-              </h2>
-              <p class="lead mt-8">
-                売り込みではなく、現場で起きている“意味ズレ”を一度フラットに整理する時間です。
-                経営、広報、営業、採用の言葉が噛み合わない感覚があれば、30分だけ壁打ちしましょう。
-              </p>
-            </div>
-
-            <div class="cta-box">
-              <ul>
-                <li>・社内外で会社の説明がズレる</li>
-                <li>・採用広報の言葉が定まらない</li>
-                <li>・AI活用が文章生成で止まっている</li>
-              </ul>
-              <a href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer" class="btn">30分だけ壁打ちする　→</a>
-            </div>
+            <div><p class="kicker mb-8">Conversation</p><h2 class="section-title">これ、うちでも起きているかもしれない。</h2><p class="lead mt-8">売り込みではなく、現場で起きている“意味ズレ”を一度フラットに整理する時間です。</p></div>
+            <div class="cta-box"><p>社内外で会社の説明がズレる。採用広報の言葉が定まらない。AI活用が文章生成で止まっている。そんな違和感を30分だけ壁打ちします。</p><a class="btn" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す →</a></div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>© ismarke / Public Relations 5.0</footer>
+  <footer>© ismarke / Public Relations 5.0 Research Archive</footer>
 </body>
 </html>
