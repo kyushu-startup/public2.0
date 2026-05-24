@@ -3,171 +3,675 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>広報5.0研究ノート / Meaning Sync Institute</title>
+  <title>広報5.0研究ノート / Meaning Sync Laboratory</title>
   <meta name="description" content="AI時代に組織で起きる意味ズレを観測し、経営・現場・市場の認識を同期させる、意味同期型広報の研究アーカイブ。" />
 
   <script src="https://cdn.tailwindcss.com"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@500;600;700;900&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --ink:#11100e;
-      --soft-ink:#39352f;
-      --body:#565047;
-      --muted:#8b8174;
-      --faint:#b8afa4;
-      --paper:#f5efe4;
-      --paper2:#ebe0d1;
-      --paper3:#ddd0bd;
-      --white:#fffaf1;
-      --line:rgba(17,16,14,.17);
-      --line2:rgba(17,16,14,.32);
-      --accent:#9a4f31;
-      --accent2:#c58b66;
-      --blue:#273f4a;
-      --green:#38443b;
-      --mono:"IBM Plex Mono", monospace;
-      --sans:"IBM Plex Sans JP", sans-serif;
-      --serif:"Noto Serif JP", serif;
+    :root {
+      --ink: #11100e;
+      --ink-2: #2d2923;
+      --body: #565046;
+      --muted: #8e8376;
+      --faint: #b7ada0;
+      --paper: #f4ede2;
+      --paper-2: #e8ddcf;
+      --paper-3: #d8c9b7;
+      --bone: #fffaf1;
+      --line: rgba(17, 16, 14, .16);
+      --line-2: rgba(17, 16, 14, .32);
+      --rust: #96472d;
+      --rust-2: #c17a55;
+      --signal: #2d4650;
+      --signal-soft: rgba(45, 70, 80, .14);
+      --marker: #d5b073;
+      --mono: "IBM Plex Mono", monospace;
+      --sans: "IBM Plex Sans JP", sans-serif;
+      --serif: "Noto Serif JP", serif;
     }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      color:var(--ink);
-      font-family:var(--sans);
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
       background:
-        radial-gradient(circle at 15% 5%, rgba(255,255,255,.9), transparent 26%),
-        radial-gradient(circle at 80% 20%, rgba(154,79,49,.10), transparent 34%),
-        linear-gradient(135deg,#faf6ef 0%,var(--paper) 45%,#e7dac9 100%);
-      letter-spacing:.01em;
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,.96), transparent 26%),
+        radial-gradient(circle at 84% 18%, rgba(150,71,45,.11), transparent 34%),
+        radial-gradient(circle at 72% 88%, rgba(45,70,80,.11), transparent 30%),
+        linear-gradient(135deg, #fbf7ef 0%, var(--paper) 43%, #e6d9c8 100%);
+      letter-spacing: .01em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
-    body:before{
-      content:"";position:fixed;inset:0;z-index:-3;
-      background-image:linear-gradient(rgba(17,16,14,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(17,16,14,.04) 1px,transparent 1px);
-      background-size:72px 72px;
-      mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(rgba(17,16,14,.038) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17,16,14,.038) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
     }
-    body:after{
-      content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.055;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E");
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E");
     }
-    ::selection{background:var(--ink);color:var(--white)}
-    a{color:inherit;text-decoration:none}
-    .serif{font-family:var(--serif)}
-    .mono{font-family:var(--mono)}
-    .container{width:min(100% - 48px,1280px);margin-inline:auto}
 
-    .topbar{
-      position:fixed;z-index:80;top:20px;left:20px;right:20px;height:64px;
-      display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-      border:1px solid var(--line);background:rgba(250,246,239,.74);backdrop-filter:blur(22px);
-      padding:0 22px;box-shadow:0 18px 70px rgba(30,24,18,.06)
+    ::selection { background: var(--ink); color: var(--bone); }
+    a { color: inherit; text-decoration: none; }
+    .serif { font-family: var(--serif); }
+    .mono { font-family: var(--mono); }
+    .container { width: min(100% - 48px, 1320px); margin-inline: auto; }
+
+    .topbar {
+      position: fixed;
+      z-index: 80;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      height: 66px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding-inline: 22px;
+      border: 1px solid var(--line);
+      background: rgba(250, 246, 239, .72);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 18px 70px rgba(30,24,18,.065);
     }
-    .brand{font-weight:700;font-size:14px;letter-spacing:.03em}
-    .top-meta{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;text-align:center}
-    .nav{justify-self:end;display:flex;align-items:center;gap:26px;font-size:12px;color:var(--muted)}
-    .nav a:hover{color:var(--ink)}
-    .nav-cta{color:var(--white)!important;background:var(--ink);padding:13px 17px;border:1px solid var(--ink)}
 
-    .rail-left,.rail-right{position:fixed;z-index:40;top:112px;bottom:28px;width:28px;color:rgba(17,16,14,.38);font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl;pointer-events:none}
-    .rail-left{left:24px}.rail-right{right:24px;text-align:right}
+    .brand { font-weight: 700; font-size: 14px; letter-spacing: .04em; }
+    .top-meta { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: var(--muted); text-transform: uppercase; }
+    .nav { justify-self: end; display: flex; align-items: center; gap: 26px; font-size: 12px; color: var(--muted); }
+    .nav a:not(.nav-cta) { transition: color .22s ease; }
+    .nav a:not(.nav-cta):hover { color: var(--ink); }
+    .nav-cta { color: var(--bone); background: var(--ink); padding: 13px 17px; border: 1px solid var(--ink); }
 
-    .hero{min-height:100svh;padding-top:124px;display:grid;align-items:center;position:relative}
-    .hero-grid{display:grid;grid-template-columns:.74fr 1.26fr;gap:72px;align-items:end}
-    .index-block{border-top:1px solid var(--line2);padding-top:22px;max-width:320px}
-    .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:600}
-    .index-title{font-family:var(--mono);font-size:12px;line-height:1.8;color:var(--muted);margin-top:18px}
-    .index-list{margin:40px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
-    .index-list li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--body)}
-    .index-list span{color:var(--accent)}
+    .rail {
+      position: fixed;
+      z-index: 40;
+      top: 114px;
+      bottom: 30px;
+      width: 28px;
+      writing-mode: vertical-rl;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(17,16,14,.34);
+      pointer-events: none;
+    }
+    .rail.left { left: 24px; }
+    .rail.right { right: 24px; text-align: right; }
 
-    .hero-title{margin:0;font-family:var(--serif);font-weight:900;font-size:clamp(64px,9.4vw,156px);line-height:.96;letter-spacing:-.095em;text-align:right;text-wrap:balance}
-    .hero-title small{display:block;font-family:var(--mono);font-size:clamp(10px,1vw,13px);letter-spacing:.26em;line-height:1.8;color:var(--accent);font-weight:500;margin-bottom:22px;text-align:left}
-    .hero-title .ghost{color:rgba(17,16,14,.24)}
-    .hero-under{margin-top:44px;display:grid;grid-template-columns:1fr 360px;gap:44px;align-items:start;border-top:1px solid var(--line2);padding-top:28px}
-    .lead{font-size:clamp(15px,1.25vw,17px);line-height:2.25;color:var(--body);margin:0}
-    .note-box{border-left:2px solid var(--accent);padding-left:18px;font-family:var(--mono);font-size:11px;line-height:2;color:var(--muted)}
-    .btn-row{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 22px;border:1px solid var(--line2);font-size:13px;letter-spacing:.04em;background:rgba(255,250,241,.34);transition:.25s ease}
-    .btn:hover{transform:translateY(-2px);border-color:var(--ink);background:rgba(255,250,241,.82)}
-    .btn-dark{background:var(--ink);color:var(--white);border-color:var(--ink);box-shadow:0 24px 64px rgba(17,16,14,.18)}
-    .btn-dark:hover{background:#25211c;color:var(--white);box-shadow:0 30px 80px rgba(17,16,14,.24)}
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      padding-top: 128px;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+    }
 
-    .section{position:relative;padding-block:clamp(110px,13vw,190px)}
-    .section-head{display:grid;grid-template-columns:220px 1fr;gap:60px;align-items:start;margin-bottom:72px}
-    .section-no{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.18em;border-top:1px solid var(--line2);padding-top:18px}
-    .section-title{margin:0;font-family:var(--serif);font-weight:900;font-size:clamp(42px,6.4vw,102px);line-height:1.05;letter-spacing:-.08em}
-    .section-title .muted{color:rgba(17,16,14,.32)}
+    .hero::after {
+      content: "SYNC";
+      position: absolute;
+      left: -4vw;
+      bottom: -5vw;
+      font-family: var(--serif);
+      font-weight: 900;
+      font-size: clamp(150px, 25vw, 390px);
+      line-height: .76;
+      letter-spacing: -.12em;
+      color: rgba(17,16,14,.045);
+      pointer-events: none;
+    }
 
-    .observation-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
-    .obs-card{position:relative;background:rgba(255,250,241,.46);border:1px solid var(--line);padding:28px;min-height:260px;overflow:hidden}
-    .obs-card:nth-child(1){grid-column:1/7}.obs-card:nth-child(2){grid-column:7/13;margin-top:70px}.obs-card:nth-child(3){grid-column:2/8}.obs-card:nth-child(4){grid-column:8/13;margin-top:-40px}
-    .obs-card:before{content:attr(data-id);position:absolute;right:18px;top:12px;font-family:var(--mono);font-size:58px;letter-spacing:-.08em;color:rgba(17,16,14,.055)}
-    .obs-meta{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
-    .obs-card h3{font-family:var(--serif);font-size:clamp(27px,3vw,44px);line-height:1.28;letter-spacing:-.06em;margin:36px 0 0;font-weight:800}
-    .obs-card p{margin:22px 0 0;color:var(--body);font-size:15px;line-height:2;max-width:620px}
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: clamp(54px, 8vw, 118px);
+      align-items: end;
+    }
 
-    .dark{background:var(--ink);color:var(--white);overflow:hidden}
-    .dark:before{content:"SYNC";position:absolute;right:-4vw;bottom:-3vw;font-family:var(--serif);font-size:24vw;letter-spacing:-.1em;color:rgba(255,250,241,.045);line-height:.8}
-    .dark .section-no,.dark .kicker{color:var(--accent2)}
-    .dark .section-title{color:var(--white);max-width:1050px}
-    .dark .lead{color:rgba(255,250,241,.72);max-width:760px;margin-left:280px;margin-top:48px}
+    .index-panel {
+      position: relative;
+      border-top: 1px solid var(--line-2);
+      padding-top: 22px;
+      margin-bottom: 26px;
+    }
 
-    .map-wrap{position:relative;margin-top:86px;min-height:720px;border:1px solid var(--line);background:rgba(255,250,241,.36);overflow:hidden}
-    .map-wrap:before{content:"Meaning Sync Diagram / 2026";position:absolute;left:28px;top:26px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
-    .map-wrap:after{content:"05";position:absolute;right:26px;top:8px;font-family:var(--mono);font-size:132px;letter-spacing:-.1em;color:rgba(17,16,14,.055)}
-    .axis-x,.axis-y{position:absolute;background:rgba(17,16,14,.12)}
-    .axis-x{left:6%;right:6%;top:50%;height:1px}.axis-y{top:8%;bottom:8%;left:50%;width:1px}
-    .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:210px;height:210px;border-radius:50%;border:1px solid var(--accent);background:radial-gradient(circle at 36% 28%,#fff,rgba(255,250,241,.74));display:grid;place-items:center;text-align:center;box-shadow:0 30px 90px rgba(154,79,49,.18)}
-    .hub strong{display:block;font-family:var(--serif);font-size:28px;letter-spacing:-.05em}.hub span{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
-    .map-node{position:absolute;border:1px solid rgba(17,16,14,.32);background:rgba(255,250,241,.58);padding:18px 22px;min-width:150px;font-family:var(--serif);font-weight:700;font-size:22px;letter-spacing:-.04em}
-    .n1{left:50%;top:13%;transform:translateX(-50%)}.n2{left:9%;top:44%}.n3{right:9%;top:44%}.n4{left:50%;bottom:12%;transform:translateX(-50%)}
-    .anno{position:absolute;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8;max-width:180px}
-    .a1{left:20%;top:26%}.a2{right:19%;top:28%}.a3{left:18%;bottom:23%}.a4{right:17%;bottom:22%}
-    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px}
-    .plot{position:absolute;width:7px;height:7px;background:var(--ink);border-radius:50%;opacity:.28}
+    .kicker {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 600;
+    }
 
-    .matrix{overflow-x:auto;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);background:rgba(255,250,241,.36)}
-    table{width:100%;border-collapse:collapse;min-width:980px;font-size:14px}
-    th,td{text-align:left;padding:24px 22px;border-bottom:1px solid var(--line);vertical-align:top}
-    th{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600}
-    tr:last-child td{border-bottom:0}.hot{color:var(--accent);font-weight:700}
+    .index-copy {
+      margin: 18px 0 0;
+      color: var(--body);
+      font-size: 13px;
+      line-height: 2;
+    }
 
-    .archive-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
-    .archive-item{background:rgba(255,250,241,.48);padding:30px;min-height:360px;display:flex;flex-direction:column;justify-content:space-between}
-    .archive-item h3{font-family:var(--serif);font-size:32px;line-height:1.25;letter-spacing:-.06em;margin:0}.archive-item p{color:var(--body);line-height:2;font-size:14px}.archive-item .mono{font-size:10px;color:var(--accent);letter-spacing:.18em;text-transform:uppercase}
-    .mini-chart{height:120px;position:relative;border-left:1px solid var(--line2);border-bottom:1px solid var(--line2);margin-top:20px}
-    .mini-chart i{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--accent);opacity:.75}.mini-chart i:nth-child(1){left:18%;bottom:24%}.mini-chart i:nth-child(2){left:38%;bottom:52%}.mini-chart i:nth-child(3){left:58%;bottom:36%}.mini-chart i:nth-child(4){left:78%;bottom:72%}
+    .index-list {
+      margin: 42px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
 
-    .field-list{border-top:1px solid var(--line2)}
-    .field-item{display:grid;grid-template-columns:170px 1fr 110px;gap:40px;padding:38px 0;border-bottom:1px solid var(--line);align-items:start}
-    .field-item time{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase}.field-item h3{font-family:var(--serif);font-weight:800;font-size:clamp(25px,3vw,46px);line-height:1.25;letter-spacing:-.06em;margin:0}.field-item p{color:var(--body);line-height:2;margin:16px 0 0}.read{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+    .index-list li {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--body);
+    }
 
-    .cta{padding-block:0 150px}.cta-panel{background:var(--ink);color:var(--white);padding:clamp(42px,7vw,92px);position:relative;overflow:hidden}.cta-panel:before{content:"CONVERSATION";position:absolute;right:-30px;top:-12px;font-family:var(--mono);font-size:8vw;letter-spacing:-.08em;color:rgba(255,250,241,.04)}
-    .cta-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 360px;gap:70px;align-items:end}.cta .section-title{color:var(--white)}.cta .lead{color:rgba(255,250,241,.72)}
-    .cta-box{border:1px solid rgba(255,250,241,.18);padding:26px;background:rgba(255,250,241,.055)}.cta-box p{font-size:13px;line-height:2;color:rgba(255,250,241,.72);margin:0 0 22px}.cta-box .btn{width:100%;background:var(--white);color:var(--ink);border-color:var(--white)}
-    footer{padding:42px 0 58px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+    .index-list span { color: var(--rust); }
 
-    @media(max-width:1000px){.hero-grid,.hero-under,.section-head,.cta-grid{grid-template-columns:1fr}.hero-title{text-align:left}.dark .lead{margin-left:0}.archive-grid{grid-template-columns:1fr}.obs-card:nth-child(n){grid-column:1/13;margin-top:0}.field-item{grid-template-columns:1fr;gap:14px}.rail-left,.rail-right{display:none}.map-wrap{min-height:640px}.cta{padding-bottom:96px}}
-    @media(max-width:720px){.container{width:min(100% - 28px,1280px)}.topbar{top:12px;left:12px;right:12px;height:58px;grid-template-columns:1fr auto;padding:0 14px}.top-meta,.nav a:not(.nav-cta){display:none}.nav-cta{font-size:11px;padding:10px 12px}.brand{font-size:13px}.hero{padding-top:100px}.hero-title{font-size:clamp(54px,18vw,88px)}.hero-under{gap:24px}.btn{width:100%}.section{padding-block:88px}.section-title{font-size:clamp(40px,13vw,66px)}.map-wrap{min-height:560px}.map-node{font-size:16px;min-width:104px;padding:12px}.hub{width:156px;height:156px}.hub strong{font-size:22px}.anno{display:none}.archive-item{min-height:280px}.matrix{margin-inline:-14px}.cta-panel{padding:34px 24px}}
+    .hero-main { position: relative; }
+
+    .hero-code {
+      position: absolute;
+      right: 0;
+      top: -58px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .24em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 900;
+      font-size: clamp(64px, 9.7vw, 162px);
+      line-height: .94;
+      letter-spacing: -.1em;
+      text-align: right;
+      text-wrap: balance;
+    }
+
+    .hero-title .pale { color: rgba(17,16,14,.25); }
+    .hero-title .signal { color: var(--signal); }
+
+    .hero-under {
+      margin-top: 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 46px;
+      border-top: 1px solid var(--line-2);
+      padding-top: 28px;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--body);
+      font-size: clamp(15px, 1.22vw, 17px);
+      line-height: 2.25;
+    }
+
+    .research-note {
+      border-left: 2px solid var(--rust);
+      padding-left: 18px;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 2;
+      color: var(--muted);
+    }
+
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 22px;
+      border: 1px solid var(--line-2);
+      background: rgba(255,250,241,.32);
+      font-size: 13px;
+      letter-spacing: .04em;
+      transition: transform .24s ease, border-color .24s ease, background .24s ease, box-shadow .24s ease;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: var(--ink); background: rgba(255,250,241,.82); }
+    .btn-dark { color: var(--bone); background: var(--ink); border-color: var(--ink); box-shadow: 0 24px 70px rgba(17,16,14,.18); }
+    .btn-dark:hover { color: var(--bone); background: #26211c; box-shadow: 0 30px 82px rgba(17,16,14,.25); }
+
+    .section { position: relative; padding-block: clamp(112px, 13vw, 190px); }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 78px;
+    }
+
+    .section-no {
+      margin: 0;
+      border-top: 1px solid var(--line-2);
+      padding-top: 18px;
+      font-family: var(--mono);
+      color: var(--rust);
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(42px, 6.5vw, 104px);
+      line-height: 1.04;
+      letter-spacing: -.085em;
+      font-weight: 900;
+    }
+
+    .section-title .muted { color: rgba(17,16,14,.30); }
+    .section-title .signal { color: var(--signal); }
+
+    .observation-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .obs {
+      position: relative;
+      border: 1px solid var(--line);
+      background: rgba(255,250,241,.44);
+      min-height: 292px;
+      padding: 30px;
+      overflow: hidden;
+    }
+
+    .obs:nth-child(1) { grid-column: 1 / 7; }
+    .obs:nth-child(2) { grid-column: 7 / 13; margin-top: 74px; }
+    .obs:nth-child(3) { grid-column: 2 / 8; }
+    .obs:nth-child(4) { grid-column: 8 / 13; margin-top: -42px; }
+
+    .obs::before {
+      content: attr(data-id);
+      position: absolute;
+      right: 18px;
+      top: 10px;
+      font-family: var(--mono);
+      font-size: 68px;
+      letter-spacing: -.1em;
+      color: rgba(17,16,14,.052);
+    }
+
+    .obs::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 34%;
+      background: var(--rust);
+      opacity: .58;
+    }
+
+    .obs-meta {
+      margin: 0;
+      font-family: var(--mono);
+      color: var(--rust);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .obs h3 {
+      margin: 38px 0 0;
+      font-family: var(--serif);
+      font-weight: 800;
+      font-size: clamp(27px, 3vw, 44px);
+      line-height: 1.26;
+      letter-spacing: -.065em;
+    }
+
+    .obs p:last-child {
+      margin: 22px 0 0;
+      color: var(--body);
+      font-size: 15px;
+      line-height: 2;
+      max-width: 620px;
+    }
+
+    .dark {
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--bone);
+    }
+
+    .dark::before {
+      content: "HYPOTHESIS";
+      position: absolute;
+      right: -4vw;
+      bottom: -1vw;
+      font-family: var(--mono);
+      font-size: clamp(82px, 13vw, 220px);
+      line-height: .85;
+      letter-spacing: -.08em;
+      color: rgba(255,250,241,.035);
+    }
+
+    .dark .section-no, .dark .kicker { color: var(--rust-2); }
+    .dark .section-title { color: var(--bone); max-width: 1120px; }
+    .dark .lead { color: rgba(255,250,241,.72); max-width: 790px; margin-left: 294px; margin-top: 48px; }
+
+    .map-stage {
+      position: relative;
+      min-height: 760px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(45,70,80,.10), transparent 36%),
+        rgba(255,250,241,.36);
+      overflow: hidden;
+    }
+
+    .map-stage::before {
+      content: "Meaning Sync Diagram / Layered semantic alignment model";
+      position: absolute;
+      left: 28px;
+      top: 26px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .map-stage::after {
+      content: "03";
+      position: absolute;
+      right: 22px;
+      top: -8px;
+      font-family: var(--mono);
+      font-size: 150px;
+      letter-spacing: -.1em;
+      color: rgba(17,16,14,.052);
+    }
+
+    .axis-x, .axis-y { position: absolute; background: rgba(17,16,14,.12); }
+    .axis-x { left: 6%; right: 6%; top: 50%; height: 1px; }
+    .axis-y { top: 8%; bottom: 8%; left: 50%; width: 1px; }
+
+    .ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(17,16,14,.10);
+    }
+    .r1 { width: 280px; height: 280px; }
+    .r2 { width: 470px; height: 470px; }
+    .r3 { width: 640px; height: 640px; border-style: dashed; }
+
+    .hub {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 214px;
+      height: 214px;
+      border-radius: 50%;
+      border: 1px solid var(--rust);
+      background:
+        radial-gradient(circle at 38% 28%, rgba(255,255,255,.96), transparent 32%),
+        linear-gradient(135deg, rgba(255,250,241,.94), rgba(232,221,207,.78));
+      display: grid;
+      place-items: center;
+      text-align: center;
+      box-shadow: 0 32px 96px rgba(150,71,45,.18);
+      z-index: 3;
+    }
+    .hub strong { display: block; font-family: var(--serif); font-size: 30px; letter-spacing: -.06em; }
+    .hub span { display: block; margin-top: 8px; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+
+    .node {
+      position: absolute;
+      z-index: 2;
+      min-width: 150px;
+      padding: 18px 22px;
+      border: 1px solid rgba(17,16,14,.34);
+      background: rgba(255,250,241,.62);
+      font-family: var(--serif);
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -.05em;
+      box-shadow: 0 20px 60px rgba(30,24,18,.045);
+    }
+    .n1 { left: 50%; top: 12%; transform: translateX(-50%); }
+    .n2 { left: 9%; top: 44%; }
+    .n3 { right: 9%; top: 44%; }
+    .n4 { left: 50%; bottom: 11%; transform: translateX(-50%); }
+
+    .anno {
+      position: absolute;
+      max-width: 190px;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+    .anno::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--rust); margin-right: 8px; }
+    .a1 { left: 20%; top: 26%; }
+    .a2 { right: 18%; top: 27%; }
+    .a3 { left: 18%; bottom: 24%; }
+    .a4 { right: 16%; bottom: 23%; }
+
+    .plot {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--signal);
+      opacity: .32;
+    }
+
+    .map-caption {
+      position: absolute;
+      left: 28px;
+      bottom: 24px;
+      max-width: 330px;
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 2;
+      color: var(--muted);
+      border-left: 1px solid var(--line-2);
+      padding-left: 16px;
+    }
+
+    .matrix-wrap {
+      overflow-x: auto;
+      border-top: 1px solid var(--line-2);
+      border-bottom: 1px solid var(--line-2);
+      background: rgba(255,250,241,.34);
+    }
+
+    table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 24px 22px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child { color: var(--muted); }
+    .hot { color: var(--rust); font-weight: 700; }
+
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .archive-item {
+      background: rgba(255,250,241,.47);
+      padding: 32px;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .archive-item:nth-child(1) { grid-column: span 4; }
+    .archive-item:nth-child(2) { grid-column: span 4; background: rgba(45,70,80,.08); }
+    .archive-item:nth-child(3) { grid-column: span 4; }
+
+    .archive-item h3 {
+      margin: 30px 0 0;
+      font-family: var(--serif);
+      font-weight: 800;
+      font-size: 34px;
+      line-height: 1.22;
+      letter-spacing: -.065em;
+    }
+    .archive-item p { margin: 26px 0 0; color: var(--body); font-size: 14px; line-height: 2; }
+    .tag { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--rust); }
+
+    .mini-chart {
+      position: relative;
+      height: 120px;
+      margin-top: 28px;
+      border-left: 1px solid var(--line-2);
+      border-bottom: 1px solid var(--line-2);
+    }
+    .mini-chart i { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--rust); opacity: .74; }
+    .mini-chart i:nth-child(1) { left: 18%; bottom: 24%; }
+    .mini-chart i:nth-child(2) { left: 38%; bottom: 52%; }
+    .mini-chart i:nth-child(3) { left: 58%; bottom: 36%; }
+    .mini-chart i:nth-child(4) { left: 78%; bottom: 72%; }
+    .mini-chart b { position: absolute; height: 1px; background: rgba(150,71,45,.55); transform-origin: left center; }
+    .mini-chart b:nth-of-type(1) { left: 21%; bottom: 28%; width: 74px; transform: rotate(-25deg); }
+    .mini-chart b:nth-of-type(2) { left: 41%; bottom: 54%; width: 72px; transform: rotate(18deg); }
+    .mini-chart b:nth-of-type(3) { left: 61%; bottom: 39%; width: 70px; transform: rotate(-30deg); }
+
+    .field-list { border-top: 1px solid var(--line-2); }
+    .field-item {
+      display: grid;
+      grid-template-columns: 170px 1fr 110px;
+      gap: 40px;
+      align-items: start;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--line);
+      transition: color .22s ease;
+    }
+    .field-item:hover h3 { color: var(--rust); }
+    .field-item time { font-family: var(--mono); font-size: 11px; color: var(--rust); letter-spacing: .14em; text-transform: uppercase; }
+    .field-item h3 { margin: 0; font-family: var(--serif); font-weight: 800; font-size: clamp(25px, 3vw, 46px); line-height: 1.24; letter-spacing: -.065em; transition: color .22s ease; }
+    .field-item p { margin: 16px 0 0; color: var(--body); line-height: 2; }
+    .read { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+
+    .cta { padding-block: 0 150px; }
+    .cta-panel {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--bone);
+      padding: clamp(44px, 7vw, 94px);
+    }
+    .cta-panel::before {
+      content: "CONVERSATION";
+      position: absolute;
+      right: -30px;
+      top: -14px;
+      font-family: var(--mono);
+      font-size: clamp(64px, 8vw, 132px);
+      letter-spacing: -.08em;
+      color: rgba(255,250,241,.045);
+    }
+    .cta-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 380px; gap: 70px; align-items: end; }
+    .cta .section-title { color: var(--bone); }
+    .cta .lead { color: rgba(255,250,241,.72); margin-top: 28px; max-width: 760px; }
+    .cta-box { border: 1px solid rgba(255,250,241,.18); background: rgba(255,250,241,.055); padding: 28px; }
+    .cta-box p { margin: 0 0 24px; color: rgba(255,250,241,.72); font-size: 13px; line-height: 2; }
+    .cta-box .btn { width: 100%; background: var(--bone); color: var(--ink); border-color: var(--bone); }
+
+    footer { padding: 42px 0 58px; text-align: center; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .18em; text-transform: uppercase; }
+
+    @media (max-width: 1100px) {
+      .hero-grid, .hero-under, .section-head, .cta-grid { grid-template-columns: 1fr; }
+      .hero-title { text-align: left; }
+      .dark .lead { margin-left: 0; }
+      .archive-item:nth-child(n) { grid-column: span 12; }
+      .rail { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, 1320px); }
+      .topbar { top: 12px; left: 12px; right: 12px; height: 58px; grid-template-columns: 1fr auto; padding-inline: 14px; }
+      .top-meta, .nav a:not(.nav-cta) { display: none; }
+      .brand { font-size: 13px; }
+      .nav-cta { padding: 10px 12px; font-size: 11px; }
+      .hero { padding-top: 100px; }
+      .hero-title { font-size: clamp(54px, 18vw, 88px); }
+      .hero-code { display: none; }
+      .hero-under { gap: 24px; }
+      .btn { width: 100%; }
+      .section { padding-block: 88px; }
+      .section-title { font-size: clamp(40px, 13vw, 66px); }
+      .obs:nth-child(n) { grid-column: 1 / 13; margin-top: 0; }
+      .map-stage { min-height: 560px; }
+      .ring.r3 { width: 480px; height: 480px; }
+      .ring.r2 { width: 340px; height: 340px; }
+      .ring.r1 { width: 220px; height: 220px; }
+      .hub { width: 154px; height: 154px; }
+      .hub strong { font-size: 22px; }
+      .node { min-width: 104px; padding: 12px; font-size: 16px; }
+      .anno { display: none; }
+      .n2 { left: 5%; }
+      .n3 { right: 5%; }
+      .map-caption { max-width: 250px; }
+      .matrix-wrap { margin-inline: -14px; }
+      .archive-item { min-height: 280px; }
+      .field-item { grid-template-columns: 1fr; gap: 14px; }
+      .cta { padding-bottom: 96px; }
+      .cta-panel { padding: 34px 24px; }
+    }
   </style>
 </head>
+
 <body>
-  <div class="rail-left">Meaning Sync Institute / PR 5.0</div>
-  <div class="rail-right">Observation — Hypothesis — Archive</div>
+  <div class="rail left">Meaning Sync Laboratory / Public Relations 5.0</div>
+  <div class="rail right">Observation — Hypothesis — Diagram — Archive</div>
 
   <header class="topbar">
     <a class="brand" href="#">広報5.0研究ノート</a>
-    <div class="top-meta">Meaning Sync Framework</div>
-    <nav class="nav">
-      <a href="#obs">Observation</a>
+    <div class="top-meta">Meaning Sync Laboratory</div>
+    <nav class="nav" aria-label="Primary">
+      <a href="#observation">Observation</a>
       <a href="#hypothesis">Hypothesis</a>
+      <a href="#diagram">Diagram</a>
       <a href="#archive">Archive</a>
       <a class="nav-cta" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す</a>
     </nav>
@@ -176,93 +680,228 @@
   <main>
     <section class="hero">
       <div class="container hero-grid">
-        <aside class="index-block">
+        <aside class="index-panel">
           <p class="kicker">Research Archive</p>
-          <p class="index-title">AI時代の組織に生じる「意味ズレ」を観測し、広報の次の役割を仮説化するための実務研究ノート。</p>
+          <p class="index-copy">AI時代の組織に生じる「意味ズレ」を観測し、広報の次の役割を仮説化するための実務研究ノート。</p>
           <ol class="index-list">
-            <li><span>00</span>Manifest</li><li><span>01</span>Observation</li><li><span>02</span>Hypothesis</li><li><span>03</span>Structure</li><li><span>04</span>Field Notes</li><li><span>05</span>Conversation</li>
+            <li><span>00</span>Manifest</li>
+            <li><span>01</span>Observation</li>
+            <li><span>02</span>Hypothesis</li>
+            <li><span>03</span>Structure</li>
+            <li><span>04</span>Field Notes</li>
+            <li><span>05</span>Conversation</li>
           </ol>
         </aside>
 
-        <div>
-          <h1 class="hero-title"><small>PUBLIC RELATIONS 5.0</small>意味は<br><span class="ghost">ズレる。</span><br>組織は<br>止まる。</h1>
+        <div class="hero-main">
+          <p class="hero-code">Public Relations 5.0 / Semantic Drift Research</p>
+          <h1 class="hero-title">
+            意味は<br>
+            <span class="pale">ズレる。</span><br>
+            組織は<br>
+            <span class="signal">止まる。</span>
+          </h1>
+
           <div class="hero-under">
             <p class="lead">AI時代に増えるのは、情報量ではなく、意味のズレかもしれない。広報5.0は、経営・現場・市場の認識差分を観測し、翻訳し、行動できる共通前提へ整えるための研究仮説です。</p>
             <div>
-              <p class="note-box">This page is not a sales landing page. It is a working archive for observing organizational semantic drift.</p>
-              <div class="btn-row"><a class="btn btn-dark" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す →</a><a class="btn" href="#hypothesis">仮説を読む</a></div>
+              <p class="research-note">This page is not a sales landing page. It is a working archive for observing organizational semantic drift.</p>
+              <div class="btn-row">
+                <a class="btn btn-dark" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す →</a>
+                <a class="btn" href="#hypothesis">仮説を読む</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="obs" class="section">
+    <section id="observation" class="section">
       <div class="container">
-        <div class="section-head"><p class="section-no">01 / OBSERVATION</p><h2 class="section-title">発信量は増えた。<br><span class="muted">前提は、</span>揃わない。</h2></div>
+        <div class="section-head">
+          <p class="section-no">01 / Observation</p>
+          <h2 class="section-title">発信量は増えた。<br><span class="muted">前提は、</span>揃わない。</h2>
+        </div>
+
         <div class="observation-grid">
-          <article class="obs-card" data-id="01"><p class="obs-meta">semantic drift</p><h3>同じ言葉なのに、意味が違う。</h3><p>「顧客ファースト」「価値提供」「らしさ」が、営業・開発・人事で別々の行動を指している。</p></article>
-          <article class="obs-card" data-id="02"><p class="obs-meta">inactive philosophy</p><h3>理念は読まれる。でも、動きは変わらない。</h3><p>文章としては理解されても、明日から何を変えるべきかが現場に接続されていない。</p></article>
-          <article class="obs-card" data-id="03"><p class="obs-meta">external / internal gap</p><h3>社外の期待と、社内の実感が離れる。</h3><p>採用、営業、広報の言葉が、それぞれ微妙に違う会社像をつくってしまう。</p></article>
-          <article class="obs-card" data-id="04"><p class="obs-meta">role limitation</p><h3>広報が、“整える人”で止まる。</h3><p>発信の前に必要な、認識合わせ・構造化・翻訳までが、広報の仕事として扱われにくい。</p></article>
+          <article class="obs" data-id="01">
+            <p class="obs-meta">semantic drift</p>
+            <h3>同じ言葉なのに、意味が違う。</h3>
+            <p>「顧客ファースト」「価値提供」「らしさ」が、営業・開発・人事で別々の行動を指している。</p>
+          </article>
+
+          <article class="obs" data-id="02">
+            <p class="obs-meta">inactive philosophy</p>
+            <h3>理念は読まれる。でも、動きは変わらない。</h3>
+            <p>文章としては理解されても、明日から何を変えるべきかが現場に接続されていない。</p>
+          </article>
+
+          <article class="obs" data-id="03">
+            <p class="obs-meta">external / internal gap</p>
+            <h3>社外の期待と、社内の実感が離れる。</h3>
+            <p>採用、営業、広報の言葉が、それぞれ微妙に違う会社像をつくってしまう。</p>
+          </article>
+
+          <article class="obs" data-id="04">
+            <p class="obs-meta">role limitation</p>
+            <h3>広報が、“整える人”で止まる。</h3>
+            <p>発信の前に必要な、認識合わせ・構造化・翻訳までが、広報の仕事として扱われにくい。</p>
+          </article>
         </div>
       </div>
     </section>
 
     <section id="hypothesis" class="section dark">
       <div class="container">
-        <div class="section-head"><p class="section-no">02 / HYPOTHESIS</p><h2 class="section-title">広報は、外へ届ける仕事から、意味を同期する仕事へ。</h2></div>
+        <div class="section-head">
+          <p class="section-no">02 / Hypothesis</p>
+          <h2 class="section-title">広報は、外へ届ける仕事から、意味を同期する仕事へ。</h2>
+        </div>
         <p class="lead">広報5.0の役割は、きれいな言葉を作ることではありません。経営の意図、現場の実感、市場の期待を行き来しながら、組織が同じ前提で動ける状態をつくることです。</p>
       </div>
     </section>
 
-    <section class="section">
+    <section id="diagram" class="section">
       <div class="container">
-        <div class="section-head"><p class="section-no">03 / STRUCTURE</p><h2 class="section-title">Meaning<br>Sync Map</h2></div>
-        <div class="map-wrap">
-          <div class="axis-x"></div><div class="axis-y"></div>
-          <div class="map-node n1">経営</div><div class="map-node n2">営業・CS</div><div class="map-node n3">開発・人事</div><div class="map-node n4">市場・顧客</div>
+        <div class="section-head">
+          <p class="section-no">03 / Structure</p>
+          <h2 class="section-title"><span class="signal">Meaning</span><br>Sync Map</h2>
+        </div>
+
+        <div class="map-stage" aria-label="Meaning Sync Map">
+          <div class="axis-x"></div>
+          <div class="axis-y"></div>
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+
+          <div class="node n1">経営</div>
+          <div class="node n2">営業・CS</div>
+          <div class="node n3">開発・人事</div>
+          <div class="node n4">市場・顧客</div>
+
           <div class="hub"><div><strong>広報5.0</strong><span>Meaning Sync Hub</span></div></div>
-          <p class="anno a1"><span class="dot"></span>経営語を現場語へ翻訳する。</p><p class="anno a2"><span class="dot"></span>文脈を編集し、伝達可能にする。</p><p class="anno a3"><span class="dot"></span>現場で起きるズレを観測する。</p><p class="anno a4"><span class="dot"></span>市場の期待を行動へ接続する。</p>
-          <i class="plot" style="left:22%;top:34%"></i><i class="plot" style="left:31%;top:62%"></i><i class="plot" style="left:63%;top:29%"></i><i class="plot" style="left:76%;top:57%"></i><i class="plot" style="left:44%;top:76%"></i>
+
+          <p class="anno a1">経営語を現場語へ翻訳する。</p>
+          <p class="anno a2">文脈を編集し、伝達可能にする。</p>
+          <p class="anno a3">現場で起きるズレを観測する。</p>
+          <p class="anno a4">市場の期待を行動へ接続する。</p>
+
+          <i class="plot" style="left:22%;top:34%"></i>
+          <i class="plot" style="left:31%;top:62%"></i>
+          <i class="plot" style="left:63%;top:29%"></i>
+          <i class="plot" style="left:76%;top:57%"></i>
+          <i class="plot" style="left:44%;top:76%"></i>
+          <i class="plot" style="left:54%;top:22%"></i>
+          <i class="plot" style="left:68%;top:72%"></i>
+
+          <p class="map-caption">The diagram is intentionally unfinished. It treats PR not as message delivery, but as an operational layer for observing and aligning meaning across the organization.</p>
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="container">
-        <div class="section-head"><p class="section-no">04 / EVOLUTION</p><h2 class="section-title">広報の役割は、どこへ移るのか。</h2></div>
-        <div class="matrix"><table><thead><tr><th>項目</th><th>1.0</th><th>2.0</th><th>3.0</th><th>4.0</th><th>5.0</th></tr></thead><tbody><tr><td>中心</td><td>製品</td><td>顧客</td><td>理念</td><td>データ / Ops</td><td class="hot">意味同期</td></tr><tr><td>広報役割</td><td>宣伝</td><td>SNS対話</td><td>共感形成</td><td>構造化</td><td class="hot">接続・同期</td></tr><tr><td>主戦場</td><td>マスメディア</td><td>SNS</td><td>ナラティブ</td><td>組織横断</td><td class="hot">経営 ⇄ 現場 ⇄ 市場</td></tr><tr><td>KPI</td><td>露出</td><td>反応</td><td>共感</td><td>運用効率</td><td class="hot">認識整合</td></tr><tr><td>AI活用</td><td>なし</td><td>補助</td><td>コンテンツ</td><td>自動化</td><td class="hot">意味編集</td></tr></tbody></table></div>
+        <div class="section-head">
+          <p class="section-no">04 / Evolution</p>
+          <h2 class="section-title">広報の役割は、<br>どこへ移るのか。</h2>
+        </div>
+
+        <div class="matrix-wrap">
+          <table>
+            <thead>
+              <tr><th>項目</th><th>1.0</th><th>2.0</th><th>3.0</th><th>4.0</th><th>5.0</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>中心</td><td>製品</td><td>顧客</td><td>理念</td><td>データ / Ops</td><td class="hot">意味同期</td></tr>
+              <tr><td>広報役割</td><td>宣伝</td><td>SNS対話</td><td>共感形成</td><td>構造化</td><td class="hot">接続・同期</td></tr>
+              <tr><td>主戦場</td><td>マスメディア</td><td>SNS</td><td>ナラティブ</td><td>組織横断</td><td class="hot">経営 ⇄ 現場 ⇄ 市場</td></tr>
+              <tr><td>KPI</td><td>露出</td><td>反応</td><td>共感</td><td>運用効率</td><td class="hot">認識整合</td></tr>
+              <tr><td>AI活用</td><td>なし</td><td>補助</td><td>コンテンツ</td><td>自動化</td><td class="hot">意味編集</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <section id="archive" class="section">
       <div class="container">
-        <div class="section-head"><p class="section-no">05 / ARCHIVE</p><h2 class="section-title">断片、図解、観測ログ。</h2></div>
+        <div class="section-head">
+          <p class="section-no">05 / Archive</p>
+          <h2 class="section-title">断片、図解、<br>観測ログ。</h2>
+        </div>
+
         <div class="archive-grid">
-          <article class="archive-item"><div><p class="mono">Input</p><h3>経営会議、顧客の声、Slack、採用面談。</h3></div><p>散らばった断片を、意味の差分として扱う。</p></article>
-          <article class="archive-item"><div><p class="mono">Structure</p><h3>思考整理、文脈編集、暗黙知の翻訳。</h3><div class="mini-chart"><i></i><i></i><i></i><i></i></div></div><p>AIは文章生成ではなく、同期の補助線として使う。</p></article>
-          <article class="archive-item"><div><p class="mono">Output</p><h3>採用記事、LP、営業資料、FAQ。</h3></div><p>アウトプットは目的ではなく、認識整合の副産物。</p></article>
+          <article class="archive-item">
+            <div>
+              <p class="tag">Input Layer</p>
+              <h3>経営会議、顧客の声、Slack、採用面談。</h3>
+            </div>
+            <p>散らばった断片を、意味の差分として扱う。</p>
+          </article>
+
+          <article class="archive-item">
+            <div>
+              <p class="tag">Structure Layer</p>
+              <h3>思考整理、文脈編集、暗黙知の翻訳。</h3>
+              <div class="mini-chart"><i></i><i></i><i></i><i></i><b></b><b></b><b></b></div>
+            </div>
+            <p>AIは文章生成ではなく、同期の補助線として使う。</p>
+          </article>
+
+          <article class="archive-item">
+            <div>
+              <p class="tag">Output Layer</p>
+              <h3>採用記事、LP、営業資料、FAQ。</h3>
+            </div>
+            <p>アウトプットは目的ではなく、認識整合の副産物。</p>
+          </article>
         </div>
       </div>
     </section>
 
     <section id="field" class="section">
       <div class="container">
-        <div class="section-head"><p class="section-no">06 / FIELD NOTES</p><h2 class="section-title">現場で観測された、意味のズレ。</h2></div>
+        <div class="section-head">
+          <p class="section-no">06 / Field Notes</p>
+          <h2 class="section-title">現場で観測された、<br>意味のズレ。</h2>
+        </div>
+
         <div class="field-list">
-          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer"><time>Log #03</time><div><h3>「顧客価値」の意味が、営業と開発で真逆だった。</h3><p>AIで概念図を作成し、翌週から会議の前提が揃い始めた。</p></div><span class="read">Read</span></a>
-          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer"><time>Log #06</time><div><h3>採用候補者ごとに、会社の説明が違っていた。</h3><p>共通言語マップを整備し、意味のズレが減少。</p></div><span class="read">Read</span></a>
+          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer">
+            <time>Log #03</time>
+            <div>
+              <h3>「顧客価値」の意味が、営業と開発で真逆だった。</h3>
+              <p>AIで概念図を作成し、翌週から会議の前提が揃い始めた。</p>
+            </div>
+            <span class="read">Read</span>
+          </a>
+
+          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer">
+            <time>Log #06</time>
+            <div>
+              <h3>採用候補者ごとに、会社の説明が違っていた。</h3>
+              <p>共通言語マップを整備し、意味のズレが減少。</p>
+            </div>
+            <span class="read">Read</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <section class="cta" id="contact">
+    <section id="contact" class="cta">
       <div class="container">
         <div class="cta-panel">
           <div class="cta-grid">
-            <div><p class="kicker mb-8">Conversation</p><h2 class="section-title">これ、うちでも起きているかもしれない。</h2><p class="lead mt-8">売り込みではなく、現場で起きている“意味ズレ”を一度フラットに整理する時間です。</p></div>
-            <div class="cta-box"><p>社内外で会社の説明がズレる。採用広報の言葉が定まらない。AI活用が文章生成で止まっている。そんな違和感を30分だけ壁打ちします。</p><a class="btn" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す →</a></div>
+            <div>
+              <p class="kicker mb-8">Conversation</p>
+              <h2 class="section-title">これ、うちでも起きているかもしれない。</h2>
+              <p class="lead">売り込みではなく、現場で起きている“意味ズレ”を一度フラットに整理する時間です。</p>
+            </div>
+            <div class="cta-box">
+              <p>社内外で会社の説明がズレる。採用広報の言葉が定まらない。AI活用が文章生成で止まっている。そんな違和感を30分だけ壁打ちします。</p>
+              <a class="btn" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">30分だけ話す →</a>
+            </div>
           </div>
         </div>
       </div>
