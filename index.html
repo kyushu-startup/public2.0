@@ -1,554 +1,953 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Meaning Sync Architect / 広報5.5実装支援</title>
-  <meta name="description" content="採用・営業・広報で会社説明がズレている企業へ。AI時代の広報Opsで、組織の認識を整流する Meaning Sync Architect。" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Team Operator | 非エンジニアのAIチーム実践記録</title>
+  <meta name="description" content="非エンジニアとしてChatGPT、Claude、NotebookLMなどを組み合わせ、AIチームによる企画・広報・制作を実践する記録と相談窓口。" />
+  <meta property="og:title" content="AI Team Operator | 非エンジニアのAIチーム実践記録" />
+  <meta property="og:description" content="AIを使う人から、AIチームを動かす人へ。実践記録・成果物・無料相談。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./ogp.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #020817;
-      --bg-deep: #01040c;
-      --panel: rgba(6, 18, 34, .72);
-      --panel-solid: #071322;
-      --panel-2: rgba(9, 27, 50, .86);
-      --ink: #f5f9ff;
-      --body: rgba(245, 249, 255, .74);
-      --muted: rgba(245, 249, 255, .48);
-      --faint: rgba(245, 249, 255, .16);
-      --line: rgba(122, 221, 255, .16);
-      --line-2: rgba(122, 221, 255, .32);
-      --cyan: #00d8ff;
-      --cyan-soft: rgba(0, 216, 255, .15);
-      --blue: #3a78ff;
-      --violet: #9a8cff;
-      --green: #39e6b0;
-      --amber: #ff9e39;
-      --danger: #ff5b70;
-      --dark: #01050d;
-      --mono: "IBM Plex Mono", monospace;
-      --sans: "IBM Plex Sans JP", sans-serif;
-      --serif: "Noto Serif JP", serif;
+      --bg: #050506;
+      --text: #f7f4ea;
+      --muted: #aaa59a;
+      --muted-2: #d5cfc3;
+      --gold: #d8b76a;
+      --gold-2: #fff0b8;
+      --radius: 28px;
+      --max: 1180px;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: var(--sans);
-      color: var(--ink);
       background:
-        radial-gradient(circle at 78% 8%, rgba(0, 216, 255, .22), transparent 26%),
-        radial-gradient(circle at 16% 88%, rgba(154, 140, 255, .12), transparent 32%),
-        radial-gradient(circle at 52% 46%, rgba(58, 120, 255, .08), transparent 38%),
-        linear-gradient(135deg, #01040c 0%, var(--bg) 48%, #07172b 100%);
-      letter-spacing: .01em;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+        linear-gradient(rgba(5,5,6,.82), rgba(5,5,6,.92)),
+        url('./背景.jpg') center center / cover no-repeat fixed,
+        var(--bg);
+      color: var(--text);
+      font-family: "Inter", "Noto Sans JP", system-ui, sans-serif;
+      line-height: 1.78;
       overflow-x: hidden;
     }
+
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      z-index: -4;
+      pointer-events: none;
       background-image:
-        linear-gradient(rgba(0,216,255,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,216,255,.045) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
       background-size: 72px 72px;
-      mask-image: radial-gradient(circle at 50% 16%, #000, transparent 78%);
-    }
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -3;
-      opacity: .14;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.62'/%3E%3C/svg%3E");
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.56), transparent 78%);
+      z-index: -2;
     }
 
-    ::selection { background: var(--cyan); color: var(--dark); }
     a { color: inherit; text-decoration: none; }
-    .mono { font-family: var(--mono); }
-    .serif { font-family: var(--serif); }
-    .container { width: min(100% - 48px, 1360px); margin-inline: auto; }
+    .container { width: min(100% - 40px, var(--max)); margin: 0 auto; }
 
-    .topbar {
-      position: fixed;
-      z-index: 90;
-      top: 18px;
-      left: 18px;
-      right: 18px;
-      height: 68px;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(5,5,6,.62);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .nav-inner {
+      height: 74px;
+      display: flex;
       align-items: center;
-      padding-inline: 22px;
-      border: 1px solid var(--line);
-      background: rgba(2, 8, 23, .68);
-      backdrop-filter: blur(24px);
-      box-shadow: 0 18px 70px rgba(0,0,0,.36), inset 0 0 0 1px rgba(255,255,255,.025);
+      justify-content: space-between;
+      gap: 24px;
     }
-    .brand { font-weight: 700; font-size: 14px; letter-spacing: .04em; }
-    .top-meta { font-family: var(--mono); font-size: 10px; letter-spacing: .22em; color: var(--muted); text-transform: uppercase; }
-    .nav { justify-self: end; display: flex; align-items: center; gap: 25px; font-size: 12px; color: var(--muted); }
-    .nav a:not(.nav-cta) { transition: color .22s ease; }
-    .nav a:not(.nav-cta):hover { color: var(--cyan); }
-    .nav-cta { color: var(--dark); background: var(--cyan); padding: 13px 17px; border: 1px solid var(--cyan); box-shadow: 0 0 30px rgba(0,216,255,.25); font-weight: 700; }
 
-    .rail {
-      position: fixed;
-      z-index: 50;
-      top: 118px;
-      bottom: 30px;
-      width: 28px;
-      writing-mode: vertical-rl;
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(122,221,255,.34);
-      pointer-events: none;
-    }
-    .rail.left { left: 24px; }
-    .rail.right { right: 24px; text-align: right; }
-
-    .hero {
-      position: relative;
-      min-height: 100svh;
-      padding-top: 126px;
-      display: grid;
+    .brand {
+      display: flex;
       align-items: center;
-      overflow: hidden;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -.03em;
     }
-    .hero::before {
-      content: "";
-      position: absolute;
-      right: -12vw;
-      top: 7vh;
-      width: 58vw;
-      height: 58vw;
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background:
-        radial-gradient(circle, rgba(0,216,255,.22), transparent 52%),
-        conic-gradient(from 40deg, transparent, rgba(0,216,255,.20), transparent, rgba(255,158,57,.16), transparent, rgba(154,140,255,.16), transparent);
-      filter: blur(14px);
-      opacity: .82;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold), #6b4a16);
+      box-shadow: 0 0 34px rgba(216,183,106,.38);
     }
-    .hero::after {
-      content: "ALIGN";
-      position: absolute;
-      right: -4vw;
-      bottom: -5vw;
-      font-family: var(--mono);
-      font-size: clamp(120px, 22vw, 360px);
-      font-weight: 700;
-      letter-spacing: -.14em;
-      line-height: .72;
-      color: rgba(0,216,255,.055);
-      text-shadow: 0 0 80px rgba(0,216,255,.20);
-      pointer-events: none;
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 14px;
     }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      padding: 10px 16px;
+      border: 1px solid rgba(216,183,106,.45);
+      border-radius: 999px;
+      color: var(--gold-2);
+      font-weight: 800;
+      font-size: 13px;
+      background: rgba(216,183,106,.08);
+    }
+
+    .hero { padding: 112px 0 80px; }
 
     .hero-grid {
-      position: relative;
-      z-index: 2;
       display: grid;
-      grid-template-columns: 350px minmax(0, 1fr);
-      gap: clamp(54px, 8vw, 118px);
-      align-items: end;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 56px;
+      align-items: center;
     }
-    .index-panel { border-top: 1px solid var(--line-2); padding-top: 22px; margin-bottom: 24px; }
-    .kicker { font-family: var(--mono); font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--cyan); font-weight: 700; }
-    .index-copy { margin: 18px 0 0; color: var(--body); font-size: 13px; line-height: 2; }
-    .index-list { margin: 42px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-    .index-list li { display: grid; grid-template-columns: 46px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; color: var(--body); }
-    .index-list span { color: var(--cyan); }
-    .hero-main { position: relative; }
-    .hero-code { position: absolute; right: 0; top: -58px; font-family: var(--mono); font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
 
-    .hero-target {
+    .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 10px;
+      padding: 8px 13px;
+      border: 1px solid rgba(216,183,106,.28);
+      border-radius: 999px;
+      color: var(--gold-2);
+      background: rgba(216,183,106,.08);
+      font-size: 13px;
+      font-weight: 800;
       margin-bottom: 28px;
-      border: 1px solid var(--line-2);
-      background: rgba(0,216,255,.08);
-      padding: 10px 13px;
-      font-family: var(--mono);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 16px var(--gold);
+    }
+
+    h1 {
+      font-size: clamp(43px, 7vw, 86px);
+      line-height: 1.03;
+      letter-spacing: -.075em;
+      margin: 0 0 26px;
+    }
+
+    .grad {
+      background: linear-gradient(115deg, #fff, var(--gold-2), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      color: #c9c3b6;
+      font-size: clamp(16px, 2vw, 20px);
+      max-width: 700px;
+      margin: 0 0 18px;
+    }
+
+    .lead strong { color: var(--text); font-weight: 800; }
+
+    .sublead {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 0 34px;
+      max-width: 660px;
+    }
+
+    .hero-actions, .section-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-weight: 900;
+      transition: .22s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: #17130a;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      box-shadow: 0 14px 44px rgba(216,183,106,.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 60px rgba(216,183,106,.34);
+    }
+
+    .btn-ghost {
+      border-color: rgba(255,255,255,.16);
+      color: var(--text);
+      background: rgba(255,255,255,.045);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.085);
+      transform: translateY(-2px);
+    }
+
+    .microcopy {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 12px;
+    }
+
+    .hero-panel {
+      position: relative;
+      min-height: 540px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 38px;
+      background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.025)), rgba(255,255,255,.04);
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+      overflow: hidden;
+      padding: 28px;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: conic-gradient(from 180deg, transparent, rgba(216,183,106,.2), transparent, rgba(255,255,255,.08), transparent);
+      animation: spin 18s linear infinite;
+      opacity: .7;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .panel-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      border-radius: 28px;
+      background: rgba(5,5,6,.76);
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 24px;
+    }
+
+    .operator-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 14px;
+    }
+
+    .operator-card small {
+      color: var(--gold-2);
+      font-weight: 900;
+      letter-spacing: .09em;
+    }
+
+    .operator-card h3 {
+      margin: 10px 0 6px;
+      font-size: 24px;
+      letter-spacing: -.04em;
+      line-height: 1.25;
+    }
+
+    .operator-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .ai-stack {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .ai-pill {
+      border-radius: 18px;
+      background: rgba(216,183,106,.08);
+      border: 1px solid rgba(216,183,106,.15);
+      padding: 14px 16px;
+      font-weight: 900;
+      color: var(--gold-2);
+    }
+
+    .ai-pill span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    section { padding: 82px 0; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(32px, 4.5vw, 56px);
+      line-height: 1.08;
+      letter-spacing: -.06em;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .card, .portfolio-card, .contact-box, .story-box, .benefit-box {
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.035));
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 16px 44px rgba(0,0,0,.24);
+      transition: .22s ease;
+    }
+
+    .card:hover, .portfolio-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(216,183,106,.38);
+      background: linear-gradient(180deg, rgba(216,183,106,.11), rgba(255,255,255,.04));
+    }
+
+    .card h3, .portfolio-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: -.035em;
+      line-height: 1.3;
+    }
+
+    .card p, .portfolio-card p {
+      color: var(--muted);
+      margin: 0 0 22px;
+      font-size: 14px;
+    }
+
+    .num {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(216,183,106,.12);
+      color: var(--gold-2);
+      border: 1px solid rgba(216,183,106,.2);
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      font-size: 12px;
+      color: var(--gold-2);
+      border: 1px solid rgba(216,183,106,.24);
+      background: rgba(216,183,106,.08);
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold-2);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .story-box {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 36px;
+      align-items: center;
+      padding: 34px;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(216,183,106,.18), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035));
+    }
+
+    .story-quote {
+      font-size: clamp(26px, 3.5vw, 42px);
+      line-height: 1.25;
+      letter-spacing: -.055em;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .story-text p {
+      color: var(--muted-2);
+      margin: 0 0 16px;
+    }
+
+    .benefit-box {
+      padding: 34px;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(216,183,106,.16), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035));
+    }
+
+    .benefit-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .benefit-item, .pain-item {
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.045);
+      border-radius: 22px;
+      padding: 18px;
+      color: #ddd6c8;
+      font-weight: 800;
+    }
+
+    .thumb {
+      height: 220px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.12);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.62));
+    }
+
+    .thumb-title {
+      position: absolute;
+      z-index: 2;
+      left: 24px;
+      bottom: 22px;
+      right: 24px;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      line-height: 1.18;
+      text-shadow: 0 8px 24px rgba(0,0,0,.55);
+    }
+
+    .thumb-badge {
+      position: absolute;
+      z-index: 3;
+      top: 18px;
+      left: 18px;
+      color: var(--gold-2);
+      border: 1px solid rgba(216,183,106,.36);
+      background: rgba(5,5,6,.52);
+      backdrop-filter: blur(10px);
+      padding: 5px 10px;
+      border-radius: 999px;
       font-size: 11px;
-      color: var(--body);
+      font-weight: 900;
       letter-spacing: .08em;
     }
-    .hero-target::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 18px rgba(0,216,255,.5); }
 
-    .hero-title {
+    .pain-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .note-strip {
+      border: 1px solid rgba(216,183,106,.22);
+      background: rgba(216,183,106,.07);
+      border-radius: 28px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .note-strip h3 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: -.04em;
+    }
+
+    .note-strip p {
       margin: 0;
-      font-family: var(--serif);
-      font-weight: 900;
-      font-size: clamp(50px, 7vw, 118px);
-      line-height: 1;
-      letter-spacing: -.085em;
-      text-align: right;
-      text-wrap: balance;
+      color: var(--muted);
     }
-    .hero-title small { display: block; margin-bottom: 20px; font-family: var(--mono); font-size: clamp(11px, 1.1vw, 15px); line-height: 1.8; letter-spacing: .32em; color: var(--cyan); font-weight: 600; text-align: left; text-transform: uppercase; }
-    .hero-title .pale { color: rgba(245,249,255,.30); }
-    .hero-title .signal { color: var(--cyan); text-shadow: 0 0 38px rgba(0,216,255,.28); }
 
-    .hero-under { margin-top: 34px; display: grid; grid-template-columns: minmax(0, 1fr) 410px; gap: 48px; border-top: 1px solid var(--line-2); padding-top: 28px; }
-    .lead { margin: 0; color: var(--body); font-size: clamp(15px, 1.2vw, 17px); line-height: 2.25; }
-    .research-note { border-left: 2px solid var(--cyan); padding-left: 18px; font-family: var(--mono); font-size: 11px; line-height: 2; color: var(--muted); }
-    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 22px; border: 1px solid var(--line-2); background: rgba(7,19,34,.56); font-size: 13px; letter-spacing: .04em; transition: transform .24s ease, border-color .24s ease, background .24s ease, box-shadow .24s ease; }
-    .btn:hover { transform: translateY(-2px); border-color: var(--cyan); background: rgba(12,34,58,.86); box-shadow: 0 0 28px rgba(0,216,255,.12); }
-    .btn-dark { color: var(--dark); background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 34px rgba(0,216,255,.24); font-weight: 700; }
-    .btn-dark:hover { color: var(--dark); background: #55e8ff; box-shadow: 0 0 50px rgba(0,216,255,.35); }
-
-    .ba-hero { margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
-    .ba-box { background: rgba(7,19,34,.62); padding: 22px; min-height: 132px; }
-    .ba-box.after { background: rgba(0,216,255,.08); }
-    .ba-box b { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 13px; }
-    .ba-box p { margin: 0; font-family: var(--serif); font-weight: 800; font-size: clamp(22px, 2vw, 32px); line-height: 1.35; letter-spacing: -.05em; }
-
-    .status-strip { margin-top: 24px; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: rgba(7,19,34,.48); }
-    .status-item { padding: 18px 18px 16px; border-right: 1px solid var(--line); min-height: 92px; }
-    .status-item:last-child { border-right: 0; }
-    .status-item b { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .18em; color: var(--cyan); text-transform: uppercase; margin-bottom: 11px; }
-    .status-item span { color: var(--body); font-size: 13px; line-height: 1.75; }
-
-    .section { position: relative; padding-block: clamp(112px, 13vw, 190px); }
-    .section-head { display: grid; grid-template-columns: 230px 1fr; gap: 64px; align-items: start; margin-bottom: 78px; }
-    .section-no { margin: 0; border-top: 1px solid var(--line-2); padding-top: 18px; font-family: var(--mono); color: var(--cyan); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
-    .section-title { margin: 0; font-family: var(--serif); font-size: clamp(42px, 6.5vw, 104px); line-height: 1.04; letter-spacing: -.085em; font-weight: 900; }
-    .section-title .muted { color: rgba(245,249,255,.30); }
-    .section-title .signal { color: var(--cyan); text-shadow: 0 0 34px rgba(0,216,255,.22); }
-
-    .grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-    .fit-card, .service-card, .outcome-card, .proof-card { background: var(--panel); padding: 30px; display: flex; flex-direction: column; justify-content: space-between; }
-    .fit-card { grid-column: span 4; min-height: 250px; }
-    .service-card { grid-column: span 4; min-height: 280px; }
-    .outcome-card { grid-column: span 3; min-height: 220px; }
-    .proof-card { grid-column: span 3; min-height: 230px; }
-    .fit-card:nth-child(2), .service-card:nth-child(2), .outcome-card:nth-child(2), .proof-card:nth-child(2) { background: rgba(0,216,255,.07); }
-    .fit-card:nth-child(3), .service-card:nth-child(3), .outcome-card:nth-child(3), .proof-card:nth-child(3) { background: rgba(58,120,255,.08); }
-    .card-kicker { font-family: var(--mono); color: var(--cyan); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; margin: 0; }
-    .fit-card h3, .service-card h3, .outcome-card h3, .proof-card h3 { margin: 28px 0 0; font-family: var(--serif); font-size: clamp(25px, 2.5vw, 36px); line-height: 1.25; letter-spacing: -.06em; font-weight: 800; }
-    .fit-card p, .service-card p, .outcome-card p, .proof-card p { margin: 24px 0 0; color: var(--body); font-size: 14px; line-height: 2; }
-
-    .problem-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-    .problem-card { position: relative; border: 1px solid var(--line); background: var(--panel); min-height: 300px; padding: 30px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 24px 70px rgba(0,0,0,.18); }
-    .problem-card:nth-child(1) { grid-column: 1 / 7; }
-    .problem-card:nth-child(2) { grid-column: 7 / 13; margin-top: 72px; }
-    .problem-card:nth-child(3) { grid-column: 2 / 8; }
-    .problem-card:nth-child(4) { grid-column: 8 / 13; margin-top: -42px; }
-    .problem-card::before { content: attr(data-id); position: absolute; right: 18px; top: 10px; font-family: var(--mono); font-size: 72px; letter-spacing: -.1em; color: rgba(0,216,255,.075); }
-    .problem-card::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 36%; background: linear-gradient(90deg, var(--cyan), transparent); }
-    .card-meta { margin: 0; font-family: var(--mono); color: var(--cyan); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
-    .problem-card h3 { margin: 38px 0 0; font-family: var(--serif); font-weight: 800; font-size: clamp(27px, 3vw, 44px); line-height: 1.26; letter-spacing: -.065em; }
-    .problem-card p:last-child { margin: 22px 0 0; color: var(--body); font-size: 15px; line-height: 2; max-width: 650px; }
-
-    .lab-band { overflow: hidden; background: radial-gradient(circle at 82% 20%, rgba(0,216,255,.18), transparent 30%), linear-gradient(135deg, #01040c, #061526 68%, #081d33); border-block: 1px solid var(--line); }
-    .lab-band::before { content: "SOLUTION"; position: absolute; right: -5vw; bottom: -1vw; font-family: var(--mono); font-size: clamp(72px, 12vw, 200px); line-height: .86; letter-spacing: -.08em; color: rgba(0,216,255,.052); white-space: nowrap; }
-    .lab-band .section-title { max-width: 1120px; }
-    .lab-band .lead { max-width: 820px; margin-left: 294px; margin-top: 48px; }
-
-    .quote-panel { margin-top: 64px; border: 1px solid var(--line); background: rgba(2, 8, 23, .54); padding: clamp(28px, 5vw, 58px); position: relative; overflow: hidden; }
-    .quote-panel::before { content: "“"; position: absolute; right: 30px; top: -44px; font-family: var(--serif); font-size: 220px; color: rgba(0,216,255,.08); line-height: 1; }
-    .quote-panel p { margin: 0; font-family: var(--serif); font-size: clamp(26px, 3.6vw, 56px); line-height: 1.38; letter-spacing: -.055em; font-weight: 800; max-width: 1000px; }
-    .quote-panel span { display: block; margin-top: 28px; font-family: var(--mono); color: var(--muted); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
-
-    .figure-block { position: relative; margin-top: 64px; border: 1px solid rgba(0,216,255,.24); background: #050d18; box-shadow: 0 34px 110px rgba(0,0,0,.44), 0 0 76px rgba(0,216,255,.10); overflow: hidden; }
-    .figure-block::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 12%, rgba(0, 215, 255, .18), transparent 28%), linear-gradient(180deg, rgba(255,255,255,.04), transparent 42%); pointer-events: none; z-index: 1; }
-    .figure-label { position: absolute; left: 22px; top: 18px; z-index: 2; font-family: var(--mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(245,249,255,.72); background: rgba(5,13,24,.58); border: 1px solid rgba(0,215,255,.28); padding: 8px 10px; backdrop-filter: blur(10px); }
-    .figure-block img { display: block; width: 100%; height: auto; position: relative; z-index: 0; }
-    .figure-caption { display: grid; grid-template-columns: 160px 1fr; gap: 28px; padding: 22px 26px; border-top: 1px solid rgba(245,249,255,.12); background: rgba(5,13,24,.94); color: rgba(245,249,255,.72); font-size: 13px; line-height: 1.9; }
-    .figure-caption span { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--cyan); }
-    .figure-caption p { margin: 0; }
-
-    .ops-grid { margin-top: 54px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-    .ops-card { grid-column: span 3; background: var(--panel); padding: 28px; min-height: 310px; display: flex; flex-direction: column; justify-content: space-between; }
-    .ops-card:nth-child(2) { background: rgba(0,216,255,.07); }
-    .ops-card:nth-child(3) { background: rgba(58,120,255,.08); }
-    .ops-card:nth-child(4) { background: rgba(57,230,176,.06); }
-    .ops-card b { font-family: var(--mono); color: var(--cyan); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
-    .ops-card h3 { margin: 28px 0 0; font-family: var(--serif); font-size: 30px; line-height: 1.25; letter-spacing: -.06em; font-weight: 800; }
-    .ops-card p { color: var(--body); font-size: 14px; line-height: 2; margin: 24px 0 0; }
-
-    .matrix-wrap { overflow-x: auto; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); background: rgba(7,19,34,.58); }
-    table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 14px; }
-    th, td { padding: 24px 22px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-    th { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-    tr:last-child td { border-bottom: 0; }
-    td:first-child { color: var(--muted); }
-    .hot { color: var(--cyan); font-weight: 700; }
-
-    .field-list { border-top: 1px solid var(--line-2); }
-    .field-item { display: grid; grid-template-columns: 170px 1fr 110px; gap: 40px; align-items: start; padding: 42px 0; border-bottom: 1px solid var(--line); transition: color .22s ease; }
-    .field-item:hover h3 { color: var(--cyan); }
-    .field-item time { font-family: var(--mono); font-size: 11px; color: var(--cyan); letter-spacing: .14em; text-transform: uppercase; }
-    .field-item h3 { margin: 0; font-family: var(--serif); font-weight: 800; font-size: clamp(25px, 3vw, 46px); line-height: 1.24; letter-spacing: -.065em; transition: color .22s ease; }
-    .field-item p { margin: 16px 0 0; color: var(--body); line-height: 2; }
-    .read { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
-
-    .cta { padding-block: 0 150px; }
-    .cta-panel { position: relative; overflow: hidden; background: radial-gradient(circle at 86% 0%, rgba(0,216,255,.16), transparent 36%), linear-gradient(135deg, #050d18, #020817); color: var(--ink); padding: clamp(44px, 7vw, 94px); border: 1px solid var(--line); box-shadow: 0 34px 110px rgba(0,0,0,.38); }
-    .cta-panel::before { content: "DIAGNOSIS"; position: absolute; right: -30px; top: -14px; font-family: var(--mono); font-size: clamp(70px, 10vw, 170px); letter-spacing: -.08em; color: rgba(0,216,255,.055); white-space: nowrap; }
-    .cta-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 390px; gap: 70px; align-items: end; }
-    .cta .lead { color: var(--body); margin-top: 28px; max-width: 760px; }
-    .cta-box { border: 1px solid rgba(0,216,255,.20); background: rgba(7,19,34,.62); padding: 28px; }
-    .cta-box p { margin: 0 0 24px; color: var(--body); font-size: 13px; line-height: 2; }
-    .cta-box .btn { width: 100%; background: var(--cyan); color: var(--dark); border-color: var(--cyan); font-weight: 700; }
-    footer { padding: 42px 0 58px; text-align: center; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .18em; text-transform: uppercase; }
-
-    @media (max-width: 1100px) {
-      .hero-grid, .hero-under, .section-head, .cta-grid { grid-template-columns: 1fr; }
-      .hero-title { text-align: left; }
-      .lab-band .lead { margin-left: 0; }
-      .fit-card, .service-card, .outcome-card, .proof-card, .ops-card { grid-column: span 6; }
-      .rail { display: none; }
-      .status-strip { grid-template-columns: repeat(2, 1fr); }
-      .status-item:nth-child(2) { border-right: 0; }
-      .status-item:nth-child(1), .status-item:nth-child(2) { border-bottom: 1px solid var(--line); }
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 34px;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(216,183,106,.2), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035));
     }
-    @media (max-width: 760px) {
-      .container { width: min(100% - 28px, 1360px); }
-      .topbar { top: 12px; left: 12px; right: 12px; height: 58px; grid-template-columns: 1fr auto; padding-inline: 14px; }
-      .top-meta, .nav a:not(.nav-cta) { display: none; }
-      .brand { font-size: 13px; }
-      .nav-cta { padding: 10px 12px; font-size: 11px; }
-      .hero { padding-top: 100px; }
-      .hero-title { font-size: clamp(40px, 12vw, 68px); }
-      .hero-code { display: none; }
-      .hero-under { gap: 24px; }
+
+    .contact-box h2 { margin-bottom: 12px; }
+
+    .contact-box p {
+      color: var(--muted);
+      margin: 0;
+      max-width: 660px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 34px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: reveal .8s ease forwards;
+    }
+
+    .delay-1 { animation-delay: .08s; }
+    .delay-2 { animation-delay: .16s; }
+    .delay-3 { animation-delay: .24s; }
+
+    @keyframes reveal {
+      to { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid, .grid-3, .grid-2, .story-box, .contact-box, .note-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .hero { padding-top: 72px; }
+      .hero-panel { min-height: auto; }
+      .section-head { display: block; }
+      .section-desc { margin-top: 16px; }
+      .nav-links { display: none; }
+      .benefit-list { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, var(--max)); }
+      .nav-cta { display: none; }
+      .ai-stack, .pain-list { grid-template-columns: 1fr; }
+      .contact-box, .story-box, .note-strip, .benefit-box { padding: 24px; }
       .btn { width: 100%; }
-      .ba-hero { grid-template-columns: 1fr; }
-      .status-strip { grid-template-columns: 1fr; }
-      .status-item { border-right: 0; border-bottom: 1px solid var(--line); }
-      .status-item:last-child { border-bottom: 0; }
-      .section { padding-block: 88px; }
-      .section-title { font-size: clamp(40px, 13vw, 66px); }
-      .problem-card:nth-child(n) { grid-column: 1 / 13; margin-top: 0; }
-      .fit-card, .service-card, .outcome-card, .proof-card, .ops-card { grid-column: span 12; min-height: 250px; }
-      .figure-caption { grid-template-columns: 1fr; gap: 8px; }
-      .matrix-wrap { margin-inline: -14px; }
-      .field-item { grid-template-columns: 1fr; gap: 14px; }
-      .cta { padding-bottom: 96px; }
-      .cta-panel { padding: 34px 24px; }
+      .hero-actions, .section-actions { width: 100%; }
     }
   </style>
 </head>
 
 <body>
-  <div class="rail left">Meaning Sync Architect / Public Relations 5.5</div>
-  <div class="rail right">Target — Before After — Solution — Proof — CTA</div>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="AI Team Operator">
+        <span class="brand-mark"></span>
+        <span>AI Team Operator</span>
+      </a>
 
-  <header class="topbar">
-    <a class="brand" href="#">広報5.5実装支援</a>
-    <div class="top-meta">Meaning Sync Architect</div>
-    <nav class="nav" aria-label="Primary">
-      <a href="#target">Target</a>
-      <a href="#before-after">Before/After</a>
-      <a href="#solution">Solution</a>
-      <a href="#proof">Proof</a>
-      <a class="nav-cta" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断</a>
-    </nav>
-  </header>
+      <div class="nav-links">
+        <a href="#story">About</a>
+        <a href="#works">Works</a>
+        <a href="#benefits">相談で得られること</a>
+        <a href="#resources">Resources</a>
+        <a href="#contact">Contact</a>
+      </div>
 
-  <main>
-    <section class="hero">
+      <a class="nav-cta" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57/" target="_blank" rel="noopener noreferrer">
+        30分だけ相談してみる
+      </a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero">
       <div class="container hero-grid">
-        <aside class="index-panel">
-          <p class="kicker">LP Structure</p>
-          <p class="index-copy">採用・営業・広報で会社説明がズレている企業へ。AI時代の広報Opsで、組織の認識を整流する実装支援。</p>
-          <ol class="index-list">
-            <li><span>01</span>ターゲットと訴求</li>
-            <li><span>02</span>課題の明確化</li>
-            <li><span>03</span>Before / After</li>
-            <li><span>04</span>ソリューション</li>
-            <li><span>05</span>図解・実装フロー</li>
-            <li><span>06</span>信頼・CTA</li>
-          </ol>
-        </aside>
+        <div class="reveal">
+          <div class="eyebrow">NON-ENGINEER / AI TEAM MANAGEMENT</div>
 
-        <div class="hero-main">
-          <p class="hero-code">PR 5.5 / Meaning Sync / AI Communication Ops</p>
-          <div class="hero-target">採用・営業・広報で、会社説明がズレている企業へ</div>
-          <h1 class="hero-title">
-            <small>Meaning Sync Architect</small>
-            発信する前に、<br>
-            <span class="pale">会社の言葉を</span><br>
-            <span class="signal">揃える。</span>
-          </h1>
+          <h1>非エンジニアでも、<br><span class="grad">AIチームは作れる。</span></h1>
 
-          <div class="hero-under">
-            <p class="lead">note、採用広報、営業資料、社内報、LP。発信物は増えたのに、経営・現場・市場の前提が揃わない。そんな企業に対して、AI時代の広報Opsで情報を整流し、社内外に伝わる共通言語を設計します。</p>
-            <div>
-              <p class="research-note">Service: 意味同期診断 / 広報5.5設計 / AI広報Ops構築 / note・LP・営業資料・社内報の再設計</p>
-              <div class="btn-row">
-                <a class="btn btn-dark" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断を相談する →</a>
-                <a class="btn" href="#solution">解決策を見る</a>
-              </div>
+          <p class="lead">
+            私はエンジニアではありません。<br>
+            それでも <strong>ChatGPT、Claude、NotebookLM、Gemini</strong> などを組み合わせ、
+            企画・広報・制作を「AIチーム」として動かす実践をしています。
+          </p>
+
+          <p class="sublead">
+            コードが書けなくても大丈夫です。まずは、今の仕事をAIにどう分担するかを一緒に整理します。
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57/" target="_blank" rel="noopener noreferrer">
+              30分だけ相談してみる
+            </a>
+            <a class="btn btn-ghost" href="#works">作ったものを見る</a>
+            <a class="btn btn-ghost" href="#resources">資料を見る</a>
+          </div>
+
+          <div class="microcopy">✓ 無料相談　✓ オンライン対応　✓ 非エンジニア歓迎</div>
+        </div>
+
+        <div class="hero-panel reveal delay-1" aria-label="AI team operator preview">
+          <div class="panel-inner">
+            <div class="operator-card">
+              <small>ROLE</small>
+              <h3>AIを使う人から、AIチームを動かす人へ。</h3>
+              <p>ツールを単体で使うのではなく、役割を分けて連携させ、成果物まで作り切る実践。</p>
+            </div>
+
+            <div class="operator-card">
+              <small>OUTPUT</small>
+              <h3>LP、資料、記事、企画をAIと制作。</h3>
+              <p>無料ツール中心でも、プロ仕様に近いアウトプットを作れることを検証しています。</p>
+            </div>
+
+            <div class="ai-stack">
+              <div class="ai-pill">ChatGPT<span>設計・コード・壁打ち</span></div>
+              <div class="ai-pill">Claude<span>文章・構成・レビュー</span></div>
+              <div class="ai-pill">NotebookLM<span>資料整理・知識化</span></div>
+              <div class="ai-pill">Gemini<span>調査・比較・補助</span></div>
             </div>
           </div>
+        </div>
+      </div>
+    </header>
 
-          <div class="ba-hero" id="before-after">
-            <div class="ba-box"><b>Before</b><p>部署ごとに、会社の説明が違う。</p></div>
-            <div class="ba-box after"><b>After</b><p>経営・営業・採用・広報の言葉が揃う。</p></div>
+    <section id="story">
+      <div class="container">
+        <div class="story-box reveal">
+          <p class="story-quote">同じ悩みを持つ人にとって、少し先の実践者でありたい。</p>
+
+          <div class="story-text">
+            <p>
+              AIを触ってはいる。でも、仕事の成果にどうつなげればいいか分からない。
+              社内にAI担当者もいない。外注するほど予算もない。
+            </p>
+            <p>
+              私自身も、非エンジニアとしてそこから始めました。だからこそ、コードを書く人ではなく、
+              AIに役割を与え、チームとして動かし、実務の成果物に変える方法を探っています。
+            </p>
+            <p>
+              このサイトでは、その実践記録、制作物、資料、そして気軽な相談窓口を置いています。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="works">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Works / Proof</div>
+            <h2>実際に作ったもの</h2>
+          </div>
+          <p class="section-desc">
+            「AIで何ができるのか」を、言葉ではなく成果物で見てもらうためのポートフォリオです。
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <article class="portfolio-card reveal delay-1">
+            <div class="thumb" style="background:url('./九州アクセラレーター.jpg') center center / cover no-repeat;">
+              <div class="thumb-badge">AI BUILT</div>
+              <div class="thumb-title">Kyushu Startup Accelerator</div>
+            </div>
+            <div class="tag-row"><span class="tag">LP</span><span class="tag">AI制作</span><span class="tag">GitHub Pages</span></div>
+            <h3>Kyushu Startup Accelerator 2026</h3>
+            <p>ChatGPTでコードを生成し、画像生成AIで世界観を作り、GitHub Pagesで無料公開したイベントLP。</p>
+            <a class="card-link" href="https://kyushu-startup.github.io/kyushu-accelerator-2026/" target="_blank" rel="noopener noreferrer">
+              View Project →
+            </a>
+          </article>
+
+          <article class="portfolio-card reveal delay-2">
+            <div class="thumb" style="background:url('./広報LP.jpg') center center / cover no-repeat;">
+              <div class="thumb-badge">AI BUILT</div>
+              <div class="thumb-title">Meaning Sync Architect</div>
+            </div>
+            <div class="tag-row"><span class="tag">LP</span><span class="tag">広報5.5</span><span class="tag">意味同期</span></div>
+            <h3>Meaning Sync Architect</h3>
+            <p>企業の言葉のズレを整える、広報・意味同期サービスのコンセプトLP。</p>
+            <a class="card-link" href="https://kyushu-startup.github.io/public2.0/" target="_blank" rel="noopener noreferrer">
+              View Project →
+            </a>
+          </article>
+
+          <article class="portfolio-card reveal delay-1">
+            <div class="thumb" style="background:url('./LP制作マニュアル.jpg') center center / cover no-repeat;">
+              <div class="thumb-badge">RESOURCE</div>
+              <div class="thumb-title">LP制作マニュアル</div>
+            </div>
+            <div class="tag-row"><span class="tag">Manual</span><span class="tag">非エンジニア向け</span><span class="tag">0円制作</span></div>
+            <h3>非エンジニアのためのLP制作マニュアル</h3>
+            <p>ChatGPT、GitHub、Googleフォームを使い、デザイン性の高いLPを無料で作るための実践資料。</p>
+            <a class="card-link" href="https://forms.gle/REPLACE_DOWNLOAD_FORM_MANUAL" target="_blank" rel="noopener noreferrer">
+              資料を受け取る →
+            </a>
+          </article>
+
+          <article class="portfolio-card reveal delay-2">
+            <div class="thumb" style="background:url('./aiteamwork.jpg') center center / cover no-repeat;">
+              <div class="thumb-badge">WORKFLOW</div>
+              <div class="thumb-title">AI Team Workflow</div>
+            </div>
+            <div class="tag-row"><span class="tag">Consulting</span><span class="tag">Workflow</span><span class="tag">Coming Soon</span></div>
+            <h3>AIチーム運用ワークフロー</h3>
+            <p>複数AIを役割分担させ、企画・制作・発信まで進めるための運用モデルを整理中です。</p>
+            <a class="card-link" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57/" target="_blank" rel="noopener noreferrer">
+              30分だけ相談してみる →
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits">
+      <div class="container">
+        <div class="benefit-box reveal">
+          <div class="section-kicker">What You Get</div>
+          <h2>相談で得られること</h2>
+          <p class="section-desc" style="margin-top: 14px;">
+            いきなり高度なAI導入を目指すのではなく、今の業務・発信・制作をどうAIと分担するかを具体化します。
+          </p>
+
+          <div class="benefit-list">
+            <div class="benefit-item">自分の業務のどこにAIを入れるべきか分かる</div>
+            <div class="benefit-item">ChatGPT以外のAIの使い分けが分かる</div>
+            <div class="benefit-item">LPや資料を自分で作る手順が分かる</div>
+            <div class="benefit-item">AI活用を継続するための最初の設計が分かる</div>
+            <div class="benefit-item">noteや発信を成果物につなげる流れが分かる</div>
+            <div class="benefit-item">外注前に、自分でどこまで作れるか判断できる</div>
           </div>
 
-          <div class="status-strip">
-            <div class="status-item"><b>Target</b><span>経営者 / 広報 / 採用 / 営業企画</span></div>
-            <div class="status-item"><b>Problem</b><span>会社説明・採用広報・営業資料のズレ</span></div>
-            <div class="status-item"><b>Method</b><span>Field Notes + Multi AI Workflow</span></div>
-            <div class="status-item"><b>Output</b><span>note / LP / 社内報 / 営業資料 / FAQ</span></div>
+          <div style="height: 26px;"></div>
+
+          <a class="btn btn-primary" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57/" target="_blank" rel="noopener noreferrer">
+            30分だけ相談してみる
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="advice">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">What I Can Advise</div>
+            <h2>相談で話せるテーマ</h2>
           </div>
+          <p class="section-desc">専門用語よりも、実際にどう使うか。非エンジニア目線で、現場に近いアドバイスをします。</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card reveal delay-1">
+            <span class="num">01</span>
+            <h3>AIチーム化の始め方</h3>
+            <p>ChatGPTだけで終わらせず、リサーチ・文章・制作・レビューなど役割別にAIを使い分ける考え方。</p>
+          </article>
+
+          <article class="card reveal delay-2">
+            <span class="num">02</span>
+            <h3>無料ツールでLPを作る方法</h3>
+            <p>ChatGPT、GitHub Pages、Googleフォームを使って、非エンジニアでもLPを公開する流れ。</p>
+          </article>
+
+          <article class="card reveal delay-3">
+            <span class="num">03</span>
+            <h3>AIで資料を作る方法</h3>
+            <p>マニュアル、提案書、チェックリスト、配布資料をAIと一緒に作る手順と品質を上げるコツ。</p>
+          </article>
+
+          <article class="card reveal delay-1">
+            <span class="num">04</span>
+            <h3>AI広報・note活用</h3>
+            <p>考えを記事化し、実践記録として発信しながら、相談や信頼につなげる導線設計。</p>
+          </article>
+
+          <article class="card reveal delay-2">
+            <span class="num">05</span>
+            <h3>AI活用の棚卸し</h3>
+            <p>今やっている業務の中で、どこをAIに任せられるか、どこは人が見るべきかを整理します。</p>
+          </article>
+
+          <article class="card reveal delay-3">
+            <span class="num">06</span>
+            <h3>最初の90日ロードマップ</h3>
+            <p>いきなり大きなDXではなく、1週間・30日・90日で実務に組み込む小さな進め方。</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="target" class="section">
+    <section id="pain">
       <div class="container">
-        <div class="section-head">
-          <p class="section-no">01 / Target</p>
-          <h2 class="section-title">こんな違和感があるなら、<br><span class="signal">意味同期</span>が必要です。</h2>
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">For You</div>
+            <h2>こんな人に向いています</h2>
+          </div>
+          <p class="section-desc">高度なシステム開発ではなく、まず自分の仕事や発信をAIで前に進めたい人向けです。</p>
         </div>
-        <div class="grid-12">
-          <article class="fit-card"><div><p class="card-kicker">Hiring</p><h3>採用候補者ごとに、会社説明が違う。</h3></div><p>求人票、note、面談、営業資料で会社の見え方が微妙にズレている。</p></article>
-          <article class="fit-card"><div><p class="card-kicker">Sales</p><h3>営業資料ごとに、価値の伝え方が違う。</h3></div><p>誰が説明するかで、事業の強みや顧客価値の定義が変わってしまう。</p></article>
-          <article class="fit-card"><div><p class="card-kicker">Internal</p><h3>経営の意図が、現場の言葉に変換されない。</h3></div><p>会議では伝えたはずなのに、現場の行動や優先順位が揃わない。</p></article>
+
+        <div class="pain-list reveal delay-1">
+          <div class="pain-item">ChatGPTは使っているが、仕事に組み込めていない</div>
+          <div class="pain-item">AIを使ってLPや資料を作りたいが、何から始めるか分からない</div>
+          <div class="pain-item">社内や個人活動でAI活用を進めたいが、相談相手がいない</div>
+          <div class="pain-item">外注予算をかけずに、まず自分で形にしてみたい</div>
+          <div class="pain-item">AIを単なる便利ツールではなく、チームとして使いたい</div>
+          <div class="pain-item">自分の考えやサービスを、noteやLPで発信したい</div>
         </div>
       </div>
     </section>
 
-    <section id="problem" class="section">
+    <section id="resources">
       <div class="container">
-        <div class="section-head">
-          <p class="section-no">02 / Problem</p>
-          <h2 class="section-title">発信量は増えた。<br><span class="muted">前提は、</span>揃わない。</h2>
+        <div class="section-head reveal">
+          <div>
+            <div class="section-kicker">Resources</div>
+            <h2>資料と実践メモ</h2>
+          </div>
+          <p class="section-desc">相談前に見てもらえる資料や、考え方をまとめたnoteへの導線です。</p>
         </div>
-        <div class="problem-grid">
-          <article class="problem-card" data-id="01"><p class="card-meta">semantic drift</p><h3>同じ言葉なのに、意味が違う。</h3><p>「顧客ファースト」「価値提供」「らしさ」が、営業・開発・人事で別々の行動を指している。</p></article>
-          <article class="problem-card" data-id="02"><p class="card-meta">ai content inflation</p><h3>外向きの言葉だけが、先に美しくなる。</h3><p>AIで綺麗な記事やリリースは量産できる。しかし、内側の認識が同期されていなければ、発信するほど乖離が広がる。</p></article>
-          <article class="problem-card" data-id="03"><p class="card-meta">inner communication</p><h3>社外向けの発信が、社内に一番深く届く。</h3><p>noteや社内報を通じて、現場が初めて経営の意思や自分の仕事の意味を再発見することがある。</p></article>
-          <article class="problem-card" data-id="04"><p class="card-meta">management infrastructure</p><h3>広報は、拡声器ではなく経営インフラになる。</h3><p>社内外の言葉を整流し、経営・現場・市場が同じ前提で動ける状態をつくる。</p></article>
+
+        <div class="grid-3">
+          <article class="card reveal delay-1">
+            <div class="tag-row"><span class="tag">PDF</span><span class="tag">LP制作</span></div>
+            <h3>LP制作マニュアル</h3>
+            <p>非エンジニアがChatGPT、GitHub、GoogleフォームでLPを作るための図解ガイド。</p>
+            <a class="card-link" href="https://forms.gle/REPLACE_DOWNLOAD_FORM_MANUAL" target="_blank" rel="noopener noreferrer">
+              ダウンロード →
+            </a>
+          </article>
+
+          <article class="card reveal delay-2">
+            <div class="tag-row"><span class="tag">Checklist</span><span class="tag">AI活用</span></div>
+            <h3>AIチーム化チェックリスト</h3>
+            <p>自分の業務にAIをどう組み込むか、役割別に整理するためのチェックリスト。</p>
+            <a class="card-link" href="https://forms.gle/REPLACE_DOWNLOAD_FORM_CHECKLIST" target="_blank" rel="noopener noreferrer">
+              ダウンロード →
+            </a>
+          </article>
+
+          <article class="card reveal delay-3">
+            <div class="tag-row"><span class="tag">note</span><span class="tag">Thoughts</span></div>
+            <h3>noteの記事</h3>
+            <p>AI活用、広報、スタートアップ、実践記録など、自分の考えをnoteで発信しています。</p>
+            <a class="card-link" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer">
+              noteを見る →
+            </a>
+          </article>
+        </div>
+
+        <div style="height: 22px;"></div>
+
+        <div class="note-strip reveal delay-2">
+          <div>
+            <h3>考え方はnoteにまとめています。</h3>
+            <p>このサイトでは成果物を、noteでは背景にある考え方や実践プロセスを公開しています。</p>
+          </div>
+          <a class="btn btn-ghost" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer">
+            noteを読む
+          </a>
         </div>
       </div>
     </section>
 
-    <section id="solution" class="section lab-band">
+    <section id="contact">
       <div class="container">
-        <div class="section-head">
-          <p class="section-no">03 / Solution</p>
-          <h2 class="section-title">思想を、実務に変える。<br>広報5.5の実装支援。</h2>
-        </div>
-        <p class="lead">きれいなコピーを作るだけではなく、経営・現場・市場の情報を集め、ズレを見つけ、共通言語に変換し、note・LP・営業資料・社内報・FAQへ落とし込みます。</p>
-        <div class="grid-12 mt-16">
-          <article class="service-card"><div><p class="card-kicker">01 / Diagnosis</p><h3>意味同期診断</h3></div><p>会社説明、採用広報、営業資料、社内発信を確認し、言葉のズレ・重複・抜け漏れを可視化します。</p></article>
-          <article class="service-card"><div><p class="card-kicker">02 / Design</p><h3>広報5.5設計</h3></div><p>経営・現場・市場をつなぐ情報導線を設計し、何を拾い、どう翻訳し、どこに出すかを決めます。</p></article>
-          <article class="service-card"><div><p class="card-kicker">03 / Operation</p><h3>AI広報Ops構築</h3></div><p>自動文字起こし、NotebookLM、ChatGPT、Claudeなどを前提に、一次情報から実務アセットを生む運用を作ります。</p></article>
-        </div>
-      </div>
-    </section>
+        <div class="contact-box reveal">
+          <div>
+            <div class="section-kicker">Free Talk</div>
+            <h2>まずは30分、気軽に話しましょう。</h2>
+            <p>
+              AIをどう仕事に組み込むか、LPや資料をどう作るか、noteや発信をどう形にするか。
+              似た悩みがあれば、今できることを一緒に整理します。
+            </p>
+          </div>
 
-    <section id="after" class="section">
-      <div class="container">
-        <div class="section-head">
-          <p class="section-no">04 / Before → After</p>
-          <h2 class="section-title">導入後に、<br>何が変わるのか。</h2>
-        </div>
-        <div class="grid-12">
-          <article class="outcome-card"><div><p class="card-kicker">Sales</p><h3>営業説明が揃う。</h3></div><p>会社の価値・事例・強みの説明が人によってブレにくくなる。</p></article>
-          <article class="outcome-card"><div><p class="card-kicker">Hiring</p><h3>採用候補者の理解が深まる。</h3></div><p>求人票や面談だけでは伝わらない、会社の思想と現場感が届く。</p></article>
-          <article class="outcome-card"><div><p class="card-kicker">Internal</p><h3>現場が仕事の意味を掴む。</h3></div><p>他部署の動きや経営の意図が横串で見えるようになる。</p></article>
-          <article class="outcome-card"><div><p class="card-kicker">AI Ops</p><h3>AI活用が仕組みになる。</h3></div><p>単発の文章生成ではなく、一次情報からアセット化する運用に変わる。</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="thesis" class="section">
-      <div class="container">
-        <div class="section-head">
-          <p class="section-no">05 / Core Thesis</p>
-          <h2 class="section-title">広報は、外へ届ける仕事から、意味を同期する仕事へ。</h2>
-        </div>
-        <div class="quote-panel">
-          <p>問題は、発信量や文章力の不足ではない。組織の中で、同じ言葉の意味が、構造的に分岐し、滑り落ちている状態である。</p>
-          <span>Core thesis / Public Relations 5.5</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="diagram-position">
-      <div class="container">
-        <div class="section-head"><p class="section-no">06 / Diagram</p><h2 class="section-title">広報の立ち位置は、<br><span class="signal">接続点</span>へ変わる。</h2></div>
-        <figure class="figure-block"><span class="figure-label">Figure 01 / Position Shift</span><img src="./diagram-1.png" alt="広報の立ち位置の変化" loading="lazy"><figcaption class="figure-caption"><span>Position</span><p>従来の一方向発信から、経営・現場・開発・市場を双方向につなぐハブ型広報への変化。</p></figcaption></figure>
-      </div>
-    </section>
-
-    <section class="section" id="diagram-evolution">
-      <div class="container">
-        <div class="section-head"><p class="section-no">07 / Evolution</p><h2 class="section-title">広報は、<br>どこへ進化するのか。</h2></div>
-        <figure class="figure-block"><span class="figure-label">Figure 02 / Evolution Matrix</span><img src="./diagram-2.png" alt="広報進化の歴史マトリクス" loading="lazy"><figcaption class="figure-caption"><span>Matrix</span><p>広報1.0から5.5までの変化を、役割・コミュニケーション・AI活用・関係性の観点で整理した進化図。</p></figcaption></figure>
-      </div>
-    </section>
-
-    <section class="section" id="workflow">
-      <div class="container">
-        <div class="section-head"><p class="section-no">08 / Workflow</p><h2 class="section-title">情報を、<br><span class="signal">意味ある構造</span>へ。</h2></div>
-        <figure class="figure-block"><span class="figure-label">Figure 03 / Multi AI Workflow</span><img src="./diagram-3.png" alt="マルチAIを使った実務フロー" loading="lazy"><figcaption class="figure-caption"><span>Workflow</span><p>経営・現場・Slack・顧客インタビューなどの一次情報を、AIと人の協働で構造化し、実務アセットへ変換するフロー。</p></figcaption></figure>
-        <div class="ops-grid">
-          <article class="ops-card"><div><b>Step 01</b><h3>一次情報を死守する。</h3></div><p>議事録要約ではなく、会話の熱量や迷いを含む生テキストを保持する。</p></article>
-          <article class="ops-card"><div><b>Step 02</b><h3>社内外の情報を同期する。</h3></div><p>社内ファクトと外部トレンドを接続し、文脈のズレを見つける。</p></article>
-          <article class="ops-card"><div><b>Step 03</b><h3>構造の骨組みを抽出する。</h3></div><p>ChatGPTで論点、矛盾、一般化可能なフレームを立ち上げる。</p></article>
-          <article class="ops-card"><div><b>Step 04</b><h3>公式アセットへ結晶化する。</h3></div><p>Claudeと人間編集で、note、LP、営業資料、社内報へ変換する。</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="proof">
-      <div class="container">
-        <div class="section-head"><p class="section-no">09 / Proof</p><h2 class="section-title">なぜ、<br>この支援ができるのか。</h2></div>
-        <div class="grid-12">
-          <article class="proof-card"><div><p class="card-kicker">Business</p><h3>事業畑の視点。</h3></div><p>営業・マネジメント・COO・事業立ち上げを経験し、売上と仕組み化の痛みを理解しています。</p></article>
-          <article class="proof-card"><div><p class="card-kicker">Content</p><h3>継続する編集力。</h3></div><p>週次noteや社内コミュニケーションを継続し、現場の情報を言葉へ変換してきました。</p></article>
-          <article class="proof-card"><div><p class="card-kicker">AI Ops</p><h3>AIを前提にした運用。</h3></div><p>複数AIを使い分け、一次情報から構造・原稿・図解・資料へ変換する型を持っています。</p></article>
-          <article class="proof-card"><div><p class="card-kicker">Field</p><h3>現場の泥を知る。</h3></div><p>きれいな広報論ではなく、部署間のズレや現場の警戒心を観測しながら設計します。</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="field" class="section">
-      <div class="container">
-        <div class="section-head"><p class="section-no">10 / Field Notes</p><h2 class="section-title">現場で観測された、<br>意味のズレ。</h2></div>
-        <div class="field-list">
-          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer"><time>Log #03</time><div><h3>「顧客価値」の意味が、営業と開発で真逆だった。</h3><p>AIで概念図を作成し、翌週から会議の前提が揃い始めた。</p></div><span class="read">Read</span></a>
-          <a class="field-item" href="https://note.com/ismarke_pro" target="_blank" rel="noopener noreferrer"><time>Log #06</time><div><h3>採用候補者ごとに、会社の説明が違っていた。</h3><p>共通言語マップを整備し、意味のズレが減少。</p></div><span class="read">Read</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="cta">
-      <div class="container">
-        <div class="cta-panel">
-          <div class="cta-grid">
-            <div><p class="kicker mb-8">Diagnosis</p><h2 class="section-title">まずは、会社の言葉のズレを一緒に見る。</h2><p class="lead">売り込みではなく、会社説明・採用広報・営業資料・社内発信のどこで意味がズレているかを30分で整理します。</p></div>
-            <div class="cta-box"><p>社内外で会社の説明がズレる。採用広報の言葉が定まらない。AI活用が文章生成で止まっている。そんな違和感を、意味同期の観点から診断します。</p><a class="btn" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57" target="_blank" rel="noopener noreferrer">意味同期診断を相談する →</a></div>
+          <div class="section-actions">
+            <a class="btn btn-primary" href="https://timerex.net/s/kenji806162005_b1f5/738f0e57/" target="_blank" rel="noopener noreferrer">
+              30分だけ相談してみる
+            </a>
+            <a class="btn btn-ghost" href="#works">実績を見る</a>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>© ismarke / Meaning Sync Architect / Public Relations 5.5</footer>
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 AI Team Operator</span>
+      <span>Built with AI / Published on GitHub Pages</span>
+    </div>
+  </footer>
 </body>
 </html>
